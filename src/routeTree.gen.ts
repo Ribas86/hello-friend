@@ -10,9 +10,15 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AboutRouteImport } from './routes/about'
+import { Route as ArticlesRouteImport } from './routes/articles'
 import { Route as BusinessRouteImport } from './routes/business'
+import { Route as CalculatorRouteImport } from './routes/calculator'
+import { Route as ContactsRouteImport } from './routes/contacts'
 import { Route as HomeRouteImport } from './routes/home'
 import { Route as MaintenanceRouteImport } from './routes/maintenance'
+import { Route as ObjectsRouteImport } from './routes/objects'
+import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as ServicesIndexRouteImport } from './routes/services.index'
 import { Route as ServicesSlugRouteImport } from './routes/services.$slug'
 
@@ -21,9 +27,29 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ArticlesRoute = ArticlesRouteImport.update({
+  id: '/articles',
+  path: '/articles',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const BusinessRoute = BusinessRouteImport.update({
   id: '/business',
   path: '/business',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CalculatorRoute = CalculatorRouteImport.update({
+  id: '/calculator',
+  path: '/calculator',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactsRoute = ContactsRouteImport.update({
+  id: '/contacts',
+  path: '/contacts',
   getParentRoute: () => rootRouteImport,
 } as any)
 const HomeRoute = HomeRouteImport.update({
@@ -34,6 +60,16 @@ const HomeRoute = HomeRouteImport.update({
 const MaintenanceRoute = MaintenanceRouteImport.update({
   id: '/maintenance',
   path: '/maintenance',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ObjectsRoute = ObjectsRouteImport.update({
+  id: '/objects',
+  path: '/objects',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ServicesIndexRoute = ServicesIndexRouteImport.update({
@@ -49,26 +85,44 @@ const ServicesSlugRoute = ServicesSlugRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/articles': typeof ArticlesRoute
   '/business': typeof BusinessRoute
+  '/calculator': typeof CalculatorRoute
+  '/contacts': typeof ContactsRoute
   '/home': typeof HomeRoute
   '/maintenance': typeof MaintenanceRoute
+  '/objects': typeof ObjectsRoute
+  '/privacy': typeof PrivacyRoute
   '/services/$slug': typeof ServicesSlugRoute
   '/services/': typeof ServicesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/articles': typeof ArticlesRoute
   '/business': typeof BusinessRoute
+  '/calculator': typeof CalculatorRoute
+  '/contacts': typeof ContactsRoute
   '/home': typeof HomeRoute
   '/maintenance': typeof MaintenanceRoute
+  '/objects': typeof ObjectsRoute
+  '/privacy': typeof PrivacyRoute
   '/services/$slug': typeof ServicesSlugRoute
   '/services': typeof ServicesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/articles': typeof ArticlesRoute
   '/business': typeof BusinessRoute
+  '/calculator': typeof CalculatorRoute
+  '/contacts': typeof ContactsRoute
   '/home': typeof HomeRoute
   '/maintenance': typeof MaintenanceRoute
+  '/objects': typeof ObjectsRoute
+  '/privacy': typeof PrivacyRoute
   '/services/$slug': typeof ServicesSlugRoute
   '/services/': typeof ServicesIndexRoute
 }
@@ -76,34 +130,58 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/about'
+    | '/articles'
     | '/business'
+    | '/calculator'
+    | '/contacts'
     | '/home'
     | '/maintenance'
+    | '/objects'
+    | '/privacy'
     | '/services/$slug'
     | '/services/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/about'
+    | '/articles'
     | '/business'
+    | '/calculator'
+    | '/contacts'
     | '/home'
     | '/maintenance'
+    | '/objects'
+    | '/privacy'
     | '/services/$slug'
     | '/services'
   id:
     | '__root__'
     | '/'
+    | '/about'
+    | '/articles'
     | '/business'
+    | '/calculator'
+    | '/contacts'
     | '/home'
     | '/maintenance'
+    | '/objects'
+    | '/privacy'
     | '/services/$slug'
     | '/services/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AboutRoute: typeof AboutRoute
+  ArticlesRoute: typeof ArticlesRoute
   BusinessRoute: typeof BusinessRoute
+  CalculatorRoute: typeof CalculatorRoute
+  ContactsRoute: typeof ContactsRoute
   HomeRoute: typeof HomeRoute
   MaintenanceRoute: typeof MaintenanceRoute
+  ObjectsRoute: typeof ObjectsRoute
+  PrivacyRoute: typeof PrivacyRoute
   ServicesSlugRoute: typeof ServicesSlugRoute
   ServicesIndexRoute: typeof ServicesIndexRoute
 }
@@ -117,11 +195,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/articles': {
+      id: '/articles'
+      path: '/articles'
+      fullPath: '/articles'
+      preLoaderRoute: typeof ArticlesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/business': {
       id: '/business'
       path: '/business'
       fullPath: '/business'
       preLoaderRoute: typeof BusinessRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/calculator': {
+      id: '/calculator'
+      path: '/calculator'
+      fullPath: '/calculator'
+      preLoaderRoute: typeof CalculatorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contacts': {
+      id: '/contacts'
+      path: '/contacts'
+      fullPath: '/contacts'
+      preLoaderRoute: typeof ContactsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/home': {
@@ -136,6 +242,20 @@ declare module '@tanstack/react-router' {
       path: '/maintenance'
       fullPath: '/maintenance'
       preLoaderRoute: typeof MaintenanceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/objects': {
+      id: '/objects'
+      path: '/objects'
+      fullPath: '/objects'
+      preLoaderRoute: typeof ObjectsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/services/': {
@@ -157,9 +277,15 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AboutRoute: AboutRoute,
+  ArticlesRoute: ArticlesRoute,
   BusinessRoute: BusinessRoute,
+  CalculatorRoute: CalculatorRoute,
+  ContactsRoute: ContactsRoute,
   HomeRoute: HomeRoute,
   MaintenanceRoute: MaintenanceRoute,
+  ObjectsRoute: ObjectsRoute,
+  PrivacyRoute: PrivacyRoute,
   ServicesSlugRoute: ServicesSlugRoute,
   ServicesIndexRoute: ServicesIndexRoute,
 }
