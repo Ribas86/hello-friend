@@ -86,7 +86,7 @@ function Page() {
               <Info className="h-5 w-5 shrink-0 text-primary" />
               <p>Цены на оборудование и работы ещё не внесены компанией, поэтому автоматический расчёт пока недоступен. Оставьте заявку — выбранные параметры сохранятся, и инженер подготовит расчёт.</p>
             </div>
-            {mode === "business" && Number(p.cameras) > 32 && (
+            {mode === "business" && Number(p["cameras"]) > 32 && (
               <p className="mt-4 text-sm text-ink-muted">Для крупных объектов мы готовим индивидуальный расчёт.</p>
             )}
           </div>
