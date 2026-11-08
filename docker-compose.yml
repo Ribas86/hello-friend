@@ -1,5 +1,5 @@
 # Один сервер: Caddy (HTTPS) -> сайт. PostgreSQL доступен только внутри сети.
-# Directus добавляется в Релизе 2.
+# Directus (cms) — админ-панель на отдельном адресе ADMIN_DOMAIN.
 services:
   caddy:
     image: caddy:2
@@ -7,6 +7,7 @@ services:
     ports: ["80:80", "443:443"]
     environment:
       SITE_DOMAIN: ${SITE_DOMAIN}
+      ADMIN_DOMAIN: ${ADMIN_DOMAIN}
     volumes:
       - ./infra/Caddyfile:/etc/caddy/Caddyfile:ro
       - caddy_data:/data
@@ -15,6 +16,33 @@ services:
     build: .
     restart: unless-stopped
     expose: ["3000"]
+    environment:
+      DIRECTUS_URL: http://cms:8055
+      DIRECTUS_TOKEN: ${DIRECTUS_TOKEN}
+    depends_on: [cms]
+  cms:
+    build: ./cms
+    restart: unless-stopped
+    expose: ["8055"]
+    environment:
+      HOST: 0.0.0.0
+      PORT: "8055"
+      PUBLIC_URL: https://${ADMIN_DOMAIN}
+      SECRET: ${CMS_SECRET}
+      DB_CLIENT: pg
+      DB_HOST: postgres
+      DB_PORT: "5432"
+      DB_DATABASE: ${POSTGRES_DB}
+      DB_USER: ${POSTGRES_USER}
+      DB_PASSWORD: ${POSTGRES_PASSWORD}
+      ADMIN_EMAIL: ${ADMIN_EMAIL}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD}
+      TELEMETRY: "false"
+      STORAGE_LOCATIONS: local
+      STORAGE_LOCAL_ROOT: /app/uploads
+      SITE_READER_TOKEN: ${DIRECTUS_TOKEN}
+    volumes: [cms_uploads:/app/uploads]
+    depends_on: [postgres]
   postgres:
     image: postgres:16
     restart: unless-stopped
@@ -25,5 +53,6 @@ services:
     volumes: [pg_data:/var/lib/postgresql/data]
     # портов наружу нет намеренно
 volumes:
+  cms_uploads:
   caddy_data:
   pg_data:

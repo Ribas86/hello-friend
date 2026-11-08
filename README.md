@@ -10,4 +10,6 @@ bun run lint && bunx tsc --noEmit && bun run test
 bun run build && bun run start   # продакшн-сборка
 ```
 
+Контент (услуги, вопросы, данные компании) редактируется в админ-панели Directus (`cms/`). Без `DIRECTUS_URL` сайт использует встроенные данные из `src/lib/site.ts`.
+
 Развёртывание, обновление и резервные копии: [docs/RUNBOOK.md](docs/RUNBOOK.md).

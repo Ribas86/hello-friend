@@ -5,4 +5,7 @@ cd "$(dirname "$0")/../.."; set -a; . ./.env; set +a
 restic cat config >/dev/null 2>&1 || restic init
 docker compose exec -T postgres pg_dump -U "$POSTGRES_USER" -Fc "$POSTGRES_DB" \
   | restic backup --stdin --stdin-filename "db-$POSTGRES_DB.dump" --tag db
+# файлы, загруженные в админке, и секреты
+docker compose exec -T cms tar -C /app -cf - uploads | restic backup --stdin --stdin-filename uploads.tar --tag files
+restic backup .env --tag env
 restic forget --prune --keep-daily 7 --keep-weekly 4 --keep-monthly 3

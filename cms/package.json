@@ -1,0 +1,12 @@
+{
+  "name": "quality-cms",
+  "private": true,
+  "description": "Directus для сайта ООО «Центр Квелити»",
+  "scripts": {
+    "start": "directus start",
+    "bootstrap": "directus bootstrap"
+  },
+  "dependencies": {
+    "directus": "12.6.1"
+  }
+}
