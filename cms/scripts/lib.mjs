@@ -3,7 +3,10 @@ const URL_ = process.env.PUBLIC_URL ?? "http://localhost:8055";
 let token;
 export async function login() {
   // Служебный токен администратора (ADMIN_TOKEN) надёжнее пароля: он не зависит от TOTP.
-  if (process.env.ADMIN_TOKEN) { token = process.env.ADMIN_TOKEN; return; }
+  if (process.env.ADMIN_TOKEN) {
+    token = process.env.ADMIN_TOKEN;
+    return;
+  }
   const r = await fetch(`${URL_}/auth/login`, {
     method: "POST",
     headers: { "content-type": "application/json" },
