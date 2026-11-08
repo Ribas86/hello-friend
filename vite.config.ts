@@ -5,9 +5,7 @@ import { nitro } from "nitro/vite";
 import { defineConfig } from "vite";
 import tsConfigPaths from "vite-tsconfig-paths";
 
-// Собственная конфигурация сборки. Раньше её скрывал пакет
-// @lovable.dev/vite-tanstack-config, который по умолчанию собирал под Cloudflare.
-// Теперь сайт собирается как обычный Node-сервер: `bun run build`, затем
+// Собственная конфигурация сборки. Сайт собирается как обычный Node-сервер: `bun run build`, затем
 // `node .output/server/index.mjs` (см. Dockerfile и docs/RUNBOOK.md).
 export default defineConfig(({ command }) => ({
   css: { transformer: "lightningcss" },
