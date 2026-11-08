@@ -39,7 +39,7 @@ jobs:
       - name: Скопировать файлы на сервер
         run: |
           rsync -az --delete \
-            --exclude '.git' --exclude 'node_modules' --exclude '.env' --exclude 'cms/.env' \
+            --exclude '.git' --exclude 'node_modules' --exclude '.env' --exclude '.initialized' --exclude 'cms/.env' \
             --exclude 'cms/node_modules' --exclude 'cms/uploads' --exclude '.output' \
             -e "ssh -i ~/.ssh/id_deploy -o StrictHostKeyChecking=yes" \
             ./ "$DEPLOY_USER@$DEPLOY_HOST:/opt/quality/"
