@@ -1,0 +1,6 @@
+# Для теста без домена: открывает админ-панель на порту 8081 (http, без сертификата).
+# Использование: COMPOSE_FILE=docker-compose.yml:docker-compose.nodomain.yml docker compose up -d
+# В .env: SITE_DOMAIN=http://IP-СЕРВЕРА, ADMIN_DOMAIN=http://IP-СЕРВЕРА:8081, CMS_PUBLIC_URL=http://IP-СЕРВЕРА:8081
+services:
+  caddy:
+    ports: ["8081:8081"]

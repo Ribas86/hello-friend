@@ -27,7 +27,7 @@ services:
     environment:
       HOST: 0.0.0.0
       PORT: "8055"
-      PUBLIC_URL: https://${ADMIN_DOMAIN}
+      PUBLIC_URL: ${CMS_PUBLIC_URL}
       SECRET: ${CMS_SECRET}
       DB_CLIENT: pg
       DB_HOST: postgres
@@ -37,6 +37,7 @@ services:
       DB_PASSWORD: ${POSTGRES_PASSWORD}
       ADMIN_EMAIL: ${ADMIN_EMAIL}
       ADMIN_PASSWORD: ${ADMIN_PASSWORD}
+      ADMIN_TOKEN: ${CMS_ADMIN_TOKEN}
       TELEMETRY: "false"
       STORAGE_LOCATIONS: local
       STORAGE_LOCAL_ROOT: /app/uploads
