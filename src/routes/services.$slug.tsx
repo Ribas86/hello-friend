@@ -1,11 +1,13 @@
+import { useSite } from "@/lib/use-site";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { Check } from "lucide-react";
-import { getService, services } from "@/lib/site";
+import { getSiteContent } from "@/lib/cms.functions";
 import { PageHero, Section, Steps, Faq, seo, ContactNotice } from "@/components/site/blocks";
 
 export const Route = createFileRoute("/services/$slug")({
-  loader: ({ params }) => {
-    const service = getService(params.slug);
+  loader: async ({ params }) => {
+    const { services } = await getSiteContent();
+    const service = services.find((x) => x.slug === params.slug);
     if (!service) throw notFound();
     return { service };
   },
@@ -21,6 +23,7 @@ export const Route = createFileRoute("/services/$slug")({
 
 function Page() {
   const { service: s } = Route.useLoaderData();
+  const { services } = useSite();
   return (
     <>
       <PageHero eyebrow="Услуга" title={s.title} lead={s.description}>

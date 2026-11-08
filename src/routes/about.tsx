@@ -1,5 +1,6 @@
+import { useSite } from "@/lib/use-site";
 import { createFileRoute } from "@tanstack/react-router";
-import { advantages, company } from "@/lib/site";
+import { advantages } from "@/lib/site";
 import { PageHero, Section, CtaBand, seo } from "@/components/site/blocks";
 
 export const Route = createFileRoute("/about")({
@@ -12,6 +13,7 @@ export const Route = createFileRoute("/about")({
 });
 
 function Page() {
+  const { company } = useSite();
   return (
     <>
       <PageHero
@@ -34,12 +36,6 @@ function Page() {
               <p className="mt-2 text-sm text-ink-muted">{a.text}</p>
             </div>
           ))}
-        </div>
-      </Section>
-      <Section title="Контактное лицо">
-        <div className="rounded-xl border bg-card p-7 shadow-card sm:max-w-md">
-          <p className="font-display text-lg">{company.contactPerson}</p>
-          <p className="text-muted-foreground">Главный инженер</p>
         </div>
       </Section>
       <CtaBand title="Обсудим ваш объект" />

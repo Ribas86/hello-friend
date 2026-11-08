@@ -1,6 +1,7 @@
+import { useSite } from "@/lib/use-site";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import img from "@/assets/business.jpg";
-import { businessObjects, services, steps } from "@/lib/site";
+import { businessObjects, steps } from "@/lib/site";
 import { PageHero, Section, Steps, seo, ContactNotice } from "@/components/site/blocks";
 
 export const Route = createFileRoute("/business")({
@@ -28,6 +29,7 @@ const businessServices = [
 ];
 
 function Page() {
+  const { services } = useSite();
   return (
     <>
       <PageHero

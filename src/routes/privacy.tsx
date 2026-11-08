@@ -1,5 +1,5 @@
+import { useSite } from "@/lib/use-site";
 import { createFileRoute } from "@tanstack/react-router";
-import { company } from "@/lib/site";
 import { PageHero, Section, seo } from "@/components/site/blocks";
 
 export const Route = createFileRoute("/privacy")({
@@ -12,6 +12,7 @@ export const Route = createFileRoute("/privacy")({
 });
 
 function Page() {
+  const { company } = useSite();
   return (
     <>
       <PageHero title="Политика обработки персональных данных" />

@@ -1,9 +1,11 @@
+import { useSite } from "@/lib/use-site";
 import { Link } from "@tanstack/react-router";
 import { Menu, X, ScanEye } from "lucide-react";
 import { useState } from "react";
-import { nav, company } from "@/lib/site";
+import { nav } from "@/lib/site";
 
 export function SiteHeader() {
+  const { company } = useSite();
   const [open, setOpen] = useState(false);
   return (
     <header className="surface-ink sticky top-0 z-50 border-b border-ink-line/60 backdrop-blur">

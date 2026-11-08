@@ -1,18 +1,11 @@
+import { useSite } from "@/lib/use-site";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, Building2, Home, ShieldCheck, Wrench, Check } from "lucide-react";
 import hero from "@/assets/hero-camera.jpg";
 import businessImg from "@/assets/business.jpg";
 import homeImg from "@/assets/home.jpg";
 import maintenanceImg from "@/assets/maintenance.jpg";
-import {
-  advantages,
-  businessObjects,
-  faq,
-  homeObjects,
-  services,
-  steps,
-  maintenanceWorks,
-} from "@/lib/site";
+import { advantages, businessObjects, faq, homeObjects, steps, maintenanceWorks } from "@/lib/site";
 import { Section, Steps, Faq, seo, ContactNotice } from "@/components/site/blocks";
 
 export const Route = createFileRoute("/")({
@@ -33,6 +26,7 @@ const facts = [
 ];
 
 function Index() {
+  const { services, faq } = useSite();
   return (
     <>
       <section className="surface-ink relative overflow-hidden">

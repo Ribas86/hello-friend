@@ -4,8 +4,6 @@ export const company = {
   name: "ООО «Центр Квелити»",
   short: "Центр Квелити",
   years: 15,
-  contactPerson: "Андаркулов Фарухджон",
-  contactRole: "главный инженер",
   phone: null as string | null,
   email: null as string | null,
   address: null as string | null,

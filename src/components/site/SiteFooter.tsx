@@ -1,7 +1,9 @@
 import { Link } from "@tanstack/react-router";
-import { company, nav, services } from "@/lib/site";
+import { nav } from "@/lib/site";
+import { useSite } from "@/lib/use-site";
 
 export function SiteFooter() {
+  const { company, services } = useSite();
   return (
     <footer className="surface-ink border-t border-ink-line/60">
       <div className="mx-auto grid max-w-7xl gap-10 px-5 py-14 md:grid-cols-4 lg:px-8">
@@ -43,9 +45,6 @@ export function SiteFooter() {
         </div>
         <div>
           <p className="eyebrow mb-4">Контакты</p>
-          <p className="text-sm text-ink-muted">
-            {company.contactPerson}, {company.contactRole}
-          </p>
           <Link to="/contacts" className="mt-3 inline-block text-sm text-primary hover:underline">
             Связаться с нами →
           </Link>

@@ -1,6 +1,6 @@
+import { useSite } from "@/lib/use-site";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
-import { services } from "@/lib/site";
 import { PageHero, Section, CtaBand, seo } from "@/components/site/blocks";
 
 export const Route = createFileRoute("/services/")({
@@ -13,6 +13,7 @@ export const Route = createFileRoute("/services/")({
 });
 
 function Page() {
+  const { services } = useSite();
   return (
     <>
       <PageHero
