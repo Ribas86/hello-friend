@@ -1,0 +1,29 @@
+# Один сервер: Caddy (HTTPS) -> сайт. PostgreSQL доступен только внутри сети.
+# Directus добавляется в Релизе 2.
+services:
+  caddy:
+    image: caddy:2
+    restart: unless-stopped
+    ports: ["80:80", "443:443"]
+    environment:
+      SITE_DOMAIN: ${SITE_DOMAIN}
+    volumes:
+      - ./infra/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+    depends_on: [site]
+  site:
+    build: .
+    restart: unless-stopped
+    expose: ["3000"]
+  postgres:
+    image: postgres:16
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes: [pg_data:/var/lib/postgresql/data]
+    # портов наружу нет намеренно
+volumes:
+  caddy_data:
+  pg_data:
