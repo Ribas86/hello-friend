@@ -12,7 +12,10 @@ export const Route = createFileRoute("/services/$slug")({
   },
   head: ({ loaderData }) =>
     loaderData
-      ? seo(loaderData.service.title, `${loaderData.service.short} ${loaderData.service.description}`.slice(0, 160))
+      ? seo(
+          loaderData.service.title,
+          `${loaderData.service.short} ${loaderData.service.description}`.slice(0, 160),
+        )
       : { meta: [{ title: "Услуга не найдена" }, { name: "robots", content: "noindex" }] },
   component: Page,
 });
@@ -22,8 +25,12 @@ function Page() {
   return (
     <>
       <PageHero eyebrow="Услуга" title={s.title} lead={s.description}>
-        <a href="#form" className="btn btn-primary">Оставить заявку</a>
-        <Link to="/calculator" className="btn btn-ghost-ink">Получить расчёт</Link>
+        <a href="#form" className="btn btn-primary">
+          Оставить заявку
+        </a>
+        <Link to="/calculator" className="btn btn-ghost-ink">
+          Получить расчёт
+        </Link>
       </PageHero>
       <Section>
         <div className="grid gap-8 lg:grid-cols-2">
@@ -34,7 +41,12 @@ function Page() {
           <div className="rounded-xl border bg-card p-7 shadow-card">
             <h2 className="text-xl">Возможный состав работ</h2>
             <ul className="mt-3 space-y-2">
-              {s.works.map((w) => <li key={w} className="flex gap-2"><Check className="mt-1 h-4 w-4 shrink-0 text-primary" />{w}</li>)}
+              {s.works.map((w) => (
+                <li key={w} className="flex gap-2">
+                  <Check className="mt-1 h-4 w-4 shrink-0 text-primary" />
+                  {w}
+                </li>
+              ))}
             </ul>
           </div>
         </div>
@@ -42,7 +54,8 @@ function Page() {
       <Section eyebrow="Этапы" title="Как выполняется работа">
         <Steps items={s.steps} />
         <p className="mt-6 max-w-3xl text-muted-foreground">
-          Профессиональный подход позволяет заранее определить состав работ и бюджет, избежать переделок и получить систему, которую удобно обслуживать.
+          Профессиональный подход позволяет заранее определить состав работ и бюджет, избежать
+          переделок и получить систему, которую удобно обслуживать.
         </p>
       </Section>
       <Section eyebrow="Вопросы" title="Частые вопросы">
@@ -54,7 +67,12 @@ function Page() {
             const r = services.find((x) => x.slug === slug);
             if (!r) return null;
             return (
-              <Link key={slug} to="/services/$slug" params={{ slug }} className="rounded-xl border bg-card p-5 shadow-card hover:border-primary">
+              <Link
+                key={slug}
+                to="/services/$slug"
+                params={{ slug }}
+                className="rounded-xl border bg-card p-5 shadow-card hover:border-primary"
+              >
                 <p className="font-semibold">{r.title}</p>
                 <p className="mt-1 text-sm text-muted-foreground">{r.short}</p>
               </Link>
@@ -63,7 +81,9 @@ function Page() {
         </div>
       </Section>
       <Section id="form" eyebrow="Заявка" title="Обсудить задачу">
-        <div className="max-w-3xl"><LeadForm defaultService={s.title} submitLabel="Отправить заявку" /></div>
+        <div className="max-w-3xl">
+          <LeadForm defaultService={s.title} submitLabel="Отправить заявку" />
+        </div>
       </Section>
     </>
   );

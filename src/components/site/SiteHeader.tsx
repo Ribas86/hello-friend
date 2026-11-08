@@ -32,7 +32,10 @@ export function SiteHeader() {
           ))}
         </nav>
         <div className="flex items-center gap-2">
-          <Link to="/calculator" className="btn btn-primary hidden !min-h-10 !py-2 text-sm sm:inline-flex">
+          <Link
+            to="/calculator"
+            className="btn btn-primary hidden !min-h-10 !py-2 text-sm sm:inline-flex"
+          >
             Получить расчёт
           </Link>
           <button
@@ -56,7 +59,11 @@ export function SiteHeader() {
               {n.label}
             </Link>
           ))}
-          <Link to="/calculator" onClick={() => setOpen(false)} className="btn btn-primary mt-4 w-full">
+          <Link
+            to="/calculator"
+            onClick={() => setOpen(false)}
+            className="btn btn-primary mt-4 w-full"
+          >
             Получить расчёт
           </Link>
         </nav>

@@ -21,9 +21,13 @@ function NotFoundComponent() {
       <div className="max-w-md text-center">
         <h1 className="text-7xl font-bold text-foreground">404</h1>
         <h2 className="mt-4 text-xl font-semibold text-foreground">Страница не найдена</h2>
-        <p className="mt-2 text-sm text-muted-foreground">Такой страницы нет или она была перемещена.</p>
+        <p className="mt-2 text-sm text-muted-foreground">
+          Такой страницы нет или она была перемещена.
+        </p>
         <div className="mt-6">
-          <Link to="/" className="btn btn-primary">На главную</Link>
+          <Link to="/" className="btn btn-primary">
+            На главную
+          </Link>
         </div>
       </div>
     </div>
@@ -40,8 +44,12 @@ function ErrorComponent({ error, reset }: ErrorComponentProps) {
   return (
     <div className="flex min-h-[60vh] items-center justify-center bg-background px-4">
       <div className="max-w-md text-center">
-        <h1 className="text-xl font-semibold tracking-tight text-foreground">Страница не загрузилась</h1>
-        <p className="mt-2 text-sm text-muted-foreground">Что-то пошло не так. Попробуйте обновить страницу.</p>
+        <h1 className="text-xl font-semibold tracking-tight text-foreground">
+          Страница не загрузилась
+        </h1>
+        <p className="mt-2 text-sm text-muted-foreground">
+          Что-то пошло не так. Попробуйте обновить страницу.
+        </p>
         <div className="mt-6 flex flex-wrap justify-center gap-2">
           <button
             onClick={() => {
@@ -52,7 +60,9 @@ function ErrorComponent({ error, reset }: ErrorComponentProps) {
           >
             Попробовать снова
           </button>
-          <a href="/" className="btn btn-outline">На главную</a>
+          <a href="/" className="btn btn-outline">
+            На главную
+          </a>
         </div>
       </div>
     </div>
@@ -65,7 +75,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "Центр Квелити — системы видеонаблюдения" },
-      { name: "description", content: "Проектирование, монтаж и обслуживание систем видеонаблюдения." },
+      {
+        name: "description",
+        content: "Проектирование, монтаж и обслуживание систем видеонаблюдения.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],

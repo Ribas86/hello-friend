@@ -2,11 +2,33 @@ import type { ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
 import { ChevronDown } from "lucide-react";
 
-export function PageHero({ eyebrow, title, lead, image, children }: { eyebrow?: string; title: string; lead?: string; image?: string; children?: ReactNode }) {
+export function PageHero({
+  eyebrow,
+  title,
+  lead,
+  image,
+  children,
+}: {
+  eyebrow?: string;
+  title: string;
+  lead?: string;
+  image?: string;
+  children?: ReactNode;
+}) {
   return (
     <section className="surface-ink relative overflow-hidden">
-      {image && <img src={image} alt="" className="absolute inset-0 h-full w-full object-cover" width={1280} height={896} />}
-      <div className={image ? "hero-fade absolute inset-0" : "grid-lines absolute inset-0 opacity-25"} />
+      {image && (
+        <img
+          src={image}
+          alt=""
+          className="absolute inset-0 h-full w-full object-cover"
+          width={1280}
+          height={896}
+        />
+      )}
+      <div
+        className={image ? "hero-fade absolute inset-0" : "grid-lines absolute inset-0 opacity-25"}
+      />
       <div className="relative mx-auto max-w-7xl px-5 py-20 lg:px-8 lg:py-28">
         <div className="max-w-3xl animate-rise">
           {eyebrow && <p className="eyebrow mb-4">{eyebrow}</p>}
@@ -19,7 +41,21 @@ export function PageHero({ eyebrow, title, lead, image, children }: { eyebrow?: 
   );
 }
 
-export function Section({ eyebrow, title, lead, children, dark, id }: { eyebrow?: string; title?: string; lead?: string; children: ReactNode; dark?: boolean; id?: string }) {
+export function Section({
+  eyebrow,
+  title,
+  lead,
+  children,
+  dark,
+  id,
+}: {
+  eyebrow?: string;
+  title?: string;
+  lead?: string;
+  children: ReactNode;
+  dark?: boolean;
+  id?: string;
+}) {
   return (
     <section id={id} className={dark ? "surface-ink" : ""}>
       <div className="mx-auto max-w-7xl px-5 py-16 lg:px-8 lg:py-24">
@@ -27,7 +63,11 @@ export function Section({ eyebrow, title, lead, children, dark, id }: { eyebrow?
           <div className="mb-10 max-w-3xl">
             {eyebrow && <p className="eyebrow mb-3">{eyebrow}</p>}
             {title && <h2 className="text-2xl sm:text-4xl">{title}</h2>}
-            {lead && <p className={`mt-4 text-lg ${dark ? "text-ink-muted" : "text-muted-foreground"}`}>{lead}</p>}
+            {lead && (
+              <p className={`mt-4 text-lg ${dark ? "text-ink-muted" : "text-muted-foreground"}`}>
+                {lead}
+              </p>
+            )}
           </div>
         )}
         {children}
@@ -38,10 +78,15 @@ export function Section({ eyebrow, title, lead, children, dark, id }: { eyebrow?
 
 export function Steps({ items, dark }: { items: string[]; dark?: boolean }) {
   return (
-    <ol className="grid gap-px overflow-hidden rounded-xl border sm:grid-cols-2 lg:grid-cols-5" style={dark ? { borderColor: "var(--color-ink-line)" } : undefined}>
+    <ol
+      className="grid gap-px overflow-hidden rounded-xl border sm:grid-cols-2 lg:grid-cols-5"
+      style={dark ? { borderColor: "var(--color-ink-line)" } : undefined}
+    >
       {items.map((s, i) => (
         <li key={s} className={`p-5 ${dark ? "bg-ink-raised" : "bg-card"}`}>
-          <span className="font-display text-sm text-primary">{String(i + 1).padStart(2, "0")}</span>
+          <span className="font-display text-sm text-primary">
+            {String(i + 1).padStart(2, "0")}
+          </span>
           <p className="mt-2 text-sm font-medium">{s}</p>
         </li>
       ))}
@@ -74,8 +119,12 @@ export function CtaBand({ title, text }: { title: string; text?: string }) {
           {text && <p className="mt-2 text-ink-muted">{text}</p>}
         </div>
         <div className="flex flex-wrap gap-3">
-          <Link to="/calculator" className="btn btn-primary">Получить расчёт</Link>
-          <Link to="/contacts" className="btn btn-ghost-ink">Заказать консультацию</Link>
+          <Link to="/calculator" className="btn btn-primary">
+            Получить расчёт
+          </Link>
+          <Link to="/contacts" className="btn btn-ghost-ink">
+            Заказать консультацию
+          </Link>
         </div>
       </div>
     </section>

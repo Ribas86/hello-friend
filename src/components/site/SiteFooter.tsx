@@ -8,16 +8,25 @@ export function SiteFooter() {
         <div className="md:col-span-1">
           <p className="font-display text-lg">{company.name}</p>
           <p className="mt-3 text-sm text-ink-muted">
-            Проектирование, монтаж и техническое обслуживание систем видеонаблюдения. {company.years} лет опыта.
+            Проектирование, монтаж и техническое обслуживание систем видеонаблюдения.{" "}
+            {company.years} лет опыта.
           </p>
         </div>
         <div>
           <p className="eyebrow mb-4">Разделы</p>
           <ul className="space-y-2 text-sm text-ink-muted">
             {nav.map((n) => (
-              <li key={n.to}><Link to={n.to} className="hover:text-primary">{n.label}</Link></li>
+              <li key={n.to}>
+                <Link to={n.to} className="hover:text-primary">
+                  {n.label}
+                </Link>
+              </li>
             ))}
-            <li><Link to="/objects" className="hover:text-primary">Объекты и решения</Link></li>
+            <li>
+              <Link to="/objects" className="hover:text-primary">
+                Объекты и решения
+              </Link>
+            </li>
           </ul>
         </div>
         <div>
@@ -25,7 +34,9 @@ export function SiteFooter() {
           <ul className="space-y-2 text-sm text-ink-muted">
             {services.slice(0, 7).map((s) => (
               <li key={s.slug}>
-                <Link to="/services/$slug" params={{ slug: s.slug }} className="hover:text-primary">{s.title}</Link>
+                <Link to="/services/$slug" params={{ slug: s.slug }} className="hover:text-primary">
+                  {s.title}
+                </Link>
               </li>
             ))}
           </ul>
@@ -42,8 +53,12 @@ export function SiteFooter() {
       </div>
       <div className="border-t border-ink-line/60">
         <div className="mx-auto flex max-w-7xl flex-col gap-2 px-5 py-5 text-xs text-ink-muted sm:flex-row sm:justify-between lg:px-8">
-          <span>© {new Date().getFullYear()} {company.name}</span>
-          <Link to="/privacy" className="hover:text-primary">Политика обработки персональных данных</Link>
+          <span>
+            © {new Date().getFullYear()} {company.name}
+          </span>
+          <Link to="/privacy" className="hover:text-primary">
+            Политика обработки персональных данных
+          </Link>
         </div>
       </div>
     </footer>

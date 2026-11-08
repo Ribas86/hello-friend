@@ -6,7 +6,11 @@ import { PageHero, Section, Steps, seo } from "@/components/site/blocks";
 import { LeadForm } from "@/components/site/LeadForm";
 
 export const Route = createFileRoute("/home")({
-  head: () => seo("Видеонаблюдение для дома", "Камеры для квартиры, частного дома, дачи и гаража с просмотром со смартфона. Подбор, установка и обслуживание."),
+  head: () =>
+    seo(
+      "Видеонаблюдение для дома",
+      "Камеры для квартиры, частного дома, дачи и гаража с просмотром со смартфона. Подбор, установка и обслуживание.",
+    ),
   component: Page,
 });
 
@@ -23,29 +27,62 @@ const tasks = [
 function Page() {
   return (
     <>
-      <PageHero eyebrow="Для дома" title="Видеонаблюдение для дома, дачи и гаража" lead="Поможем выбрать камеры, установим и настроим просмотр со смартфона. Без лишних сложностей." image={img}>
-        <Link to="/calculator" className="btn btn-primary">Рассчитать стоимость</Link>
-        <a href="#form" className="btn btn-ghost-ink">Оставить заявку</a>
+      <PageHero
+        eyebrow="Для дома"
+        title="Видеонаблюдение для дома, дачи и гаража"
+        lead="Поможем выбрать камеры, установим и настроим просмотр со смартфона. Без лишних сложностей."
+        image={img}
+      >
+        <Link to="/calculator" className="btn btn-primary">
+          Рассчитать стоимость
+        </Link>
+        <a href="#form" className="btn btn-ghost-ink">
+          Оставить заявку
+        </a>
       </PageHero>
 
       <Section eyebrow="Для каких объектов" title="Подходит для">
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {homeObjects.map((o) => <div key={o} className="rounded-xl border bg-card p-6 font-medium shadow-card">{o}</div>)}
+          {homeObjects.map((o) => (
+            <div key={o} className="rounded-xl border bg-card p-6 font-medium shadow-card">
+              {o}
+            </div>
+          ))}
         </div>
       </Section>
 
       <Section eyebrow="Задачи" title="Что можно решить" dark>
         <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {tasks.map((t) => <li key={t} className="flex gap-3 rounded-lg border border-ink-line bg-ink-raised p-5"><Check className="h-5 w-5 shrink-0 text-primary" />{t}</li>)}
+          {tasks.map((t) => (
+            <li key={t} className="flex gap-3 rounded-lg border border-ink-line bg-ink-raised p-5">
+              <Check className="h-5 w-5 shrink-0 text-primary" />
+              {t}
+            </li>
+          ))}
         </ul>
       </Section>
 
       <Section eyebrow="Как это работает" title="Простой путь">
-        <Steps items={["Выбираете задачу", "Подбираем оборудование", "Предварительный расчёт", "Установка и настройка", "Обслуживание при необходимости"]} />
+        <Steps
+          items={[
+            "Выбираете задачу",
+            "Подбираем оборудование",
+            "Предварительный расчёт",
+            "Установка и настройка",
+            "Обслуживание при необходимости",
+          ]}
+        />
       </Section>
 
-      <Section id="form" eyebrow="Заявка" title="Расскажите о вашем объекте" lead="Достаточно имени и телефона — остальное уточним при звонке.">
-        <div className="max-w-3xl"><LeadForm variant="home" submitLabel="Получить расчёт" /></div>
+      <Section
+        id="form"
+        eyebrow="Заявка"
+        title="Расскажите о вашем объекте"
+        lead="Достаточно имени и телефона — остальное уточним при звонке."
+      >
+        <div className="max-w-3xl">
+          <LeadForm variant="home" submitLabel="Получить расчёт" />
+        </div>
       </Section>
     </>
   );

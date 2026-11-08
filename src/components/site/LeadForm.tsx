@@ -8,10 +8,37 @@ import { services } from "@/lib/site";
 type Variant = "general" | "business" | "home" | "maintenance";
 
 const objectTypes: Record<Variant, string[]> = {
-  general: ["Квартира", "Частный дом", "Дача / участок", "Гараж", "Офис", "Магазин", "Склад", "Производство", "Другое"],
-  business: ["Офис / бизнес-центр", "Склад / логистика", "Магазин / ТЦ", "Производство", "Автосервис", "Парковка / территория", "Учреждение", "Другое"],
+  general: [
+    "Квартира",
+    "Частный дом",
+    "Дача / участок",
+    "Гараж",
+    "Офис",
+    "Магазин",
+    "Склад",
+    "Производство",
+    "Другое",
+  ],
+  business: [
+    "Офис / бизнес-центр",
+    "Склад / логистика",
+    "Магазин / ТЦ",
+    "Производство",
+    "Автосервис",
+    "Парковка / территория",
+    "Учреждение",
+    "Другое",
+  ],
   home: ["Квартира", "Частный дом / коттедж", "Дача / участок", "Гараж"],
-  maintenance: ["Офис", "Склад", "Магазин", "Производство", "Учреждение", "Частный объект", "Другое"],
+  maintenance: [
+    "Офис",
+    "Склад",
+    "Магазин",
+    "Производство",
+    "Учреждение",
+    "Частный объект",
+    "Другое",
+  ],
 };
 
 export function LeadForm({
@@ -37,7 +64,8 @@ export function LeadForm({
     const s = (k: string) => (fd.get(k) as string | null)?.trim() || undefined;
     const details: Record<string, string | number | boolean> = { ...(extraDetails ?? {}) };
     for (const k of ["area", "cameras", "buildings", "terms"]) if (s(k)) details[k] = s(k)!;
-    for (const k of ["need_design", "need_install", "need_maintenance"]) if (fd.get(k)) details[k] = true;
+    for (const k of ["need_design", "need_install", "need_maintenance"])
+      if (fd.get(k)) details[k] = true;
     const payload: LeadInput = {
       form_type: variant,
       name: s("name") ?? "",
@@ -79,19 +107,39 @@ export function LeadForm({
 
   const label = "mb-1.5 block text-sm font-medium";
   return (
-    <form onSubmit={onSubmit} className="grid gap-4 rounded-xl border bg-card p-6 text-card-foreground shadow-card sm:grid-cols-2 sm:p-8">
-      <input type="text" name="website" tabIndex={-1} autoComplete="off" className="hidden" aria-hidden />
+    <form
+      onSubmit={onSubmit}
+      className="grid gap-4 rounded-xl border bg-card p-6 text-card-foreground shadow-card sm:grid-cols-2 sm:p-8"
+    >
+      <input
+        type="text"
+        name="website"
+        tabIndex={-1}
+        autoComplete="off"
+        className="hidden"
+        aria-hidden
+      />
       <div>
         <label className={label}>Имя *</label>
         <input name="name" required maxLength={100} className="field" autoComplete="name" />
       </div>
       <div>
         <label className={label}>Телефон *</label>
-        <input name="phone" required type="tel" maxLength={30} className="field" autoComplete="tel" placeholder="+7 ..." />
+        <input
+          name="phone"
+          required
+          type="tel"
+          maxLength={30}
+          className="field"
+          autoComplete="tel"
+          placeholder="+7 ..."
+        />
       </div>
       {(variant === "general" || variant === "business" || variant === "maintenance") && (
         <div>
-          <label className={label}>{variant === "business" ? "Организация" : "Компания (необязательно)"}</label>
+          <label className={label}>
+            {variant === "business" ? "Организация" : "Компания (необязательно)"}
+          </label>
           <input name="company" maxLength={200} className="field" autoComplete="organization" />
         </div>
       )}
@@ -99,7 +147,9 @@ export function LeadForm({
         <label className={label}>Тип объекта</label>
         <select name="object_type" className="field" defaultValue="">
           <option value="">Не выбрано</option>
-          {objectTypes[variant].map((o) => <option key={o}>{o}</option>)}
+          {objectTypes[variant].map((o) => (
+            <option key={o}>{o}</option>
+          ))}
         </select>
       </div>
       {variant === "general" && (
@@ -107,19 +157,27 @@ export function LeadForm({
           <label className={label}>Интересующая услуга</label>
           <select name="service" className="field" defaultValue={defaultService ?? ""}>
             <option value="">Не выбрано</option>
-            {services.map((s) => <option key={s.slug}>{s.title}</option>)}
+            {services.map((s) => (
+              <option key={s.slug}>{s.title}</option>
+            ))}
           </select>
         </div>
       )}
-      {defaultService && variant !== "general" && <input type="hidden" name="service" value={defaultService} />}
+      {defaultService && variant !== "general" && (
+        <input type="hidden" name="service" value={defaultService} />
+      )}
       {(variant === "business" || variant === "home") && (
         <>
           <div>
-            <label className={label}>{variant === "home" ? "Площадь / параметры (необязательно)" : "Площадь, м²"}</label>
+            <label className={label}>
+              {variant === "home" ? "Площадь / параметры (необязательно)" : "Площадь, м²"}
+            </label>
             <input name="area" maxLength={100} className="field" />
           </div>
           <div>
-            <label className={label}>Количество камер{variant === "home" ? ", если известно" : ""}</label>
+            <label className={label}>
+              Количество камер{variant === "home" ? ", если известно" : ""}
+            </label>
             <input name="cameras" inputMode="numeric" maxLength={10} className="field" />
           </div>
         </>
@@ -132,10 +190,19 @@ export function LeadForm({
           </div>
           <div>
             <label className={label}>Желаемые условия сотрудничества</label>
-            <input name="terms" maxLength={300} className="field" placeholder="Разово, договор обслуживания..." />
+            <input
+              name="terms"
+              maxLength={300}
+              className="field"
+              placeholder="Разово, договор обслуживания..."
+            />
           </div>
           <div className="flex flex-wrap gap-x-6 gap-y-2 sm:col-span-2">
-            {[["need_design", "Нужно проектирование"], ["need_install", "Нужен монтаж"], ["need_maintenance", "Нужно регулярное обслуживание"]].map(([n, l]) => (
+            {[
+              ["need_design", "Нужно проектирование"],
+              ["need_install", "Нужен монтаж"],
+              ["need_maintenance", "Нужно регулярное обслуживание"],
+            ].map(([n, l]) => (
               <label key={n} className="flex items-center gap-2 text-sm">
                 <input type="checkbox" name={n} className="h-4 w-4 accent-primary" /> {l}
               </label>
@@ -151,11 +218,21 @@ export function LeadForm({
         <input type="checkbox" name="consent" required className="mt-0.5 h-4 w-4 accent-primary" />
         <span>
           Согласен на обработку персональных данных в соответствии с{" "}
-          <Link to="/privacy" className="text-foreground underline">политикой</Link>
+          <Link to="/privacy" className="text-foreground underline">
+            политикой
+          </Link>
         </span>
       </label>
-      {error && <p className="rounded-md bg-destructive/10 p-3 text-sm text-destructive sm:col-span-2">{error}</p>}
-      <button type="submit" disabled={state === "sending"} className="btn btn-primary sm:col-span-2 disabled:opacity-60">
+      {error && (
+        <p className="rounded-md bg-destructive/10 p-3 text-sm text-destructive sm:col-span-2">
+          {error}
+        </p>
+      )}
+      <button
+        type="submit"
+        disabled={state === "sending"}
+        className="btn btn-primary sm:col-span-2 disabled:opacity-60"
+      >
         {state === "sending" && <Loader2 className="h-4 w-4 animate-spin" />}
         {submitLabel}
       </button>
