@@ -13,8 +13,7 @@ import {
   steps,
   maintenanceWorks,
 } from "@/lib/site";
-import { Section, Steps, Faq, seo } from "@/components/site/blocks";
-import { LeadForm } from "@/components/site/LeadForm";
+import { Section, Steps, Faq, seo, ContactNotice } from "@/components/site/blocks";
 
 export const Route = createFileRoute("/")({
   head: () =>
@@ -202,14 +201,9 @@ function Index() {
         <Faq items={faq} />
       </Section>
 
-      <Section
-        id="form"
-        eyebrow="Расчёт"
-        title="Получите расчёт стоимости"
-        lead="Опишите объект — подготовим предварительный расчёт и предложим решение."
-      >
+      <Section id="contacts" eyebrow="Контакты" title="Связаться с нами">
         <div className="max-w-3xl">
-          <LeadForm />
+          <ContactNotice />
         </div>
       </Section>
     </>

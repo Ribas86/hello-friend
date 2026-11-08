@@ -1,8 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import img from "@/assets/business.jpg";
 import { businessObjects, services, steps } from "@/lib/site";
-import { PageHero, Section, Steps, seo } from "@/components/site/blocks";
-import { LeadForm } from "@/components/site/LeadForm";
+import { PageHero, Section, Steps, seo, ContactNotice } from "@/components/site/blocks";
 
 export const Route = createFileRoute("/business")({
   head: () =>
@@ -37,11 +36,11 @@ function Page() {
         lead="Комплексный подход: от обследования объекта до регулярного обслуживания. Надёжная, управляемая система с контролем состояния оборудования — в том числе на нескольких объектах."
         image={img}
       >
-        <a href="#form" className="btn btn-primary">
-          Запросить коммерческое предложение
+        <a href="#contacts" className="btn btn-primary">
+          Связаться с нами
         </a>
-        <a href="#form" className="btn btn-ghost-ink">
-          Заказать обследование
+        <a href="#contacts" className="btn btn-ghost-ink">
+          Узнать об обследовании
         </a>
       </PageHero>
 
@@ -86,14 +85,9 @@ function Page() {
         <Steps items={steps} />
       </Section>
 
-      <Section
-        id="form"
-        eyebrow="Заявка"
-        title="Коммерческое предложение, обследование или расчёт"
-        lead="Укажите параметры объекта — это поможет подготовить предложение быстрее. Можно также обсудить проектирование или договор обслуживания."
-      >
+      <Section id="contacts" eyebrow="Контакты" title="Связаться с нами">
         <div className="max-w-3xl">
-          <LeadForm variant="business" submitLabel="Отправить запрос" />
+          <ContactNotice />
         </div>
       </Section>
     </>

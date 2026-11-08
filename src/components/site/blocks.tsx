@@ -144,3 +144,20 @@ export function seo(title: string, description: string) {
     ],
   };
 }
+
+export function ContactNotice({ withCalculator = true }: { withCalculator?: boolean }) {
+  return (
+    <div className="rounded-xl border bg-card p-7 shadow-card">
+      <p className="font-semibold">Контактные данные скоро появятся на сайте</p>
+      <p className="mt-2 text-muted-foreground">
+        Пока вы можете рассчитать предварительную стоимость в калькуляторе: регистрация и отправка
+        данных не нужны.
+      </p>
+      {withCalculator && (
+        <Link to="/calculator" className="btn btn-primary mt-5">
+          Рассчитать стоимость
+        </Link>
+      )}
+    </div>
+  );
+}

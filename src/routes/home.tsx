@@ -2,8 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Check } from "lucide-react";
 import img from "@/assets/home.jpg";
 import { homeObjects } from "@/lib/site";
-import { PageHero, Section, Steps, seo } from "@/components/site/blocks";
-import { LeadForm } from "@/components/site/LeadForm";
+import { PageHero, Section, Steps, seo, ContactNotice } from "@/components/site/blocks";
 
 export const Route = createFileRoute("/home")({
   head: () =>
@@ -36,8 +35,8 @@ function Page() {
         <Link to="/calculator" className="btn btn-primary">
           Рассчитать стоимость
         </Link>
-        <a href="#form" className="btn btn-ghost-ink">
-          Оставить заявку
+        <a href="#contacts" className="btn btn-ghost-ink">
+          Связаться с нами
         </a>
       </PageHero>
 
@@ -74,14 +73,9 @@ function Page() {
         />
       </Section>
 
-      <Section
-        id="form"
-        eyebrow="Заявка"
-        title="Расскажите о вашем объекте"
-        lead="Достаточно имени и телефона — остальное уточним при звонке."
-      >
+      <Section id="contacts" eyebrow="Контакты" title="Связаться с нами">
         <div className="max-w-3xl">
-          <LeadForm variant="home" submitLabel="Получить расчёт" />
+          <ContactNotice />
         </div>
       </Section>
     </>

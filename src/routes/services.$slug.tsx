@@ -1,8 +1,7 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { Check } from "lucide-react";
 import { getService, services } from "@/lib/site";
-import { PageHero, Section, Steps, Faq, seo } from "@/components/site/blocks";
-import { LeadForm } from "@/components/site/LeadForm";
+import { PageHero, Section, Steps, Faq, seo, ContactNotice } from "@/components/site/blocks";
 
 export const Route = createFileRoute("/services/$slug")({
   loader: ({ params }) => {
@@ -25,8 +24,8 @@ function Page() {
   return (
     <>
       <PageHero eyebrow="Услуга" title={s.title} lead={s.description}>
-        <a href="#form" className="btn btn-primary">
-          Оставить заявку
+        <a href="#contacts" className="btn btn-primary">
+          Связаться с нами
         </a>
         <Link to="/calculator" className="btn btn-ghost-ink">
           Получить расчёт
@@ -80,9 +79,9 @@ function Page() {
           })}
         </div>
       </Section>
-      <Section id="form" eyebrow="Заявка" title="Обсудить задачу">
+      <Section id="contacts" eyebrow="Контакты" title="Связаться с нами">
         <div className="max-w-3xl">
-          <LeadForm defaultService={s.title} submitLabel="Отправить заявку" />
+          <ContactNotice />
         </div>
       </Section>
     </>

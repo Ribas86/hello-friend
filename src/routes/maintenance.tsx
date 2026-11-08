@@ -2,8 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { ShieldCheck } from "lucide-react";
 import img from "@/assets/maintenance.jpg";
 import { maintenanceWorks } from "@/lib/site";
-import { PageHero, Section, Steps, Faq, seo } from "@/components/site/blocks";
-import { LeadForm } from "@/components/site/LeadForm";
+import { PageHero, Section, Steps, Faq, seo, ContactNotice } from "@/components/site/blocks";
 
 export const Route = createFileRoute("/maintenance")({
   head: () =>
@@ -23,8 +22,8 @@ function Page() {
         lead="Регулярный контроль помогает вовремя замечать неисправности, сохранять запись и архив, продлевать срок службы оборудования."
         image={img}
       >
-        <a href="#form" className="btn btn-primary">
-          Получить предложение по договору
+        <a href="#contacts" className="btn btn-primary">
+          Связаться по договору обслуживания
         </a>
       </PageHero>
 
@@ -99,13 +98,9 @@ function Page() {
         />
       </Section>
 
-      <Section id="form" eyebrow="Договор" title="Получить предложение по договору обслуживания">
+      <Section id="contacts" eyebrow="Контакты" title="Связаться с нами">
         <div className="max-w-3xl">
-          <LeadForm
-            variant="maintenance"
-            defaultService="Техническое обслуживание"
-            submitLabel="Получить предложение"
-          />
+          <ContactNotice />
         </div>
       </Section>
     </>

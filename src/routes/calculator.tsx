@@ -1,8 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { Info } from "lucide-react";
-import { PageHero, Section, seo } from "@/components/site/blocks";
-import { LeadForm } from "@/components/site/LeadForm";
+import { PageHero, Section, seo, ContactNotice } from "@/components/site/blocks";
 
 export const Route = createFileRoute("/calculator")({
   head: () =>
@@ -132,8 +131,8 @@ function Page() {
               <Info className="h-5 w-5 shrink-0 text-primary" />
               <p>
                 Цены на оборудование и работы ещё не внесены компанией, поэтому автоматический
-                расчёт пока недоступен. Оставьте заявку — выбранные параметры сохранятся, и инженер
-                подготовит расчёт.
+                расчёт пока недоступен. Как только цены будут внесены, расчёт появится здесь
+                автоматически.
               </p>
             </div>
             {mode === "business" && Number(p["cameras"]) > 32 && (
@@ -144,14 +143,9 @@ function Page() {
           </div>
         </div>
       </Section>
-      <Section id="form" title="Запросить индивидуальный расчёт">
+      <Section id="contacts" eyebrow="Контакты" title="Связаться с нами">
         <div className="max-w-3xl">
-          <LeadForm
-            key={mode}
-            variant={mode}
-            submitLabel="Запросить индивидуальный расчёт"
-            extraDetails={{ calculator: mode, ...p }}
-          />
+          <ContactNotice withCalculator={false} />
         </div>
       </Section>
     </>
