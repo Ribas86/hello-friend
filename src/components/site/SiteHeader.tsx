@@ -69,25 +69,27 @@ export function SiteHeader() {
       {open && (
         <nav className="border-t border-ink-line/60 px-5 pb-5 xl:hidden">
           {nav.map((n) => (
-            <Link
-              key={n.to}
-              to={n.to}
-              onClick={() => setOpen(false)}
-              className="block border-b border-ink-line/40 py-3.5 text-base"
-            >
-              {n.label}
-            </Link>
-          ))}
-          {directions.map((d) => (
-            <Link
-              key={d.slug}
-              to="/directions/$slug"
-              params={{ slug: d.slug }}
-              onClick={() => setOpen(false)}
-              className="block border-b border-ink-line/40 py-2.5 pl-4 text-sm text-ink-muted"
-            >
-              {d.title}
-            </Link>
+            <div key={n.to}>
+              <Link
+                to={n.to}
+                onClick={() => setOpen(false)}
+                className="block border-b border-ink-line/40 py-3.5 text-base"
+              >
+                {n.label}
+              </Link>
+              {n.to === "/services" &&
+                directions.map((d) => (
+                  <Link
+                    key={d.slug}
+                    to="/directions/$slug"
+                    params={{ slug: d.slug }}
+                    onClick={() => setOpen(false)}
+                    className="block border-b border-ink-line/40 py-2.5 pl-4 text-sm text-ink-muted"
+                  >
+                    {d.title}
+                  </Link>
+                ))}
+            </div>
           ))}
           <Link
             to="/calculator"
