@@ -21,38 +21,39 @@ export function SiteHeader() {
             </span>
           </span>
         </Link>
-        <nav className="hidden items-center gap-1 xl:flex">
-          {nav.map((n) => (
-            <div key={n.to} className="group relative">
-              <Link
-                to={n.to}
-                className="rounded-md px-3 py-2 text-sm text-ink-muted transition-colors hover:text-ink-foreground"
-                activeProps={{ className: "text-primary" }}
-                activeOptions={{ exact: n.to === "/" }}
-              >
-                {n.label}
-              </Link>
-              {n.to === "/services" && directions.length > 0 && (
-                <div className="invisible absolute left-0 top-full z-50 w-72 rounded-lg border border-ink-line bg-ink-raised p-2 opacity-0 shadow-glow transition group-focus-within:visible group-focus-within:opacity-100 group-hover:visible group-hover:opacity-100">
-                  {directions.map((d) => (
-                    <Link
-                      key={d.slug}
-                      to="/directions/$slug"
-                      params={{ slug: d.slug }}
-                      className="block rounded-md px-3 py-2 text-sm text-ink-muted hover:text-primary"
-                    >
-                      {d.title}
-                    </Link>
-                  ))}
-                </div>
-              )}
-            </div>
-          ))}
+        <nav className="hidden items-center gap-1.5 xl:flex">
+          {nav
+            .filter((n) => n.to !== "/")
+            .map((n) => (
+              <div key={n.to} className="group relative">
+                <Link
+                  to={n.to}
+                  className="block whitespace-nowrap rounded-md border border-ink-line px-3 py-2 text-sm text-ink-muted transition-colors hover:border-primary hover:text-ink-foreground"
+                  activeProps={{ className: "!border-primary !bg-primary/15 !text-primary" }}
+                >
+                  {n.short}
+                </Link>
+                {n.to === "/services" && directions.length > 0 && (
+                  <div className="invisible absolute left-0 top-full z-50 w-72 rounded-lg border border-ink-line bg-ink-raised p-2 opacity-0 shadow-glow transition group-focus-within:visible group-focus-within:opacity-100 group-hover:visible group-hover:opacity-100">
+                    {directions.map((d) => (
+                      <Link
+                        key={d.slug}
+                        to="/directions/$slug"
+                        params={{ slug: d.slug }}
+                        className="block rounded-md px-3 py-2 text-sm text-ink-muted hover:text-primary"
+                      >
+                        {d.title}
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ))}
         </nav>
         <div className="flex items-center gap-2">
           <Link
             to="/calculator"
-            className="btn btn-primary hidden !min-h-10 !py-2 text-sm sm:inline-flex"
+            className="btn btn-primary hidden !min-h-10 whitespace-nowrap !py-2 text-sm sm:inline-flex"
           >
             Получить расчёт
           </Link>

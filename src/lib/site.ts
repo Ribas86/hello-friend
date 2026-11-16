@@ -11,14 +11,14 @@ export const company = {
 };
 
 export const nav = [
-  { to: "/", label: "Главная" },
-  { to: "/business", label: "Для бизнеса" },
-  { to: "/residential", label: "Для жилых комплексов" },
-  { to: "/home", label: "Для частных клиентов" },
-  { to: "/services", label: "Услуги" },
-  { to: "/maintenance", label: "Обслуживание" },
-  { to: "/about", label: "О компании" },
-  { to: "/contacts", label: "Контакты" },
+  { to: "/", label: "Главная", short: "Главная" },
+  { to: "/business", label: "Для бизнеса", short: "Бизнесу" },
+  { to: "/residential", label: "Для жилых комплексов", short: "Жилым комплексам" },
+  { to: "/home", label: "Для частных клиентов", short: "Частным клиентам" },
+  { to: "/services", label: "Услуги", short: "Услуги" },
+  { to: "/maintenance", label: "Обслуживание", short: "Обслуживание" },
+  { to: "/about", label: "О компании", short: "О компании" },
+  { to: "/contacts", label: "Контакты", short: "Контакты" },
 ] as const;
 
 export const advantages = [
