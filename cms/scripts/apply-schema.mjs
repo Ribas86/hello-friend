@@ -53,9 +53,18 @@ const collections = {
     note: "Для кого услуга (бизнес / частные лица)",
     fields: [slug(), f("title", "str", required), sort],
   },
-  categories: {
-    note: "Категории услуг",
-    fields: [slug(), f("title", "str", required), f("description", "text"), sort],
+  directions: {
+    note: "Направления деятельности (по ТЗ)",
+    sortField: "sort",
+    fields: [
+      status,
+      sort,
+      slug("Латиницей: попадёт в адрес страницы"),
+      f("title", "str", required),
+      f("short", "text", { note: "Короткое описание для карточки" }),
+      f("description", "text", { interface: "input-multiline" }),
+      ...seo,
+    ],
   },
   services: {
     note: "Услуги",
@@ -98,7 +107,7 @@ const collections = {
         },
       }),
       m2o("audience", "audiences"),
-      m2o("category", "categories"),
+      m2o("direction", "directions"),
       ...seo,
     ],
   },

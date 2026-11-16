@@ -7,40 +7,50 @@ export const Route = createFileRoute("/services/")({
   head: () =>
     seo(
       "Услуги",
-      "Все услуги по видеонаблюдению: проектирование, монтаж, настройка, модернизация, диагностика, ремонт и техническое обслуживание.",
+      "Видеонаблюдение, СКУД, автоматические шлагбаумы, комплексные системы безопасности, обслуживание и дополнительные работы: проектирование, монтаж, настройка и ремонт.",
     ),
   component: Page,
 });
 
 function Page() {
-  const { services } = useSite();
+  const { services, directions } = useSite();
   return (
     <>
       <PageHero
         eyebrow="Услуги"
-        title="Услуги по видеонаблюдению"
-        lead="Выполняем весь цикл работ или отдельные этапы — для новых и существующих систем."
+        title="Услуги по системам безопасности"
+        lead="Выполняем весь цикл работ или отдельные этапы: для новых и существующих систем."
       />
-      <Section>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {services.map((s, i) => (
+      {directions.map((d) => {
+        const items = services.filter((s) => s.direction === d.slug);
+        if (!items.length) return null;
+        return (
+          <Section key={d.slug} id={d.slug} eyebrow="Направление" title={d.title} lead={d.short}>
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {items.map((s) => (
+                <Link
+                  key={s.slug}
+                  to="/services/$slug"
+                  params={{ slug: s.slug }}
+                  className="group rounded-xl border bg-card p-6 shadow-card transition hover:border-primary"
+                >
+                  <h3 className="font-sans text-lg font-semibold tracking-normal">{s.title}</h3>
+                  <p className="mt-2 text-sm text-muted-foreground">{s.short}</p>
+                  <ArrowRight className="mt-4 h-4 w-4 text-primary transition group-hover:translate-x-1" />
+                </Link>
+              ))}
+            </div>
             <Link
-              key={s.slug}
-              to="/services/$slug"
-              params={{ slug: s.slug }}
-              className="group rounded-xl border bg-card p-6 shadow-card transition hover:border-primary"
+              to="/directions/$slug"
+              params={{ slug: d.slug }}
+              className="mt-6 inline-block text-sm text-primary hover:underline"
             >
-              <span className="font-display text-xs text-primary">
-                {String(i + 1).padStart(2, "0")}
-              </span>
-              <h2 className="mt-2 font-sans text-lg font-semibold tracking-normal">{s.title}</h2>
-              <p className="mt-2 text-sm text-muted-foreground">{s.short}</p>
-              <ArrowRight className="mt-4 h-4 w-4 text-primary transition group-hover:translate-x-1" />
+              О направлении →
             </Link>
-          ))}
-        </div>
-      </Section>
-      <CtaBand title="Не знаете, какая услуга нужна?" text="Опишите задачу — подскажем решение." />
+          </Section>
+        );
+      })}
+      <CtaBand title="Не знаете, какая услуга нужна?" text="Опишите задачу: подскажем решение." />
     </>
   );
 }

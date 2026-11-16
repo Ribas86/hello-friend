@@ -5,7 +5,7 @@ import { login, api } from "./lib.mjs";
 
 const content = [
   "audiences",
-  "categories",
+  "directions",
   "services",
   "services_related",
   "service_faq",

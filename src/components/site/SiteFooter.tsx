@@ -3,7 +3,7 @@ import { nav } from "@/lib/site";
 import { useSite } from "@/lib/use-site";
 
 export function SiteFooter() {
-  const { company, services } = useSite();
+  const { company, directions } = useSite();
   return (
     <footer className="surface-ink border-t border-ink-line/60">
       <div className="mx-auto grid max-w-7xl gap-10 px-5 py-14 md:grid-cols-4 lg:px-8">
@@ -32,12 +32,16 @@ export function SiteFooter() {
           </ul>
         </div>
         <div>
-          <p className="eyebrow mb-4">Услуги</p>
+          <p className="eyebrow mb-4">Направления</p>
           <ul className="space-y-2 text-sm text-ink-muted">
-            {services.slice(0, 7).map((s) => (
-              <li key={s.slug}>
-                <Link to="/services/$slug" params={{ slug: s.slug }} className="hover:text-primary">
-                  {s.title}
+            {directions.map((d) => (
+              <li key={d.slug}>
+                <Link
+                  to="/directions/$slug"
+                  params={{ slug: d.slug }}
+                  className="hover:text-primary"
+                >
+                  {d.title}
                 </Link>
               </li>
             ))}

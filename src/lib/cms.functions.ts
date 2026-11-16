@@ -1,6 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { company as staticCompany, services as staticServices, faq as staticFaq } from "./site";
-import type { Service } from "./site";
+import { directions as staticDirections } from "./site";
+import type { Direction, Service } from "./site";
 
 export type Company = {
   name: string;
@@ -14,6 +15,7 @@ export type Company = {
 };
 export type SiteContent = {
   company: Company;
+  directions: Direction[];
   services: Service[];
   faq: { q: string; a: string }[];
   source: "cms" | "static";
@@ -21,6 +23,7 @@ export type SiteContent = {
 
 const staticContent = (): SiteContent => ({
   company: { ...staticCompany, workHours: null, requisites: null },
+  directions: staticDirections,
   services: staticServices,
   faq: staticFaq,
   source: "static",
@@ -48,6 +51,14 @@ type ServiceRow = {
   steps: unknown;
   works: unknown;
   related: { related_services_id: { slug: string } | null }[] | null;
+  direction: { slug: string } | null;
+};
+type DirectionRow = {
+  slug: string;
+  title: string;
+  short: string | null;
+  description: string | null;
+  sort: number | null;
 };
 type FaqRow = { question: string; answer: string; service: { slug: string } | null };
 type SettingsRow = {
@@ -68,9 +79,12 @@ const titles = (v: unknown): string[] =>
 
 async function loadFromCms(): Promise<SiteContent> {
   const published = "filter[status][_eq]=published";
-  const [rows, faqRows, s] = await Promise.all([
+  const [dirRows, rows, faqRows, s] = await Promise.all([
+    directus<DirectionRow[]>(
+      `/items/directions?${published}&sort=sort&limit=-1&fields=slug,title,short,description,sort`,
+    ),
     directus<ServiceRow[]>(
-      `/items/services?${published}&sort=sort&limit=-1&fields=slug,title,short,description,audience_text,steps,works,related.related_services_id.slug`,
+      `/items/services?${published}&sort=sort&limit=-1&fields=slug,title,short,description,audience_text,steps,works,direction.slug,related.related_services_id.slug`,
     ),
     directus<FaqRow[]>(
       `/items/service_faq?${published}&sort=sort&limit=-1&fields=question,answer,service.slug`,
@@ -89,6 +103,7 @@ async function loadFromCms(): Promise<SiteContent> {
     faq: faqRows
       .filter((f) => f.service?.slug === r.slug)
       .map((f) => ({ q: f.question, a: f.answer })),
+    direction: r.direction?.slug ?? "",
     related: (r.related ?? [])
       .map((x) => x.related_services_id?.slug)
       .filter((slug: string | undefined): slug is string => !!slug && published_slugs.has(slug)),
@@ -104,6 +119,13 @@ async function loadFromCms(): Promise<SiteContent> {
       workHours: s.work_hours || null,
       requisites: s.requisites || null,
     },
+    directions: dirRows.map((d, i) => ({
+      slug: d.slug,
+      title: d.title,
+      short: d.short ?? "",
+      description: d.description ?? "",
+      sort: d.sort ?? i + 1,
+    })),
     services,
     faq: faqRows.filter((f) => !f.service).map((f) => ({ q: f.question, a: f.answer })),
     source: "cms",

@@ -19,6 +19,7 @@ import { Route as HomeRouteImport } from './routes/home'
 import { Route as MaintenanceRouteImport } from './routes/maintenance'
 import { Route as ObjectsRouteImport } from './routes/objects'
 import { Route as PrivacyRouteImport } from './routes/privacy'
+import { Route as DirectionsSlugRouteImport } from './routes/directions.$slug'
 import { Route as ServicesIndexRouteImport } from './routes/services.index'
 import { Route as ServicesSlugRouteImport } from './routes/services.$slug'
 
@@ -72,6 +73,11 @@ const PrivacyRoute = PrivacyRouteImport.update({
   path: '/privacy',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DirectionsSlugRoute = DirectionsSlugRouteImport.update({
+  id: '/directions/$slug',
+  path: '/directions/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ServicesIndexRoute = ServicesIndexRouteImport.update({
   id: '/services/',
   path: '/services/',
@@ -94,6 +100,7 @@ export interface FileRoutesByFullPath {
   '/maintenance': typeof MaintenanceRoute
   '/objects': typeof ObjectsRoute
   '/privacy': typeof PrivacyRoute
+  '/directions/$slug': typeof DirectionsSlugRoute
   '/services/$slug': typeof ServicesSlugRoute
   '/services/': typeof ServicesIndexRoute
 }
@@ -108,6 +115,7 @@ export interface FileRoutesByTo {
   '/maintenance': typeof MaintenanceRoute
   '/objects': typeof ObjectsRoute
   '/privacy': typeof PrivacyRoute
+  '/directions/$slug': typeof DirectionsSlugRoute
   '/services/$slug': typeof ServicesSlugRoute
   '/services': typeof ServicesIndexRoute
 }
@@ -123,6 +131,7 @@ export interface FileRoutesById {
   '/maintenance': typeof MaintenanceRoute
   '/objects': typeof ObjectsRoute
   '/privacy': typeof PrivacyRoute
+  '/directions/$slug': typeof DirectionsSlugRoute
   '/services/$slug': typeof ServicesSlugRoute
   '/services/': typeof ServicesIndexRoute
 }
@@ -139,6 +148,7 @@ export interface FileRouteTypes {
     | '/maintenance'
     | '/objects'
     | '/privacy'
+    | '/directions/$slug'
     | '/services/$slug'
     | '/services/'
   fileRoutesByTo: FileRoutesByTo
@@ -153,6 +163,7 @@ export interface FileRouteTypes {
     | '/maintenance'
     | '/objects'
     | '/privacy'
+    | '/directions/$slug'
     | '/services/$slug'
     | '/services'
   id:
@@ -167,6 +178,7 @@ export interface FileRouteTypes {
     | '/maintenance'
     | '/objects'
     | '/privacy'
+    | '/directions/$slug'
     | '/services/$slug'
     | '/services/'
   fileRoutesById: FileRoutesById
@@ -182,6 +194,7 @@ export interface RootRouteChildren {
   MaintenanceRoute: typeof MaintenanceRoute
   ObjectsRoute: typeof ObjectsRoute
   PrivacyRoute: typeof PrivacyRoute
+  DirectionsSlugRoute: typeof DirectionsSlugRoute
   ServicesSlugRoute: typeof ServicesSlugRoute
   ServicesIndexRoute: typeof ServicesIndexRoute
 }
@@ -258,6 +271,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PrivacyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/directions/$slug': {
+      id: '/directions/$slug'
+      path: '/directions/$slug'
+      fullPath: '/directions/$slug'
+      preLoaderRoute: typeof DirectionsSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/services/': {
       id: '/services/'
       path: '/services'
@@ -286,6 +306,7 @@ const rootRouteChildren: RootRouteChildren = {
   MaintenanceRoute: MaintenanceRoute,
   ObjectsRoute: ObjectsRoute,
   PrivacyRoute: PrivacyRoute,
+  DirectionsSlugRoute: DirectionsSlugRoute,
   ServicesSlugRoute: ServicesSlugRoute,
   ServicesIndexRoute: ServicesIndexRoute,
 }

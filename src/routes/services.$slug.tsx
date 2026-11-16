@@ -6,10 +6,10 @@ import { PageHero, Section, Steps, Faq, seo, ContactNotice } from "@/components/
 
 export const Route = createFileRoute("/services/$slug")({
   loader: async ({ params }) => {
-    const { services } = await getSiteContent();
+    const { services, directions } = await getSiteContent();
     const service = services.find((x) => x.slug === params.slug);
     if (!service) throw notFound();
-    return { service };
+    return { service, direction: directions.find((d) => d.slug === service.direction) ?? null };
   },
   head: ({ loaderData }) =>
     loaderData
@@ -22,11 +22,11 @@ export const Route = createFileRoute("/services/$slug")({
 });
 
 function Page() {
-  const { service: s } = Route.useLoaderData();
+  const { service: s, direction } = Route.useLoaderData();
   const { services } = useSite();
   return (
     <>
-      <PageHero eyebrow="Услуга" title={s.title} lead={s.description}>
+      <PageHero eyebrow={direction?.title ?? "Услуга"} title={s.title} lead={s.description}>
         <a href="#contacts" className="btn btn-primary">
           Связаться с нами
         </a>
@@ -35,11 +35,13 @@ function Page() {
         </Link>
       </PageHero>
       <Section>
-        <div className="grid gap-8 lg:grid-cols-2">
-          <div className="rounded-xl border bg-card p-7 shadow-card">
-            <h2 className="text-xl">Кому подходит</h2>
-            <p className="mt-3 text-muted-foreground">{s.audience}</p>
-          </div>
+        <div className={s.audience ? "grid gap-8 lg:grid-cols-2" : "grid gap-8"}>
+          {s.audience && (
+            <div className="rounded-xl border bg-card p-7 shadow-card">
+              <h2 className="text-xl">Кому подходит</h2>
+              <p className="mt-3 text-muted-foreground">{s.audience}</p>
+            </div>
+          )}
           <div className="rounded-xl border bg-card p-7 shadow-card">
             <h2 className="text-xl">Возможный состав работ</h2>
             <ul className="mt-3 space-y-2">
@@ -53,35 +55,41 @@ function Page() {
           </div>
         </div>
       </Section>
-      <Section eyebrow="Этапы" title="Как выполняется работа">
-        <Steps items={s.steps} />
-        <p className="mt-6 max-w-3xl text-muted-foreground">
-          Профессиональный подход позволяет заранее определить состав работ и бюджет, избежать
-          переделок и получить систему, которую удобно обслуживать.
-        </p>
-      </Section>
-      <Section eyebrow="Вопросы" title="Частые вопросы">
-        <Faq items={s.faq} />
-      </Section>
-      <Section eyebrow="Связанные услуги" title="Также может понадобиться">
-        <div className="grid gap-4 sm:grid-cols-3">
-          {s.related.map((slug) => {
-            const r = services.find((x) => x.slug === slug);
-            if (!r) return null;
-            return (
-              <Link
-                key={slug}
-                to="/services/$slug"
-                params={{ slug }}
-                className="rounded-xl border bg-card p-5 shadow-card hover:border-primary"
-              >
-                <p className="font-semibold">{r.title}</p>
-                <p className="mt-1 text-sm text-muted-foreground">{r.short}</p>
-              </Link>
-            );
-          })}
-        </div>
-      </Section>
+      {s.steps.length > 0 && (
+        <Section eyebrow="Этапы" title="Как выполняется работа">
+          <Steps items={s.steps} />
+          <p className="mt-6 max-w-3xl text-muted-foreground">
+            Профессиональный подход позволяет заранее определить состав работ и бюджет, избежать
+            переделок и получить систему, которую удобно обслуживать.
+          </p>
+        </Section>
+      )}
+      {s.faq.length > 0 && (
+        <Section eyebrow="Вопросы" title="Частые вопросы">
+          <Faq items={s.faq} />
+        </Section>
+      )}
+      {s.related.length > 0 && (
+        <Section eyebrow="Связанные услуги" title="Также может понадобиться">
+          <div className="grid gap-4 sm:grid-cols-3">
+            {s.related.map((slug) => {
+              const r = services.find((x) => x.slug === slug);
+              if (!r) return null;
+              return (
+                <Link
+                  key={slug}
+                  to="/services/$slug"
+                  params={{ slug }}
+                  className="rounded-xl border bg-card p-5 shadow-card hover:border-primary"
+                >
+                  <p className="font-semibold">{r.title}</p>
+                  <p className="mt-1 text-sm text-muted-foreground">{r.short}</p>
+                </Link>
+              );
+            })}
+          </div>
+        </Section>
+      )}
       <Section id="contacts" eyebrow="Контакты" title="Связаться с нами">
         <div className="max-w-3xl">
           <ContactNotice />

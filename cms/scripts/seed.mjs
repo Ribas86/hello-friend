@@ -4,31 +4,6 @@ import { login, api } from "./lib.mjs";
 const data = JSON.parse(readFileSync(new URL("../seed/data.json", import.meta.url)));
 await login();
 
-const groups = [
-  [
-    "proektirovanie-i-postavka",
-    "Проектирование и поставка",
-    ["proektirovanie", "obsledovanie", "podbor-oborudovaniya", "postavka-oborudovaniya"],
-  ],
-  [
-    "montazh-i-nastrojka",
-    "Монтаж и настройка",
-    [
-      "montazh",
-      "kabelnye-trassy",
-      "ustanovka-kamer",
-      "registratory",
-      "servery-arhiv",
-      "udalennyj-dostup",
-      "puskonaladka",
-    ],
-  ],
-  [
-    "obsluzhivanie-i-razvitie",
-    "Обслуживание и развитие",
-    ["tehobsluzhivanie", "diagnostika", "remont", "modernizaciya", "integraciya"],
-  ],
-];
 const upsert = async (collection, key, row) => {
   const found = (
     await api(
@@ -48,10 +23,16 @@ for (const [i, [slug, title]] of [
   ["home", "Частные лица"],
 ].entries())
   await upsert("audiences", "slug", { slug, title, sort: i + 1 });
-const catId = {};
-for (const [i, [slug, title, members]] of groups.entries()) {
-  const id = await upsert("categories", "slug", { slug, title, sort: i + 1 });
-  members.forEach((m) => (catId[m] = id));
+const dirId = {};
+for (const d of data.directions) {
+  dirId[d.slug] = await upsert("directions", "slug", {
+    status: "published",
+    sort: d.sort,
+    slug: d.slug,
+    title: d.title,
+    short: d.short,
+    description: d.description,
+  });
 }
 
 const ids = {};
@@ -66,7 +47,7 @@ for (const [i, s] of data.services.entries()) {
     audience_text: s.audience,
     steps: s.steps.map((title) => ({ title })),
     works: s.works.map((title) => ({ title })),
-    category: catId[s.slug] ?? null,
+    direction: dirId[s.direction] ?? null,
   });
 }
 // «похожие услуги» и вопросы пересоздаются целиком, чтобы повторный запуск не плодил дубли
