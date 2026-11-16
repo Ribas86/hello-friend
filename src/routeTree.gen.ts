@@ -19,6 +19,7 @@ import { Route as HomeRouteImport } from './routes/home'
 import { Route as MaintenanceRouteImport } from './routes/maintenance'
 import { Route as ObjectsRouteImport } from './routes/objects'
 import { Route as PrivacyRouteImport } from './routes/privacy'
+import { Route as ResidentialRouteImport } from './routes/residential'
 import { Route as DirectionsSlugRouteImport } from './routes/directions.$slug'
 import { Route as ServicesIndexRouteImport } from './routes/services.index'
 import { Route as ServicesSlugRouteImport } from './routes/services.$slug'
@@ -73,6 +74,11 @@ const PrivacyRoute = PrivacyRouteImport.update({
   path: '/privacy',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ResidentialRoute = ResidentialRouteImport.update({
+  id: '/residential',
+  path: '/residential',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DirectionsSlugRoute = DirectionsSlugRouteImport.update({
   id: '/directions/$slug',
   path: '/directions/$slug',
@@ -100,6 +106,7 @@ export interface FileRoutesByFullPath {
   '/maintenance': typeof MaintenanceRoute
   '/objects': typeof ObjectsRoute
   '/privacy': typeof PrivacyRoute
+  '/residential': typeof ResidentialRoute
   '/directions/$slug': typeof DirectionsSlugRoute
   '/services/$slug': typeof ServicesSlugRoute
   '/services/': typeof ServicesIndexRoute
@@ -115,6 +122,7 @@ export interface FileRoutesByTo {
   '/maintenance': typeof MaintenanceRoute
   '/objects': typeof ObjectsRoute
   '/privacy': typeof PrivacyRoute
+  '/residential': typeof ResidentialRoute
   '/directions/$slug': typeof DirectionsSlugRoute
   '/services/$slug': typeof ServicesSlugRoute
   '/services': typeof ServicesIndexRoute
@@ -131,6 +139,7 @@ export interface FileRoutesById {
   '/maintenance': typeof MaintenanceRoute
   '/objects': typeof ObjectsRoute
   '/privacy': typeof PrivacyRoute
+  '/residential': typeof ResidentialRoute
   '/directions/$slug': typeof DirectionsSlugRoute
   '/services/$slug': typeof ServicesSlugRoute
   '/services/': typeof ServicesIndexRoute
@@ -148,6 +157,7 @@ export interface FileRouteTypes {
     | '/maintenance'
     | '/objects'
     | '/privacy'
+    | '/residential'
     | '/directions/$slug'
     | '/services/$slug'
     | '/services/'
@@ -163,6 +173,7 @@ export interface FileRouteTypes {
     | '/maintenance'
     | '/objects'
     | '/privacy'
+    | '/residential'
     | '/directions/$slug'
     | '/services/$slug'
     | '/services'
@@ -178,6 +189,7 @@ export interface FileRouteTypes {
     | '/maintenance'
     | '/objects'
     | '/privacy'
+    | '/residential'
     | '/directions/$slug'
     | '/services/$slug'
     | '/services/'
@@ -194,6 +206,7 @@ export interface RootRouteChildren {
   MaintenanceRoute: typeof MaintenanceRoute
   ObjectsRoute: typeof ObjectsRoute
   PrivacyRoute: typeof PrivacyRoute
+  ResidentialRoute: typeof ResidentialRoute
   DirectionsSlugRoute: typeof DirectionsSlugRoute
   ServicesSlugRoute: typeof ServicesSlugRoute
   ServicesIndexRoute: typeof ServicesIndexRoute
@@ -271,6 +284,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PrivacyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/residential': {
+      id: '/residential'
+      path: '/residential'
+      fullPath: '/residential'
+      preLoaderRoute: typeof ResidentialRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/directions/$slug': {
       id: '/directions/$slug'
       path: '/directions/$slug'
@@ -306,6 +326,7 @@ const rootRouteChildren: RootRouteChildren = {
   MaintenanceRoute: MaintenanceRoute,
   ObjectsRoute: ObjectsRoute,
   PrivacyRoute: PrivacyRoute,
+  ResidentialRoute: ResidentialRoute,
   DirectionsSlugRoute: DirectionsSlugRoute,
   ServicesSlugRoute: ServicesSlugRoute,
   ServicesIndexRoute: ServicesIndexRoute,

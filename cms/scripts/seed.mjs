@@ -85,7 +85,7 @@ await api("POST", "/items/service_faq", [
 await api("PATCH", "/items/site_settings", {
   company_name: data.company.name,
   short_name: data.company.short,
-  years: data.company.years,
+  years: data.company.years ?? undefined,
 });
 await api("PATCH", "/items/calc_settings", {
   range_percent: 15,

@@ -6,7 +6,7 @@ import type { Direction, Service } from "./site";
 export type Company = {
   name: string;
   short: string;
-  years: number;
+  years: number | null;
   phone: string | null;
   email: string | null;
   address: string | null;
@@ -112,7 +112,7 @@ async function loadFromCms(): Promise<SiteContent> {
     company: {
       name: s.company_name || staticCompany.name,
       short: s.short_name || staticCompany.short,
-      years: s.years ?? staticCompany.years,
+      years: s.years ?? null,
       phone: s.phone || null,
       email: s.email || null,
       address: s.address || null,

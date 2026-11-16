@@ -5,34 +5,40 @@ import hero from "@/assets/hero-camera.jpg";
 import businessImg from "@/assets/business.jpg";
 import homeImg from "@/assets/home.jpg";
 import maintenanceImg from "@/assets/maintenance.jpg";
-import { advantages, businessObjects, faq, homeObjects, steps, maintenanceWorks } from "@/lib/site";
+import {
+  advantages,
+  businessObjects,
+  homeObjects,
+  residentialObjects,
+  steps,
+  maintenanceWorks,
+} from "@/lib/site";
 import { Section, Steps, Faq, seo, ContactNotice } from "@/components/site/blocks";
 
 export const Route = createFileRoute("/")({
   head: () =>
     seo(
-      "Видеонаблюдение для бизнеса и дома",
-      "Проектирование, монтаж и техническое обслуживание систем видеонаблюдения любой сложности. 15 лет опыта.",
+      "Системы безопасности для бизнеса, жилых комплексов и частных клиентов",
+      "Проектирование, поставка оборудования, монтаж и обслуживание систем безопасности: видеонаблюдение, СКУД, охранно-пожарная сигнализация и другие направления.",
     ),
   component: Index,
 });
 
 const facts = [
-  "15 лет опыта",
-  "Проекты любой сложности",
   "Проектирование и монтаж",
+  "Поставка оборудования",
   "Техническое обслуживание",
-  "Бизнес и частные объекты",
+  "Бизнес, жилые комплексы, частные объекты",
 ];
 
 function Index() {
-  const { services, faq } = useSite();
+  const { services, faq, directions } = useSite();
   return (
     <>
       <section className="surface-ink relative overflow-hidden">
         <img
           src={hero}
-          alt="Камеры видеонаблюдения на фасаде здания"
+          alt="Камеры на фасаде здания"
           className="absolute inset-0 h-full w-full object-cover"
           width={1920}
           height={1088}
@@ -42,10 +48,11 @@ function Index() {
           <div className="max-w-3xl animate-rise">
             <p className="eyebrow mb-5">ООО «Центр Квелити»</p>
             <h1 className="text-4xl leading-[1.1] sm:text-6xl">
-              Видеонаблюдение, которое работает на ваш бизнес
+              Системы безопасности: от проекта до обслуживания
             </h1>
             <p className="mt-6 max-w-xl text-lg text-ink-muted">
-              Проектируем, устанавливаем и обслуживаем системы видеонаблюдения любой сложности.
+              Проектируем, поставляем оборудование, монтируем и обслуживаем системы безопасности для
+              бизнеса, жилых комплексов и частных клиентов.
             </p>
             <div className="mt-9 flex flex-wrap gap-3">
               <Link to="/calculator" className="btn btn-primary">
@@ -56,7 +63,7 @@ function Index() {
               </Link>
             </div>
           </div>
-          <ul className="mt-16 grid gap-px overflow-hidden rounded-xl border border-ink-line/70 sm:grid-cols-3 lg:grid-cols-5">
+          <ul className="mt-16 grid gap-px overflow-hidden rounded-xl border border-ink-line/70 sm:grid-cols-3 lg:grid-cols-4">
             {facts.map((f) => (
               <li
                 key={f}
@@ -69,23 +76,48 @@ function Index() {
         </div>
       </section>
 
-      <Section eyebrow="Два направления" title="Решения для организаций и частных владельцев">
-        <div className="grid gap-6 lg:grid-cols-2">
+      <Section eyebrow="Направления" title="Основные направления работ">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {directions.map((d) => (
+            <Link
+              key={d.slug}
+              to="/directions/$slug"
+              params={{ slug: d.slug }}
+              className="group rounded-xl border bg-card p-6 shadow-card transition hover:-translate-y-0.5 hover:border-primary"
+            >
+              <h3 className="font-sans text-base font-semibold">{d.title}</h3>
+              {d.short && <p className="mt-2 text-sm text-muted-foreground">{d.short}</p>}
+              <ArrowRight className="mt-4 h-4 w-4 text-primary transition group-hover:translate-x-1" />
+            </Link>
+          ))}
+        </div>
+      </Section>
+
+      <Section eyebrow="Клиенты" title="Решения для разных категорий клиентов">
+        <div className="grid gap-6 lg:grid-cols-3">
           <DirectionCard
             img={businessImg}
             icon={<Building2 />}
             title="Для бизнеса"
-            items={businessObjects.map((o) => o.title)}
+            items={businessObjects.slice(0, 6).map((o) => o.title)}
             to="/business"
             cta="Решения для бизнеса"
           />
           <DirectionCard
+            img={businessImg}
+            icon={<Building2 />}
+            title="Для жилых комплексов"
+            items={residentialObjects}
+            to="/residential"
+            cta="Решения для жилых комплексов"
+          />
+          <DirectionCard
             img={homeImg}
             icon={<Home />}
-            title="Для дома"
+            title="Для частных клиентов"
             items={homeObjects}
             to="/home"
-            cta="Решения для дома"
+            cta="Решения для частных клиентов"
           />
         </div>
       </Section>
@@ -96,9 +128,7 @@ function Index() {
             <p className="eyebrow mb-4 flex items-center gap-2">
               <Wrench className="h-4 w-4" /> Ключевое направление
             </p>
-            <h2 className="text-3xl sm:text-4xl">
-              Техническое обслуживание систем видеонаблюдения
-            </h2>
+            <h2 className="text-3xl sm:text-4xl">Техническое обслуживание и сервис</h2>
             <p className="mt-5 text-lg text-ink-muted">
               Система должна работать не только в день сдачи. Мы берём на регулярное обслуживание
               как установленные нами, так и существующие системы.
@@ -122,7 +152,7 @@ function Index() {
           </div>
           <img
             src={maintenanceImg}
-            alt="Инженер обслуживает видеорегистратор в серверной стойке"
+            alt="Инженер обслуживает оборудование в серверной стойке"
             loading="lazy"
             width={1280}
             height={896}
@@ -133,7 +163,7 @@ function Index() {
 
       <Section
         eyebrow="Услуги"
-        title="Полный цикл работ"
+        title="Популярные услуги"
         lead="От обследования объекта до поддержки системы после монтажа."
       >
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -216,7 +246,7 @@ function DirectionCard({
   icon: React.ReactNode;
   title: string;
   items: string[];
-  to: "/business" | "/home";
+  to: "/business" | "/home" | "/residential";
   cta: string;
 }) {
   return (

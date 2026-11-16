@@ -5,7 +5,7 @@ import { useState } from "react";
 import { nav } from "@/lib/site";
 
 export function SiteHeader() {
-  const { company } = useSite();
+  const { company, directions } = useSite();
   const [open, setOpen] = useState(false);
   return (
     <header className="surface-ink sticky top-0 z-50 border-b border-ink-line/60 backdrop-blur">
@@ -17,20 +17,36 @@ export function SiteHeader() {
           <span className="font-display text-sm font-semibold leading-tight">
             {company.short}
             <span className="block text-[10px] font-normal tracking-widest text-ink-muted uppercase">
-              видеонаблюдение
+              системы безопасности
             </span>
           </span>
         </Link>
         <nav className="hidden items-center gap-1 xl:flex">
           {nav.map((n) => (
-            <Link
-              key={n.to}
-              to={n.to}
-              className="rounded-md px-3 py-2 text-sm text-ink-muted transition-colors hover:text-ink-foreground"
-              activeProps={{ className: "text-primary" }}
-            >
-              {n.label}
-            </Link>
+            <div key={n.to} className="group relative">
+              <Link
+                to={n.to}
+                className="rounded-md px-3 py-2 text-sm text-ink-muted transition-colors hover:text-ink-foreground"
+                activeProps={{ className: "text-primary" }}
+                activeOptions={{ exact: n.to === "/" }}
+              >
+                {n.label}
+              </Link>
+              {n.to === "/services" && directions.length > 0 && (
+                <div className="invisible absolute left-0 top-full z-50 w-72 rounded-lg border border-ink-line bg-ink-raised p-2 opacity-0 shadow-glow transition group-focus-within:visible group-focus-within:opacity-100 group-hover:visible group-hover:opacity-100">
+                  {directions.map((d) => (
+                    <Link
+                      key={d.slug}
+                      to="/directions/$slug"
+                      params={{ slug: d.slug }}
+                      className="block rounded-md px-3 py-2 text-sm text-ink-muted hover:text-primary"
+                    >
+                      {d.title}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
           ))}
         </nav>
         <div className="flex items-center gap-2">
@@ -59,6 +75,17 @@ export function SiteHeader() {
               className="block border-b border-ink-line/40 py-3.5 text-base"
             >
               {n.label}
+            </Link>
+          ))}
+          {directions.map((d) => (
+            <Link
+              key={d.slug}
+              to="/directions/$slug"
+              params={{ slug: d.slug }}
+              onClick={() => setOpen(false)}
+              className="block border-b border-ink-line/40 py-2.5 pl-4 text-sm text-ink-muted"
+            >
+              {d.title}
             </Link>
           ))}
           <Link

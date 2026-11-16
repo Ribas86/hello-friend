@@ -10,8 +10,8 @@ export function SiteFooter() {
         <div className="md:col-span-1">
           <p className="font-display text-lg">{company.name}</p>
           <p className="mt-3 text-sm text-ink-muted">
-            Проектирование, монтаж и техническое обслуживание систем видеонаблюдения.{" "}
-            {company.years} лет опыта.
+            Проектирование, поставка оборудования, монтаж и обслуживание систем безопасности.
+            {company.years ? ` ${company.years} лет опыта.` : ""}
           </p>
         </div>
         <div>
@@ -27,6 +27,11 @@ export function SiteFooter() {
             <li>
               <Link to="/objects" className="hover:text-primary">
                 Объекты и решения
+              </Link>
+            </li>
+            <li>
+              <Link to="/articles" className="hover:text-primary">
+                Статьи
               </Link>
             </li>
           </ul>
@@ -49,9 +54,29 @@ export function SiteFooter() {
         </div>
         <div>
           <p className="eyebrow mb-4">Контакты</p>
-          <Link to="/contacts" className="mt-3 inline-block text-sm text-primary hover:underline">
-            Связаться с нами →
-          </Link>
+          <div className="space-y-2 text-sm text-ink-muted">
+            {company.phone && (
+              <p>
+                <a
+                  href={`tel:${company.phone.replace(/[^+\d]/g, "")}`}
+                  className="hover:text-primary"
+                >
+                  {company.phone}
+                </a>
+              </p>
+            )}
+            {company.email && (
+              <p>
+                <a href={`mailto:${company.email}`} className="hover:text-primary">
+                  {company.email}
+                </a>
+              </p>
+            )}
+            {company.address && <p>{company.address}</p>}
+            <Link to="/contacts" className="inline-block text-primary hover:underline">
+              Связаться с нами →
+            </Link>
+          </div>
         </div>
       </div>
       <div className="border-t border-ink-line/60">

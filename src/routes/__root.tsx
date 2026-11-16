@@ -72,10 +72,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Центр Квелити — системы видеонаблюдения" },
+      { title: "Центр Квелити — системы безопасности" },
       {
         name: "description",
-        content: "Проектирование, монтаж и обслуживание систем видеонаблюдения.",
+        content:
+          "Проектирование, поставка оборудования, монтаж и обслуживание систем безопасности.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
