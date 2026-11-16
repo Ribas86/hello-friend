@@ -1,9 +1,7 @@
 import { useSite } from "@/lib/use-site";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, Building2, Home, ShieldCheck, Wrench, Check } from "lucide-react";
+import { ArrowRight, Building2, Landmark, Home, ShieldCheck, Wrench, Check } from "lucide-react";
 import hero from "@/assets/hero-camera.jpg";
-import businessImg from "@/assets/business.jpg";
-import homeImg from "@/assets/home.jpg";
 import maintenanceImg from "@/assets/maintenance.jpg";
 import {
   advantages,
@@ -76,48 +74,51 @@ function Index() {
         </div>
       </section>
 
-      <Section eyebrow="Направления" title="Основные направления работ">
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {directions.map((d) => (
+      <Section
+        eyebrow="Направления"
+        title="Основные направления работ"
+        lead="Выберите направление, чтобы увидеть состав услуг."
+      >
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {directions.map((d, i) => (
             <Link
               key={d.slug}
               to="/directions/$slug"
               params={{ slug: d.slug }}
-              className="group rounded-xl border bg-card p-6 shadow-card transition hover:-translate-y-0.5 hover:border-primary"
+              className="group flex flex-col rounded-2xl border bg-card p-7 shadow-card transition hover:-translate-y-1 hover:border-primary"
             >
-              <h3 className="font-sans text-base font-semibold">{d.title}</h3>
-              {d.short && <p className="mt-2 text-sm text-muted-foreground">{d.short}</p>}
-              <ArrowRight className="mt-4 h-4 w-4 text-primary transition group-hover:translate-x-1" />
+              <span className="font-display text-sm text-primary">
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <h3 className="mt-4 text-xl leading-snug">{d.title}</h3>
+              {d.short && <p className="mt-3 flex-1 text-muted-foreground">{d.short}</p>}
+              <span className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-primary">
+                Подробнее <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
+              </span>
             </Link>
           ))}
         </div>
       </Section>
 
-      <Section eyebrow="Клиенты" title="Решения для разных категорий клиентов">
-        <div className="grid gap-6 lg:grid-cols-3">
-          <DirectionCard
-            img={businessImg}
-            icon={<Building2 />}
+      <Section eyebrow="Клиенты" title="Решения для разных категорий клиентов" dark>
+        <div className="grid gap-5 lg:grid-cols-3">
+          <SegmentCard
+            icon={<Building2 className="h-6 w-6" />}
             title="Для бизнеса"
             items={businessObjects.slice(0, 6).map((o) => o.title)}
             to="/business"
-            cta="Решения для бизнеса"
           />
-          <DirectionCard
-            img={businessImg}
-            icon={<Building2 />}
+          <SegmentCard
+            icon={<Landmark className="h-6 w-6" />}
             title="Для жилых комплексов"
             items={residentialObjects}
             to="/residential"
-            cta="Решения для жилых комплексов"
           />
-          <DirectionCard
-            img={homeImg}
-            icon={<Home />}
+          <SegmentCard
+            icon={<Home className="h-6 w-6" />}
             title="Для частных клиентов"
             items={homeObjects}
             to="/home"
-            cta="Решения для частных клиентов"
           />
         </div>
       </Section>
@@ -234,48 +235,34 @@ function Index() {
   );
 }
 
-function DirectionCard({
-  img,
+function SegmentCard({
   icon,
   title,
   items,
   to,
-  cta,
 }: {
-  img: string;
   icon: React.ReactNode;
   title: string;
   items: string[];
   to: "/business" | "/home" | "/residential";
-  cta: string;
 }) {
   return (
-    <div className="surface-ink group relative overflow-hidden rounded-2xl">
-      <img
-        src={img}
-        alt=""
-        loading="lazy"
-        width={1280}
-        height={896}
-        className="absolute inset-0 h-full w-full object-cover opacity-35 transition duration-700 group-hover:scale-105"
-      />
-      <div className="relative flex h-full flex-col p-8 sm:p-10">
-        <span className="flex h-11 w-11 items-center justify-center rounded-md bg-primary text-primary-foreground">
-          {icon}
-        </span>
-        <h3 className="mt-6 text-2xl sm:text-3xl">{title}</h3>
-        <ul className="mt-5 flex-1 space-y-2">
-          {items.map((i) => (
-            <li key={i} className="flex gap-2 text-ink-foreground/90">
-              <Check className="h-4 w-4 mt-1 shrink-0 text-primary" />
-              {i}
-            </li>
-          ))}
-        </ul>
-        <Link to={to} className="btn btn-primary mt-8 self-start">
-          {cta} <ArrowRight className="h-4 w-4" />
-        </Link>
-      </div>
+    <div className="flex flex-col rounded-2xl border border-ink-line bg-ink-raised p-8">
+      <span className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary text-primary-foreground">
+        {icon}
+      </span>
+      <h3 className="mt-6 text-2xl lg:min-h-[4.5rem]">{title}</h3>
+      <ul className="mt-6 flex-1 space-y-3">
+        {items.map((i) => (
+          <li key={i} className="flex gap-3 text-ink-foreground/90">
+            <Check className="mt-1 h-4 w-4 shrink-0 text-primary" />
+            {i}
+          </li>
+        ))}
+      </ul>
+      <Link to={to} className="btn btn-primary mt-8 self-start">
+        Подробнее <ArrowRight className="h-4 w-4" />
+      </Link>
     </div>
   );
 }
