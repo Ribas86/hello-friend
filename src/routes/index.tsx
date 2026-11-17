@@ -22,13 +22,6 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-const facts = [
-  "Проектирование и монтаж",
-  "Поставка оборудования",
-  "Техническое обслуживание",
-  "Бизнес, жилые комплексы, частные объекты",
-];
-
 function Index() {
   const { services, faq, directions } = useSite();
   return (
@@ -61,13 +54,16 @@ function Index() {
               </Link>
             </div>
           </div>
-          <ul className="mt-16 grid gap-px overflow-hidden rounded-xl border border-ink-line/70 sm:grid-cols-3 lg:grid-cols-4">
-            {facts.map((f) => (
-              <li
-                key={f}
-                className="flex items-center gap-2 bg-ink/80 px-5 py-4 text-sm backdrop-blur"
-              >
-                <Check className="h-4 w-4 shrink-0 text-primary" /> {f}
+          <ul className="mt-16 grid gap-px overflow-hidden rounded-xl border border-ink-line/70 sm:grid-cols-2 lg:grid-cols-3">
+            {directions.map((d) => (
+              <li key={d.slug} className="bg-ink/80 backdrop-blur">
+                <Link
+                  to="/directions/$slug"
+                  params={{ slug: d.slug }}
+                  className="flex h-full items-center gap-2 px-5 py-4 text-sm transition hover:text-primary"
+                >
+                  <Check className="h-4 w-4 shrink-0 text-primary" /> {d.title}
+                </Link>
               </li>
             ))}
           </ul>
