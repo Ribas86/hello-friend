@@ -21,7 +21,6 @@ wait_for() { # имя, команда
   echo "НЕ ЗАПУСТИЛСЯ: $1"; docker compose logs --tail=60 "$3"; exit 1
 }
 wait_for "cms" "docker compose exec -T cms node -e \"fetch('http://localhost:8055/server/ping').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))\"" cms
-wait_for "site" "docker compose exec -T site node -e \"fetch('http://localhost:3000/').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))\"" site
 
 run_cms() { docker compose exec -T -e PUBLIC_URL=http://localhost:8055 cms node "scripts/$1"; }
 run_cms apply-schema.mjs
@@ -30,6 +29,8 @@ if [ "$INIT" -eq 1 ]; then
   run_cms seed.mjs
   touch .initialized
 fi
+# Сайт проверяем после первичной загрузки: до неё у читателя сайта ещё нет прав и CMS отвечает 401
+wait_for "site" "docker compose exec -T site node -e \"fetch('http://localhost:3000/').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))\"" site
 docker image prune -f >/dev/null
 echo "Развёртывание завершено: $(date -Is)"
 docker compose ps
