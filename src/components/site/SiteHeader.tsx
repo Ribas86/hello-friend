@@ -9,7 +9,7 @@ export function SiteHeader() {
   const [open, setOpen] = useState(false);
   return (
     <header className="surface-ink sticky top-0 z-50 border-b border-ink-line/60 backdrop-blur">
-      <div className="mx-auto flex h-16 max-w-[90rem] items-center justify-between gap-6 px-5 lg:px-8">
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-6 px-5 lg:px-8">
         <Link to="/" className="flex shrink-0 items-center gap-2.5" onClick={() => setOpen(false)}>
           <span className="flex h-9 w-9 items-center justify-center rounded-md bg-primary text-primary-foreground">
             <ScanEye className="h-5 w-5" />
