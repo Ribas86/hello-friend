@@ -54,15 +54,16 @@ function Index() {
               </Link>
             </div>
           </div>
-          <ul className="mt-10 grid gap-px overflow-hidden rounded-xl border border-ink-line/70 sm:grid-cols-2 lg:grid-cols-3">
+          <ul className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {directions.map((d) => (
-              <li key={d.slug} className="bg-ink/80 backdrop-blur">
+              <li key={d.slug}>
                 <Link
                   to="/directions/$slug"
                   params={{ slug: d.slug }}
-                  className="flex h-full items-center gap-2 px-5 py-4 text-sm transition hover:text-primary"
+                  className="group flex h-full items-center justify-between gap-3 rounded-lg border border-ink-line bg-ink/80 px-5 py-4 text-sm font-medium backdrop-blur transition hover:border-primary hover:bg-primary hover:text-primary-foreground"
                 >
-                  <Check className="h-4 w-4 shrink-0 text-primary" /> {d.title}
+                  {d.title}
+                  <ArrowRight className="h-4 w-4 shrink-0 text-primary transition group-hover:translate-x-1 group-hover:text-primary-foreground" />
                 </Link>
               </li>
             ))}
