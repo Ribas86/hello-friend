@@ -30,11 +30,16 @@ function Index() {
         <img
           src={hero}
           alt="Камеры на фасаде здания"
-          className="absolute inset-0 h-full w-full object-cover"
+          className="hero-kenburns absolute inset-0 h-full w-full object-cover"
           width={1920}
           height={1088}
         />
         <div className="hero-fade absolute inset-0" />
+        <div className="hero-scan absolute inset-x-0 top-0 hidden lg:block" />
+        <div
+          className="hero-glow absolute hidden h-24 w-24 lg:block"
+          style={{ right: "20%", top: "22%" }}
+        />
         <div className="relative mx-auto max-w-7xl px-5 pt-12 pb-10 lg:px-8 lg:pt-16 lg:pb-12">
           <div className="max-w-3xl animate-rise">
             <p className="eyebrow mb-3">ООО «Центр Квелити»</p>
