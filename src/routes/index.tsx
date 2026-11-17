@@ -35,17 +35,17 @@ function Index() {
           height={1088}
         />
         <div className="hero-fade absolute inset-0" />
-        <div className="relative mx-auto max-w-7xl px-5 pt-24 pb-16 lg:px-8 lg:pt-36 lg:pb-24">
+        <div className="relative mx-auto max-w-7xl px-5 pt-12 pb-10 lg:px-8 lg:pt-16 lg:pb-12">
           <div className="max-w-3xl animate-rise">
-            <p className="eyebrow mb-5">ООО «Центр Квелити»</p>
-            <h1 className="text-4xl leading-[1.1] sm:text-6xl">
+            <p className="eyebrow mb-3">ООО «Центр Квелити»</p>
+            <h1 className="text-3xl leading-[1.15] sm:text-4xl lg:text-5xl">
               Системы безопасности: от проекта до обслуживания
             </h1>
-            <p className="mt-6 max-w-xl text-lg text-ink-muted">
+            <p className="mt-4 max-w-xl text-base text-ink-muted">
               Проектируем, поставляем оборудование, монтируем и обслуживаем системы безопасности для
               бизнеса, жилых комплексов и частных клиентов.
             </p>
-            <div className="mt-9 flex flex-wrap gap-3">
+            <div className="mt-6 flex flex-wrap gap-3">
               <Link to="/calculator" className="btn btn-primary">
                 Получить расчёт <ArrowRight className="h-4 w-4" />
               </Link>
@@ -54,7 +54,7 @@ function Index() {
               </Link>
             </div>
           </div>
-          <ul className="mt-16 grid gap-px overflow-hidden rounded-xl border border-ink-line/70 sm:grid-cols-2 lg:grid-cols-3">
+          <ul className="mt-10 grid gap-px overflow-hidden rounded-xl border border-ink-line/70 sm:grid-cols-2 lg:grid-cols-3">
             {directions.map((d) => (
               <li key={d.slug} className="bg-ink/80 backdrop-blur">
                 <Link
