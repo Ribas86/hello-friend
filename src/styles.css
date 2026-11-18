@@ -128,6 +128,8 @@
     background-color: var(--color-background);
     color: var(--color-foreground);
     font-family: var(--font-sans);
+    /* Manrope 400 на тёмном фоне выглядит тонким: основной текст на ступень плотнее */
+    font-weight: 500;
     -webkit-font-smoothing: antialiased;
   }
   h1,
