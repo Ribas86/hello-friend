@@ -410,3 +410,52 @@
     transform: none;
   }
 }
+
+/* Кнопки меню в шапке: наведение как у карточек клиентов (без увеличения), текущий раздел — рамка и заливка */
+.nav-btn {
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    color 0.2s ease;
+}
+.nav-btn-active {
+  border-color: var(--primary);
+  background-color: color-mix(in oklch, var(--primary) 15%, transparent);
+  color: var(--primary);
+}
+@media (hover: hover) {
+  .nav-btn:hover {
+    background-color: oklch(0.48 0.07 245);
+    border-color: #5fe3f5;
+    color: var(--ink-foreground);
+    box-shadow:
+      0 0 0 1px #5fe3f5,
+      0 0 24px -4px rgb(0 187 213 / 0.65);
+  }
+}
+
+/* Мобильное меню: подсветка при касании и выделение текущего раздела */
+.m-nav {
+  margin-inline: -0.75rem;
+  padding-inline: 0.75rem;
+  border-radius: 0.5rem;
+  transition:
+    background-color 0.15s ease,
+    box-shadow 0.15s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.m-nav.pl-4 {
+  padding-left: 1.75rem;
+}
+.m-nav:active {
+  background-color: oklch(0.48 0.07 245);
+  box-shadow:
+    inset 0 0 0 1px #5fe3f5,
+    0 0 24px -6px rgb(0 187 213 / 0.65);
+}
+.m-nav-active {
+  color: var(--primary);
+  background-color: color-mix(in oklch, var(--primary) 12%, transparent);
+  box-shadow: inset 0 0 0 1px var(--primary);
+}

@@ -8,6 +8,8 @@ import { DirectionLink } from "./media";
 export function SiteHeader() {
   const { company, directions } = useSite();
   const [open, setOpen] = useState(false);
+  // Переход происходит сразу, а меню закрывается чуть позже, чтобы было видно подсветку касания
+  const closeSoon = () => window.setTimeout(() => setOpen(false), 180);
   return (
     <header className="surface-ink sticky top-0 z-50 border-b border-ink-line/60 backdrop-blur">
       <div className="mx-auto flex h-20 max-w-7xl items-center justify-between gap-6 px-5 lg:px-8">
@@ -29,8 +31,8 @@ export function SiteHeader() {
               <div key={n.to} className="group relative">
                 <Link
                   to={n.to}
-                  className="block whitespace-nowrap rounded-md border border-ink-line px-3.5 py-2.5 text-sm text-ink-muted transition-colors hover:border-primary hover:text-ink-foreground"
-                  activeProps={{ className: "!border-primary !bg-primary/15 !text-primary" }}
+                  className="nav-btn block whitespace-nowrap rounded-md border border-ink-line px-3.5 py-2.5 text-[15px] text-ink-muted"
+                  activeProps={{ className: "nav-btn-active" }}
                 >
                   {n.short}
                 </Link>
@@ -51,12 +53,6 @@ export function SiteHeader() {
             ))}
         </nav>
         <div className="flex items-center gap-2">
-          <Link
-            to="/calculator"
-            className="btn btn-primary hidden !min-h-10 whitespace-nowrap !py-2 text-sm sm:inline-flex xl:hidden 2xl:inline-flex"
-          >
-            Получить расчёт
-          </Link>
           <button
             aria-label="Меню"
             className="rounded-md p-2 text-ink-foreground xl:hidden"
@@ -67,13 +63,16 @@ export function SiteHeader() {
         </div>
       </div>
       {open && (
-        <nav className="border-t border-ink-line/60 px-5 pb-5 xl:hidden">
+        // onTouchStart нужен, чтобы iOS показывал подсветку :active при касании
+        <nav className="border-t border-ink-line/60 px-5 pb-5 xl:hidden" onTouchStart={() => {}}>
           {nav.map((n) => (
             <div key={n.to}>
               <Link
                 to={n.to}
-                onClick={() => setOpen(false)}
-                className="block border-b border-ink-line/40 py-3.5 text-base"
+                onClick={closeSoon}
+                activeOptions={{ exact: n.to === "/" }}
+                className="m-nav block border-b border-ink-line/40 py-3.5 text-base"
+                activeProps={{ className: "m-nav-active" }}
               >
                 {n.label}
               </Link>
@@ -82,8 +81,8 @@ export function SiteHeader() {
                   <DirectionLink
                     key={d.slug}
                     slug={d.slug}
-                    onClick={() => setOpen(false)}
-                    className="block border-b border-ink-line/40 py-2.5 pl-4 text-sm text-ink-muted"
+                    onClick={closeSoon}
+                    className="m-nav block border-b border-ink-line/40 py-2.5 pl-4 text-sm text-ink-muted"
                   >
                     {d.title}
                   </DirectionLink>
