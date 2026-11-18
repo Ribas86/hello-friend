@@ -1,27 +1,45 @@
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { createFileRoute, Link, notFound, redirect } from "@tanstack/react-router";
+import { MAINTENANCE_DIRECTION } from "@/lib/site";
+import { DirectionLink } from "@/components/site/media";
 import { ArrowRight } from "lucide-react";
 import { getSiteContent } from "@/lib/cms.functions";
 import { PageHero, Section, CtaBand, seo } from "@/components/site/blocks";
 
 export const Route = createFileRoute("/directions/$slug")({
+  beforeLoad: ({ params }) => {
+    if (params.slug === MAINTENANCE_DIRECTION)
+      throw redirect({ to: "/maintenance", statusCode: 301 });
+  },
   loader: async ({ params }) => {
     const { directions, services } = await getSiteContent();
     const direction = directions.find((x) => x.slug === params.slug);
     if (!direction) throw notFound();
-    return { direction, services: services.filter((s) => s.direction === direction.slug) };
+    return {
+      direction,
+      services: services.filter((s) => s.direction === direction.slug),
+      others: directions.filter((d) => d.slug !== direction.slug),
+    };
   },
   head: ({ loaderData }) =>
     loaderData
-      ? seo(loaderData.direction.title, loaderData.direction.short.slice(0, 160))
+      ? seo(
+          loaderData.direction.title,
+          `${loaderData.direction.short} ${loaderData.direction.description}`,
+        )
       : { meta: [{ title: "Направление не найдено" }, { name: "robots", content: "noindex" }] },
   component: Page,
 });
 
 function Page() {
-  const { direction, services } = Route.useLoaderData();
+  const { direction, services, others } = Route.useLoaderData();
   return (
     <>
-      <PageHero eyebrow="Направление" title={direction.title} lead={direction.description} />
+      <PageHero
+        eyebrow="Направление"
+        title={direction.title}
+        lead={direction.description}
+        crumbs={[{ label: "Услуги", href: "/services" }, { label: direction.title }]}
+      />
       <Section eyebrow="Услуги" title="Что входит в направление">
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {services.map((s) => (
@@ -35,6 +53,19 @@ function Page() {
               <p className="mt-2 text-sm text-muted-foreground">{s.short}</p>
               <ArrowRight className="mt-4 h-4 w-4 text-primary transition group-hover:translate-x-1" />
             </Link>
+          ))}
+        </div>
+      </Section>
+      <Section eyebrow="Ещё" title="Другие направления">
+        <div className="flex flex-wrap gap-3">
+          {others.map((d) => (
+            <DirectionLink
+              key={d.slug}
+              slug={d.slug}
+              className="rounded-lg border bg-card px-4 py-3 text-sm font-medium shadow-card transition hover:border-primary"
+            >
+              {d.title}
+            </DirectionLink>
           ))}
         </div>
       </Section>

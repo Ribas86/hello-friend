@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { nav } from "@/lib/site";
 import { useSite } from "@/lib/use-site";
+import { DirectionLink } from "./media";
 
 export function SiteFooter() {
   const { company, directions } = useSite();
@@ -16,21 +17,21 @@ export function SiteFooter() {
         </div>
         <div>
           <p className="eyebrow mb-4">Разделы</p>
-          <ul className="space-y-2 text-sm text-ink-muted">
+          <ul className="space-y-0.5 text-sm text-ink-muted">
             {nav.map((n) => (
               <li key={n.to}>
-                <Link to={n.to} className="hover:text-primary">
+                <Link to={n.to} className="inline-block py-1.5 hover:text-primary">
                   {n.label}
                 </Link>
               </li>
             ))}
             <li>
-              <Link to="/objects" className="hover:text-primary">
+              <Link to="/objects" className="inline-block py-1.5 hover:text-primary">
                 Объекты и решения
               </Link>
             </li>
             <li>
-              <Link to="/articles" className="hover:text-primary">
+              <Link to="/articles" className="inline-block py-1.5 hover:text-primary">
                 Статьи
               </Link>
             </li>
@@ -38,16 +39,12 @@ export function SiteFooter() {
         </div>
         <div>
           <p className="eyebrow mb-4">Направления</p>
-          <ul className="space-y-2 text-sm text-ink-muted">
+          <ul className="space-y-0.5 text-sm text-ink-muted">
             {directions.map((d) => (
               <li key={d.slug}>
-                <Link
-                  to="/directions/$slug"
-                  params={{ slug: d.slug }}
-                  className="hover:text-primary"
-                >
+                <DirectionLink slug={d.slug} className="inline-block py-1.5 hover:text-primary">
                   {d.title}
-                </Link>
+                </DirectionLink>
               </li>
             ))}
           </ul>
@@ -73,7 +70,7 @@ export function SiteFooter() {
               </p>
             )}
             {company.address && <p>{company.address}</p>}
-            <Link to="/contacts" className="inline-block text-primary hover:underline">
+            <Link to="/contacts" className="inline-block py-1.5 text-primary hover:underline">
               Связаться с нами →
             </Link>
           </div>
@@ -84,7 +81,7 @@ export function SiteFooter() {
           <span>
             © {new Date().getFullYear()} {company.name}
           </span>
-          <Link to="/privacy" className="hover:text-primary">
+          <Link to="/privacy" className="inline-block py-1.5 hover:text-primary">
             Политика обработки персональных данных
           </Link>
         </div>

@@ -1,8 +1,8 @@
 import { useSite } from "@/lib/use-site";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, Building2, Landmark, Home, ShieldCheck, Wrench, Check } from "lucide-react";
-import hero from "@/assets/hero-camera.jpg";
-import maintenanceImg from "@/assets/maintenance.jpg";
+import { pics } from "@/lib/images";
+import { DirectionLink, Picture } from "@/components/site/media";
 import {
   advantages,
   businessObjects,
@@ -14,11 +14,12 @@ import {
 import { Section, Steps, Faq, seo, ContactNotice } from "@/components/site/blocks";
 
 export const Route = createFileRoute("/")({
-  head: () =>
-    seo(
-      "Системы безопасности для бизнеса, жилых комплексов и частных клиентов",
+  head: () => ({
+    ...seo(
+      "Монтаж и обслуживание систем безопасности — Центр Квелити",
       "Проектирование, поставка оборудования, монтаж и обслуживание систем безопасности: видеонаблюдение, СКУД, шлагбаумы и комплексные системы.",
     ),
+  }),
   component: Index,
 });
 
@@ -27,12 +28,11 @@ function Index() {
   return (
     <>
       <section className="surface-ink relative overflow-hidden">
-        <img
-          src={hero}
+        <Picture
+          pic={pics.hero}
           alt="Камеры на фасаде здания"
+          priority
           className="hero-kenburns absolute inset-0 h-full w-full object-cover"
-          width={1920}
-          height={1088}
         />
         <div className="hero-fade absolute inset-0" />
         <div className="hero-scan absolute inset-x-0 top-0 hidden lg:block" />
@@ -62,45 +62,18 @@ function Index() {
           <ul className="mt-6 grid grid-cols-2 gap-2 sm:mt-10 sm:gap-3 lg:grid-cols-3">
             {directions.map((d) => (
               <li key={d.slug}>
-                <Link
-                  to="/directions/$slug"
-                  params={{ slug: d.slug }}
+                <DirectionLink
+                  slug={d.slug}
                   className="group flex h-full items-center justify-between gap-3 rounded-lg border border-ink-line bg-ink/80 px-3 py-3 text-xs font-medium sm:px-5 sm:py-4 sm:text-sm backdrop-blur transition hover:border-primary hover:bg-primary hover:text-primary-foreground"
                 >
                   {d.title}
                   <ArrowRight className="h-4 w-4 shrink-0 text-primary transition group-hover:translate-x-1 group-hover:text-primary-foreground" />
-                </Link>
+                </DirectionLink>
               </li>
             ))}
           </ul>
         </div>
       </section>
-
-      <Section
-        eyebrow="Направления"
-        title="Основные направления работ"
-        lead="Выберите направление, чтобы увидеть состав услуг."
-      >
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {directions.map((d, i) => (
-            <Link
-              key={d.slug}
-              to="/directions/$slug"
-              params={{ slug: d.slug }}
-              className="group flex flex-col rounded-2xl border bg-card p-7 shadow-card transition hover:-translate-y-1 hover:border-primary"
-            >
-              <span className="font-display text-sm text-primary">
-                {String(i + 1).padStart(2, "0")}
-              </span>
-              <h3 className="mt-4 text-xl leading-snug">{d.title}</h3>
-              {d.short && <p className="mt-3 flex-1 text-muted-foreground">{d.short}</p>}
-              <span className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-primary">
-                Подробнее <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
-              </span>
-            </Link>
-          ))}
-        </div>
-      </Section>
 
       <Section eyebrow="Клиенты" title="Решения для разных категорий клиентов" dark>
         <div className="grid gap-5 lg:grid-cols-3">
@@ -120,7 +93,7 @@ function Index() {
             icon={<Home className="h-6 w-6" />}
             title="Для частных клиентов"
             items={homeObjects}
-            to="/home"
+            to="/private"
           />
         </div>
       </Section>
@@ -153,12 +126,10 @@ function Index() {
               </Link>
             </div>
           </div>
-          <img
-            src={maintenanceImg}
+          <Picture
+            pic={pics.maintenance}
             alt="Инженер обслуживает оборудование в серверной стойке"
-            loading="lazy"
-            width={1280}
-            height={896}
+            sizes="(min-width: 1024px) 50vw, 100vw"
             className="rounded-xl shadow-glow"
           />
         </div>
@@ -246,7 +217,7 @@ function SegmentCard({
   icon: React.ReactNode;
   title: string;
   items: string[];
-  to: "/business" | "/home" | "/residential";
+  to: "/business" | "/private" | "/residential";
 }) {
   return (
     <div className="flex flex-col rounded-2xl border border-ink-line bg-ink-raised p-8">

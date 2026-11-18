@@ -18,6 +18,7 @@ import { Route as HomeRouteImport } from './routes/home'
 import { Route as MaintenanceRouteImport } from './routes/maintenance'
 import { Route as ObjectsRouteImport } from './routes/objects'
 import { Route as PrivacyRouteImport } from './routes/privacy'
+import { Route as PrivateRouteImport } from './routes/private'
 import { Route as ResidentialRouteImport } from './routes/residential'
 import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
@@ -71,6 +72,11 @@ const ObjectsRoute = ObjectsRouteImport.update({
 const PrivacyRoute = PrivacyRouteImport.update({
   id: '/privacy',
   path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivateRoute = PrivateRouteImport.update({
+  id: '/private',
+  path: '/private',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ResidentialRoute = ResidentialRouteImport.update({
@@ -129,6 +135,7 @@ export interface FileRoutesByFullPath {
   '/maintenance': typeof MaintenanceRoute
   '/objects': typeof ObjectsRoute
   '/privacy': typeof PrivacyRoute
+  '/private': typeof PrivateRoute
   '/residential': typeof ResidentialRoute
   '/robots.txt': typeof RobotsDottxtRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -149,6 +156,7 @@ export interface FileRoutesByTo {
   '/maintenance': typeof MaintenanceRoute
   '/objects': typeof ObjectsRoute
   '/privacy': typeof PrivacyRoute
+  '/private': typeof PrivateRoute
   '/residential': typeof ResidentialRoute
   '/robots.txt': typeof RobotsDottxtRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -170,6 +178,7 @@ export interface FileRoutesById {
   '/maintenance': typeof MaintenanceRoute
   '/objects': typeof ObjectsRoute
   '/privacy': typeof PrivacyRoute
+  '/private': typeof PrivateRoute
   '/residential': typeof ResidentialRoute
   '/robots.txt': typeof RobotsDottxtRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -192,6 +201,7 @@ export interface FileRouteTypes {
     | '/maintenance'
     | '/objects'
     | '/privacy'
+    | '/private'
     | '/residential'
     | '/robots.txt'
     | '/sitemap.xml'
@@ -212,6 +222,7 @@ export interface FileRouteTypes {
     | '/maintenance'
     | '/objects'
     | '/privacy'
+    | '/private'
     | '/residential'
     | '/robots.txt'
     | '/sitemap.xml'
@@ -232,6 +243,7 @@ export interface FileRouteTypes {
     | '/maintenance'
     | '/objects'
     | '/privacy'
+    | '/private'
     | '/residential'
     | '/robots.txt'
     | '/sitemap.xml'
@@ -253,6 +265,7 @@ export interface RootRouteChildren {
   MaintenanceRoute: typeof MaintenanceRoute
   ObjectsRoute: typeof ObjectsRoute
   PrivacyRoute: typeof PrivacyRoute
+  PrivateRoute: typeof PrivateRoute
   ResidentialRoute: typeof ResidentialRoute
   RobotsDottxtRoute: typeof RobotsDottxtRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
@@ -327,6 +340,13 @@ declare module '@tanstack/react-router' {
       path: '/privacy'
       fullPath: '/privacy'
       preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/private': {
+      id: '/private'
+      path: '/private'
+      fullPath: '/private'
+      preLoaderRoute: typeof PrivateRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/residential': {
@@ -405,6 +425,7 @@ const rootRouteChildren: RootRouteChildren = {
   MaintenanceRoute: MaintenanceRoute,
   ObjectsRoute: ObjectsRoute,
   PrivacyRoute: PrivacyRoute,
+  PrivateRoute: PrivateRoute,
   ResidentialRoute: ResidentialRoute,
   RobotsDottxtRoute: RobotsDottxtRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,

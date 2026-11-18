@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { loadForSitemap } from "@/lib/cms.functions";
 import { getArticles } from "@/lib/articles.functions";
 import { baseUrl } from "@/lib/seo.server";
+import { MAINTENANCE_DIRECTION } from "@/lib/site";
 
 const esc = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;");
 
@@ -16,7 +17,7 @@ export const Route = createFileRoute("/sitemap.xml")({
           "/",
           "/business",
           "/residential",
-          "/home",
+          "/private",
           "/services",
           "/maintenance",
           "/objects",
@@ -24,7 +25,9 @@ export const Route = createFileRoute("/sitemap.xml")({
           "/articles",
           "/about",
           "/contacts",
-          ...site.directions.map((d) => `/directions/${d.slug}`),
+          ...site.directions
+            .filter((d) => d.slug !== MAINTENANCE_DIRECTION)
+            .map((d) => `/directions/${d.slug}`),
           ...site.services.map((s) => `/services/${s.slug}`),
           ...articles.map((a) => `/articles/${a.slug}`),
         ];

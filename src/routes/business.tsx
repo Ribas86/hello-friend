@@ -1,6 +1,6 @@
 import { useSite } from "@/lib/use-site";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import img from "@/assets/business.jpg";
+import { pics } from "@/lib/images";
 import { businessObjects, steps } from "@/lib/site";
 import { PageHero, Section, Steps, seo, ContactNotice } from "@/components/site/blocks";
 
@@ -36,7 +36,7 @@ function Page() {
         eyebrow="Для бизнеса"
         title="Системы безопасности для предприятий и организаций"
         lead="Комплексный подход: от обследования объекта до регулярного обслуживания. Надёжная, управляемая система с контролем состояния оборудования — в том числе на нескольких объектах."
-        image={img}
+        image={pics.business}
       >
         <a href="#contacts" className="btn btn-primary">
           Связаться с нами

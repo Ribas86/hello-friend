@@ -1,5 +1,6 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { getArticle } from "@/lib/articles.functions";
+import { clip } from "@/lib/utils";
 import { PageHero, Section, CtaBand } from "@/components/site/blocks";
 
 export const Route = createFileRoute("/articles/$slug")({
@@ -11,7 +12,7 @@ export const Route = createFileRoute("/articles/$slug")({
   head: ({ loaderData: a }) => {
     if (!a) return {};
     const title = `${a.seoTitle || a.title} — Центр Квелити`;
-    const description = a.seoDescription || a.summary;
+    const description = clip(a.seoDescription || a.summary);
     return {
       meta: [
         { title },
@@ -19,7 +20,6 @@ export const Route = createFileRoute("/articles/$slug")({
         { property: "og:title", content: title },
         { property: "og:description", content: description },
         { property: "og:type", content: "article" },
-        ...(a.cover ? [{ property: "og:image", content: a.cover }] : []),
       ],
     };
   },
@@ -40,6 +40,7 @@ function Page() {
       <PageHero
         eyebrow={[a.topic?.title, date].filter(Boolean).join(" · ") || "Статья"}
         title={a.title}
+        crumbs={[{ label: "Статьи", href: "/articles" }, { label: a.title }]}
         {...(a.summary ? { lead: a.summary } : {})}
       />
       <Section>

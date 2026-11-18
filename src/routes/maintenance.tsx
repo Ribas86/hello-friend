@@ -1,6 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { ShieldCheck } from "lucide-react";
-import img from "@/assets/maintenance.jpg";
+import { pics } from "@/lib/images";
+import { Link } from "@tanstack/react-router";
+import { ArrowRight } from "lucide-react";
+import { MAINTENANCE_DIRECTION } from "@/lib/site";
+import { useSite } from "@/lib/use-site";
 import { maintenanceWorks } from "@/lib/site";
 import { PageHero, Section, Steps, Faq, seo, ContactNotice } from "@/components/site/blocks";
 
@@ -14,18 +18,39 @@ export const Route = createFileRoute("/maintenance")({
 });
 
 function Page() {
+  const { services } = useSite();
+  const list = services.filter((s) => s.direction === MAINTENANCE_DIRECTION);
   return (
     <>
       <PageHero
         eyebrow="Ключевое направление"
         title="Техническое обслуживание и сервис"
         lead="Регулярный контроль помогает вовремя замечать неисправности, сохранять запись и архив, продлевать срок службы оборудования."
-        image={img}
+        image={pics.maintenance}
       >
         <a href="#contacts" className="btn btn-primary">
           Связаться по договору обслуживания
         </a>
       </PageHero>
+
+      {list.length > 0 && (
+        <Section eyebrow="Услуги" title="Что входит в направление">
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {list.map((s) => (
+              <Link
+                key={s.slug}
+                to="/services/$slug"
+                params={{ slug: s.slug }}
+                className="group rounded-xl border bg-card p-6 shadow-card transition hover:border-primary"
+              >
+                <h3 className="font-sans text-lg font-semibold tracking-normal">{s.title}</h3>
+                <p className="mt-2 text-sm text-muted-foreground">{s.short}</p>
+                <ArrowRight className="mt-4 h-4 w-4 text-primary transition group-hover:translate-x-1" />
+              </Link>
+            ))}
+          </div>
+        </Section>
+      )}
 
       <Section eyebrow="Зачем" title="Почему обслуживание необходимо">
         <div className="grid gap-4 md:grid-cols-3">

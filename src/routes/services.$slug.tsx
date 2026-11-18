@@ -2,6 +2,7 @@ import { useSite } from "@/lib/use-site";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { Check } from "lucide-react";
 import { getSiteContent } from "@/lib/cms.functions";
+import { MAINTENANCE_DIRECTION } from "@/lib/site";
 import { PageHero, Section, Steps, Faq, seo, ContactNotice } from "@/components/site/blocks";
 
 export const Route = createFileRoute("/services/$slug")({
@@ -15,7 +16,7 @@ export const Route = createFileRoute("/services/$slug")({
     loaderData
       ? seo(
           loaderData.service.title,
-          `${loaderData.service.short} ${loaderData.service.description}`.slice(0, 160),
+          `${loaderData.service.short} ${loaderData.service.description}`,
         )
       : { meta: [{ title: "Услуга не найдена" }, { name: "robots", content: "noindex" }] },
   component: Page,
@@ -23,10 +24,38 @@ export const Route = createFileRoute("/services/$slug")({
 
 function Page() {
   const { service: s, direction } = Route.useLoaderData();
-  const { services } = useSite();
+  const { services, company, baseUrl } = useSite();
+  const ld = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: s.title,
+    description: s.description || s.short,
+    url: `${baseUrl}/services/${s.slug}`,
+    provider: { "@type": "Organization", name: company.name, url: baseUrl },
+    ...(direction ? { serviceType: direction.title } : {}),
+  };
   return (
     <>
-      <PageHero eyebrow={direction?.title ?? "Услуга"} title={s.title} lead={s.description}>
+      <PageHero
+        eyebrow={direction?.title ?? "Услуга"}
+        title={s.title}
+        lead={s.description}
+        crumbs={[
+          { label: "Услуги", href: "/services" },
+          ...(direction
+            ? [
+                {
+                  label: direction.title,
+                  href:
+                    direction.slug === MAINTENANCE_DIRECTION
+                      ? "/maintenance"
+                      : `/directions/${direction.slug}`,
+                },
+              ]
+            : []),
+          { label: s.title },
+        ]}
+      >
         <a href="#contacts" className="btn btn-primary">
           Связаться с нами
         </a>
@@ -35,7 +64,11 @@ function Page() {
         </Link>
       </PageHero>
       <Section>
-        <div className={s.audience ? "grid gap-8 lg:grid-cols-2" : "grid gap-8"}>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(ld) }}
+        />
+        <div className={s.audience ? "grid items-start gap-8 lg:grid-cols-2" : "grid gap-8"}>
           {s.audience && (
             <div className="rounded-xl border bg-card p-7 shadow-card">
               <h2 className="text-xl">Кому подходит</h2>

@@ -14,7 +14,7 @@ export const nav = [
   { to: "/", label: "Главная", short: "Главная" },
   { to: "/business", label: "Для бизнеса", short: "Бизнесу" },
   { to: "/residential", label: "Для жилых комплексов", short: "Жилым комплексам" },
-  { to: "/home", label: "Для частных клиентов", short: "Частным клиентам" },
+  { to: "/private", label: "Для частных клиентов", short: "Частным клиентам" },
   { to: "/services", label: "Услуги", short: "Услуги" },
   { to: "/maintenance", label: "Обслуживание", short: "Обслуживание" },
   { to: "/about", label: "О компании", short: "О компании" },
@@ -181,3 +181,6 @@ export const faq = [
     a: "Да, возможен разовый заказ. Для постоянного контроля системы предлагаем договор обслуживания.",
   },
 ];
+
+/** Направление «Обслуживание» показывается страницей /maintenance (без дубля /directions/...). */
+export const MAINTENANCE_DIRECTION = "obsluzhivanie";

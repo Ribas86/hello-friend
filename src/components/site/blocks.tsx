@@ -1,29 +1,33 @@
 import type { ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
 import { ChevronDown } from "lucide-react";
+import type { Pic } from "@/lib/images";
+import { clip } from "@/lib/utils";
+import { Breadcrumbs, Picture, type Crumb } from "./media";
 
 export function PageHero({
   eyebrow,
   title,
   lead,
   image,
+  crumbs,
   children,
 }: {
   eyebrow?: string;
   title: string;
   lead?: string;
-  image?: string;
+  image?: Pic;
+  crumbs?: Crumb[];
   children?: ReactNode;
 }) {
   return (
     <section className="surface-ink relative overflow-hidden">
       {image && (
-        <img
-          src={image}
+        <Picture
+          pic={image}
           alt=""
+          priority
           className="absolute inset-0 h-full w-full object-cover"
-          width={1280}
-          height={896}
         />
       )}
       <div
@@ -31,6 +35,7 @@ export function PageHero({
       />
       <div className="relative mx-auto max-w-7xl px-5 py-20 lg:px-8 lg:py-28">
         <div className="max-w-3xl animate-rise">
+          {crumbs && <Breadcrumbs items={crumbs} />}
           {eyebrow && <p className="eyebrow mb-4">{eyebrow}</p>}
           <h1 className="text-3xl leading-tight sm:text-5xl">{title}</h1>
           {lead && <p className="mt-5 max-w-2xl text-lg text-ink-muted">{lead}</p>}
@@ -132,7 +137,8 @@ export function CtaBand({ title, text }: { title: string; text?: string }) {
 }
 
 export function seo(title: string, description: string) {
-  const t = `${title} — Центр Квелити`;
+  const t = title.includes("Центр Квелити") ? title : `${title} — Центр Квелити`;
+  description = clip(description);
   return {
     meta: [
       { title: t },

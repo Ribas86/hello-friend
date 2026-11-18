@@ -3,6 +3,7 @@ import { Link } from "@tanstack/react-router";
 import { Menu, X, ScanEye } from "lucide-react";
 import { useState } from "react";
 import { nav } from "@/lib/site";
+import { DirectionLink } from "./media";
 
 export function SiteHeader() {
   const { company, directions } = useSite();
@@ -36,14 +37,13 @@ export function SiteHeader() {
                 {n.to === "/services" && directions.length > 0 && (
                   <div className="invisible absolute left-0 top-full z-50 w-72 rounded-lg border border-ink-line bg-ink-raised p-2 opacity-0 shadow-glow transition group-focus-within:visible group-focus-within:opacity-100 group-hover:visible group-hover:opacity-100">
                     {directions.map((d) => (
-                      <Link
+                      <DirectionLink
                         key={d.slug}
-                        to="/directions/$slug"
-                        params={{ slug: d.slug }}
+                        slug={d.slug}
                         className="block rounded-md px-3 py-2 text-sm text-ink-muted hover:text-primary"
                       >
                         {d.title}
-                      </Link>
+                      </DirectionLink>
                     ))}
                   </div>
                 )}
@@ -79,15 +79,14 @@ export function SiteHeader() {
               </Link>
               {n.to === "/services" &&
                 directions.map((d) => (
-                  <Link
+                  <DirectionLink
                     key={d.slug}
-                    to="/directions/$slug"
-                    params={{ slug: d.slug }}
+                    slug={d.slug}
                     onClick={() => setOpen(false)}
                     className="block border-b border-ink-line/40 py-2.5 pl-4 text-sm text-ink-muted"
                   >
                     {d.title}
-                  </Link>
+                  </DirectionLink>
                 ))}
             </div>
           ))}

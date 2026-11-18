@@ -88,11 +88,17 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "Проектирование, поставка оборудования, монтаж и обслуживание систем безопасности.",
       },
       { property: "og:type", content: "website" },
+      { property: "og:locale", content: "ru_RU" },
+      { property: "og:site_name", content: "Центр Квелити" },
+      { name: "theme-color", content: "#0b1220" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
-      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
+      { rel: "icon", href: "/favicon.ico", sizes: "48x48" },
+      { rel: "apple-touch-icon", href: "/apple-touch-icon.png" },
+      { rel: "manifest", href: "/manifest.webmanifest" },
     ],
   }),
   shellComponent: RootShell,
@@ -133,6 +139,9 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       <link rel="canonical" href={url} />
       <meta property="og:url" content={url} />
+      <meta property="og:image" content={`${site.baseUrl}/og.jpg`} />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
       {site.noindex && <meta name="robots" content="noindex, nofollow" />}
       <script
         type="application/ld+json"

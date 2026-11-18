@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Check } from "lucide-react";
-import img from "@/assets/business.jpg";
+import { pics } from "@/lib/images";
 import { residentialObjects, steps } from "@/lib/site";
 import { PageHero, Section, Steps, seo, ContactNotice } from "@/components/site/blocks";
 
@@ -20,7 +20,7 @@ function Page() {
         eyebrow="Для жилых комплексов"
         title="Системы безопасности для жилых комплексов и многоквартирных домов"
         lead="Проектируем, поставляем оборудование, монтируем и обслуживаем системы безопасности. Состав работ определяется после обследования объекта."
-        image={img}
+        image={pics.business}
       >
         <Link to="/calculator" className="btn btn-primary">
           Рассчитать стоимость
