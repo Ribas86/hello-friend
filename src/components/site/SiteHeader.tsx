@@ -53,7 +53,7 @@ export function SiteHeader() {
         <div className="flex items-center gap-2">
           <Link
             to="/calculator"
-            className="btn btn-primary hidden !min-h-10 whitespace-nowrap !py-2 text-sm sm:inline-flex"
+            className="btn btn-primary hidden !min-h-10 whitespace-nowrap !py-2 text-sm sm:inline-flex xl:hidden 2xl:inline-flex"
           >
             Получить расчёт
           </Link>

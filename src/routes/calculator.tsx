@@ -1,133 +1,77 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { Info } from "lucide-react";
+import { ArrowLeft, ArrowRight, Check, Info } from "lucide-react";
 import { PageHero, Section, seo, ContactNotice } from "@/components/site/blocks";
+import { calculateEstimate, getCalculator } from "@/lib/calc.functions";
+import { visibleQuestions, type Answers, type CalcResult, type Question } from "@/lib/calc-engine";
 
 export const Route = createFileRoute("/calculator")({
+  loader: () => getCalculator(),
   head: () =>
     seo(
-      "Расчёт стоимости видеонаблюдения",
-      "Предварительный расчёт стоимости видеонаблюдения для дома и бизнеса.",
+      "Расчёт стоимости",
+      "Предварительный расчёт стоимости систем безопасности: ответьте на несколько вопросов об объекте.",
     ),
   component: Page,
 });
 
-type Params = Record<string, string | number | boolean>;
+const rub = (n: number) => `${n.toLocaleString("ru-RU")} ₽`;
 
 function Page() {
-  const [mode, setMode] = useState<"home" | "business">("home");
-  const [p, setP] = useState<Params>({});
-  const set = (k: string, v: string | boolean) => setP((s) => ({ ...s, [k]: v }));
-  const sel = (k: string, label: string, opts: string[]) => (
-    <div>
-      <label className="mb-1.5 block text-sm font-medium">{label}</label>
-      <select
-        className="field"
-        value={(p[k] as string) ?? ""}
-        onChange={(e) => set(k, e.target.value)}
-      >
-        <option value="">Не выбрано</option>
-        {opts.map((o) => (
-          <option key={o}>{o}</option>
-        ))}
-      </select>
-    </div>
+  const { ready, scenarios, disclaimer } = Route.useLoaderData();
+  const [scenarioId, setScenarioId] = useState<number | null>(
+    scenarios.length === 1 ? (scenarios[0]?.id ?? null) : null,
   );
-  const num = (k: string, label: string) => (
-    <div>
-      <label className="mb-1.5 block text-sm font-medium">{label}</label>
-      <input
-        className="field"
-        inputMode="numeric"
-        maxLength={10}
-        value={(p[k] as string) ?? ""}
-        onChange={(e) => set(k, e.target.value.replace(/[^\d]/g, ""))}
-      />
-    </div>
-  );
-  const chk = (k: string, label: string) => (
-    <label key={k} className="flex items-center gap-2 text-sm">
-      <input
-        type="checkbox"
-        className="h-4 w-4 accent-primary"
-        checked={!!p[k]}
-        onChange={(e) => set(k, e.target.checked)}
-      />{" "}
-      {label}
-    </label>
-  );
+  const [answers, setAnswers] = useState<Answers>({});
+  const [step, setStep] = useState(0);
+  const [result, setResult] = useState<CalcResult | null>(null);
+  const [busy, setBusy] = useState(false);
+
+  const scenario = scenarios.find((s) => s.id === scenarioId);
+  const questions = scenario ? visibleQuestions(scenario, answers) : [];
+  const q = questions[step];
+  const last = step >= questions.length - 1;
+
+  const reset = () => {
+    setAnswers({});
+    setStep(0);
+    setResult(null);
+    if (scenarios.length > 1) setScenarioId(null);
+  };
+  const set = (id: number, v: Answers[number]) => setAnswers((a) => ({ ...a, [id]: v }));
+  const answered = (x: Question) => {
+    const a = answers[x.id];
+    return x.kind === "number"
+      ? typeof a === "number"
+      : x.kind === "yesno"
+        ? typeof a === "boolean"
+        : x.kind === "multi"
+          ? Array.isArray(a) && a.length > 0
+          : typeof a === "number";
+  };
+  const canNext = q ? !q.required || answered(q) : false;
+
+  const finish = async () => {
+    if (!scenario) return;
+    setBusy(true);
+    try {
+      setResult(await calculateEstimate({ data: { scenarioId: scenario.id, answers } }));
+    } finally {
+      setBusy(false);
+    }
+  };
 
   return (
     <>
       <PageHero
         eyebrow="Калькулятор"
         title="Расчёт стоимости"
-        lead="Укажите параметры объекта. Расчёт предварительный: итоговая сумма зависит от обследования и согласованного состава работ."
+        lead="Ответьте на несколько вопросов об объекте. Расчёт предварительный: регистрация и отправка данных не нужны."
       />
       <Section>
-        <div className="mb-6 inline-flex rounded-lg border bg-card p-1">
-          {(["home", "business"] as const).map((m) => (
-            <button
-              key={m}
-              onClick={() => {
-                setMode(m);
-                setP({});
-              }}
-              className={`rounded-md px-5 py-2.5 text-sm font-semibold ${mode === m ? "bg-primary text-primary-foreground" : "text-muted-foreground"}`}
-            >
-              {m === "home" ? "Для дома" : "Для бизнеса"}
-            </button>
-          ))}
-        </div>
-        <div className="grid gap-8 lg:grid-cols-[1.4fr_1fr]">
-          <div className="grid gap-4 rounded-xl border bg-card p-6 shadow-card sm:grid-cols-2 sm:p-8">
-            {mode === "home" ? (
-              <>
-                {sel("object", "Тип объекта", ["Квартира", "Дом", "Дача", "Гараж", "Участок"])}
-                {num("cameras", "Количество камер")}
-                {sel("system", "Тип системы", ["IP", "Аналоговая", "Не знаю"])}
-                <div className="grid gap-2 sm:col-span-2 sm:grid-cols-2">
-                  {chk("recorder", "Нужен видеорегистратор")}
-                  {chk("archive", "Нужно хранение архива")}
-                  {chk("mobile", "Просмотр со смартфона")}
-                  {chk("cable", "Прокладка кабеля")}
-                  {chk("install", "Монтаж")}
-                  {chk("setup", "Настройка")}
-                </div>
-              </>
-            ) : (
-              <>
-                {sel("object", "Тип объекта", [
-                  "Офис",
-                  "Склад",
-                  "Магазин",
-                  "Производство",
-                  "Парковка",
-                  "Другой объект",
-                ])}
-                {num("area", "Площадь, м²")}
-                {num("cameras", "Количество камер")}
-                {num("buildings", "Зданий / площадок")}
-                {sel("storage", "Хранение архива", [
-                  "7 дней",
-                  "14 дней",
-                  "30 дней",
-                  "Более 30 дней",
-                  "Не знаю",
-                ])}
-                {sel("recorder", "Запись", ["Видеорегистратор", "Сервер", "Не знаю"])}
-                <div className="grid gap-2 sm:col-span-2 sm:grid-cols-2">
-                  {chk("design", "Нужно проектирование")}
-                  {chk("install", "Монтаж")}
-                  {chk("integration", "Интеграция с существующей системой")}
-                  {chk("maintenance", "Регулярное обслуживание")}
-                </div>
-              </>
-            )}
-          </div>
-          <div className="surface-ink rounded-xl p-7">
-            <p className="eyebrow">Результат</p>
-            <div className="mt-4 flex gap-3 rounded-lg border border-ink-line bg-ink-raised p-4 text-sm">
+        <div className="mx-auto max-w-3xl">
+          {!ready ? (
+            <div className="flex gap-3 rounded-xl border bg-card p-6 text-sm shadow-card">
               <Info className="h-5 w-5 shrink-0 text-primary" />
               <p>
                 Цены на оборудование и работы ещё не внесены компанией, поэтому автоматический
@@ -135,12 +79,130 @@ function Page() {
                 автоматически.
               </p>
             </div>
-            {mode === "business" && Number(p["cameras"]) > 32 && (
-              <p className="mt-4 text-sm text-ink-muted">
-                Для крупных объектов мы готовим индивидуальный расчёт.
+          ) : result?.ok ? (
+            <div className="surface-ink rounded-2xl p-8 sm:p-10">
+              <p className="eyebrow">Предварительная стоимость</p>
+              <p className="mt-4 font-display text-3xl sm:text-4xl">
+                от {rub(result.min)} до {rub(result.max)}
               </p>
-            )}
-          </div>
+              <p className="mt-6 text-sm text-ink-muted">{disclaimer}</p>
+              <button className="btn btn-ghost-ink mt-8" onClick={reset}>
+                Рассчитать заново
+              </button>
+            </div>
+          ) : result ? (
+            <div className="rounded-xl border bg-card p-6 shadow-card">
+              <p>
+                Для этого сочетания ответов расчёт сделать не удалось. Попробуйте изменить ответы.
+              </p>
+              <button className="btn btn-outline mt-4" onClick={reset}>
+                Начать заново
+              </button>
+            </div>
+          ) : !scenario ? (
+            <div>
+              <h2 className="font-sans text-xl font-semibold">Что нужно рассчитать?</h2>
+              <div className="mt-5 grid gap-3">
+                {scenarios.map((s) => (
+                  <button
+                    key={s.id}
+                    onClick={() => setScenarioId(s.id)}
+                    className="rounded-xl border bg-card p-5 text-left shadow-card transition hover:border-primary"
+                  >
+                    <span className="font-semibold">{s.title}</span>
+                    {s.description && (
+                      <span className="mt-1 block text-sm text-muted-foreground">
+                        {s.description}
+                      </span>
+                    )}
+                  </button>
+                ))}
+              </div>
+            </div>
+          ) : q ? (
+            <div>
+              <div className="mb-6">
+                <p className="text-sm text-muted-foreground">
+                  Шаг {step + 1} из {questions.length}
+                </p>
+                <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-muted">
+                  <div
+                    className="h-full bg-primary transition-all"
+                    style={{ width: `${((step + 1) / questions.length) * 100}%` }}
+                  />
+                </div>
+              </div>
+              <h2 className="font-sans text-xl font-semibold">{q.text}</h2>
+              <div className="mt-5 grid gap-3">
+                {q.kind === "number" && (
+                  <div className="flex items-center gap-3">
+                    <input
+                      className="field max-w-48"
+                      inputMode="numeric"
+                      maxLength={7}
+                      value={typeof answers[q.id] === "number" ? String(answers[q.id]) : ""}
+                      onChange={(e) => {
+                        const d = e.target.value.replace(/\D/g, "");
+                        setAnswers((a) => {
+                          const next = { ...a };
+                          if (d === "") delete next[q.id];
+                          else next[q.id] = Number(d);
+                          return next;
+                        });
+                      }}
+                    />
+                    {q.unit && <span className="text-muted-foreground">{q.unit}</span>}
+                  </div>
+                )}
+                {q.kind === "yesno" &&
+                  [true, false].map((v) => (
+                    <Choice key={String(v)} on={answers[q.id] === v} onClick={() => set(q.id, v)}>
+                      {v ? "Да" : "Нет"}
+                    </Choice>
+                  ))}
+                {q.kind === "single" &&
+                  q.options.map((o) => (
+                    <Choice key={o.id} on={answers[q.id] === o.id} onClick={() => set(q.id, o.id)}>
+                      {o.label}
+                    </Choice>
+                  ))}
+                {q.kind === "multi" &&
+                  q.options.map((o) => {
+                    const cur = Array.isArray(answers[q.id]) ? (answers[q.id] as number[]) : [];
+                    const on = cur.includes(o.id);
+                    return (
+                      <Choice
+                        key={o.id}
+                        on={on}
+                        onClick={() =>
+                          set(q.id, on ? cur.filter((x) => x !== o.id) : [...cur, o.id])
+                        }
+                      >
+                        {o.label}
+                      </Choice>
+                    );
+                  })}
+              </div>
+              <div className="mt-8 flex gap-3">
+                <button
+                  className="btn btn-outline"
+                  disabled={step === 0 && scenarios.length <= 1}
+                  onClick={() => (step === 0 ? reset() : setStep(step - 1))}
+                >
+                  <ArrowLeft className="h-4 w-4" /> Назад
+                </button>
+                <button
+                  className="btn btn-primary"
+                  disabled={!canNext || busy}
+                  onClick={() => (last ? finish() : setStep(step + 1))}
+                >
+                  {last ? "Рассчитать" : "Далее"} <ArrowRight className="h-4 w-4" />
+                </button>
+              </div>
+            </div>
+          ) : (
+            <p>В этом расчёте пока нет вопросов.</p>
+          )}
         </div>
       </Section>
       <Section id="contacts" eyebrow="Контакты" title="Связаться с нами">
@@ -149,5 +211,26 @@ function Page() {
         </div>
       </Section>
     </>
+  );
+}
+
+function Choice({
+  on,
+  onClick,
+  children,
+}: {
+  on: boolean;
+  onClick: () => void;
+  children: React.ReactNode;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={`flex items-center justify-between rounded-xl border px-5 py-4 text-left transition ${on ? "border-primary bg-primary/10" : "bg-card hover:border-primary"}`}
+    >
+      {children}
+      {on && <Check className="h-5 w-5 text-primary" />}
+    </button>
   );
 }
