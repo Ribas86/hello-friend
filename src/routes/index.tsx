@@ -221,7 +221,8 @@ type Segment = {
 };
 
 /**
- * Карточки категорий клиентов. Касание (или клик) выделяет карточку: фон светлее,
+ * Карточки категорий клиентов. Первое прикосновение (даже в начале прокрутки) или клик
+ * выделяет карточку: фон светлее,
  * сама чуть крупнее. Когда выделенная карточка уходит с экрана при прокрутке,
  * выделение снимается. На компьютере то же выделение при наведении мыши.
  */
@@ -252,7 +253,7 @@ function Segments({ cards }: { cards: Segment[] }) {
             refs.current[i] = el;
           }}
           data-active={active === i}
-          onClick={() => setActive(i)}
+          onPointerDown={() => setActive(i)}
           className="seg-card flex flex-col rounded-2xl border border-ink-line bg-ink-raised p-8"
         >
           <span className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary text-primary-foreground">
