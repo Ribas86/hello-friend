@@ -529,3 +529,37 @@
     transform: none;
   }
 }
+
+/* Кнопка «наверх» */
+.scroll-top {
+  bottom: calc(1rem + env(safe-area-inset-bottom));
+  box-shadow: 0 8px 24px -8px rgb(0 187 213 / 0.7);
+  opacity: 0;
+  transform: translateY(12px);
+  pointer-events: none;
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.scroll-top.is-visible {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+.scroll-top:active {
+  transform: scale(0.94);
+}
+@media (hover: hover) {
+  .scroll-top:hover {
+    box-shadow:
+      0 0 0 1px #5fe3f5,
+      0 0 28px -4px rgb(0 187 213 / 0.8);
+  }
+}
+@media (min-width: 640px) {
+  .scroll-top {
+    bottom: calc(1.5rem + env(safe-area-inset-bottom));
+  }
+}

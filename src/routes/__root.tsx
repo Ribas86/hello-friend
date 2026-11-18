@@ -16,6 +16,7 @@ import { getSiteContent } from "@/lib/cms.functions";
 import appCss from "../styles.css?url";
 import { SiteHeader } from "@/components/site/SiteHeader";
 import { SiteFooter } from "@/components/site/SiteFooter";
+import { ScrollTop } from "@/components/site/ScrollTop";
 
 function NotFoundComponent() {
   return (
@@ -159,6 +160,7 @@ function RootComponent() {
         <Outlet />
       </main>
       <SiteFooter />
+      <ScrollTop />
     </QueryClientProvider>
   );
 }
