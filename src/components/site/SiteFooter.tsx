@@ -1,13 +1,12 @@
 import { Link } from "@tanstack/react-router";
 import { nav } from "@/lib/site";
 import { useSite } from "@/lib/use-site";
-import { DirectionLink } from "./media";
 
 export function SiteFooter() {
-  const { company, directions } = useSite();
+  const { company } = useSite();
   return (
     <footer className="surface-ink border-t border-ink-line/60">
-      <div className="mx-auto grid max-w-7xl gap-10 px-5 py-14 md:grid-cols-4 lg:px-8">
+      <div className="mx-auto grid max-w-7xl gap-10 px-5 py-14 md:grid-cols-3 lg:px-8">
         <div className="md:col-span-1">
           <p className="font-display text-lg">{company.name}</p>
           <p className="mt-3 text-sm text-ink-muted">
@@ -35,18 +34,6 @@ export function SiteFooter() {
                 Статьи
               </Link>
             </li>
-          </ul>
-        </div>
-        <div>
-          <p className="eyebrow mb-4">Направления</p>
-          <ul className="space-y-0.5 text-sm text-ink-muted">
-            {directions.map((d) => (
-              <li key={d.slug}>
-                <DirectionLink slug={d.slug} className="inline-block py-1.5 hover:text-primary">
-                  {d.title}
-                </DirectionLink>
-              </li>
-            ))}
           </ul>
         </div>
         <div>
