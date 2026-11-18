@@ -42,7 +42,9 @@ function Index() {
         />
         <div className="relative mx-auto max-w-7xl px-5 pt-8 pb-8 sm:pt-12 sm:pb-10 lg:px-8 lg:pt-14 lg:pb-12">
           <div className="max-w-3xl animate-rise">
-            <p className="brand-label mb-3 text-base text-primary sm:text-xl">ООО «Центр Квелити»</p>
+            <p className="brand-label mb-3 text-base text-primary sm:text-xl">
+              ООО «Центр Квелити»
+            </p>
             <h1 className="text-[1.65rem] leading-[1.15] sm:text-4xl lg:text-[2.6rem]">
               Системы безопасности: от проекта до обслуживания
             </h1>
