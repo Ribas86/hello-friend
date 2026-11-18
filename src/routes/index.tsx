@@ -1,4 +1,5 @@
 import { useSite } from "@/lib/use-site";
+import { useEffect, useRef, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, Building2, Landmark, Home, ShieldCheck, Wrench, Check } from "lucide-react";
 import { pics } from "@/lib/images";
@@ -78,26 +79,28 @@ function Index() {
       </section>
 
       <Section eyebrow="Клиенты" title="Решения для разных категорий клиентов" dark>
-        <div className="grid gap-5 lg:grid-cols-3">
-          <SegmentCard
-            icon={<Building2 className="h-6 w-6" />}
-            title="Для бизнеса"
-            items={businessObjects.slice(0, 6).map((o) => o.title)}
-            to="/business"
-          />
-          <SegmentCard
-            icon={<Landmark className="h-6 w-6" />}
-            title="Для жилых комплексов"
-            items={residentialObjects}
-            to="/residential"
-          />
-          <SegmentCard
-            icon={<Home className="h-6 w-6" />}
-            title="Для частных клиентов"
-            items={homeObjects}
-            to="/private"
-          />
-        </div>
+        <Segments
+          cards={[
+            {
+              icon: <Building2 className="h-6 w-6" />,
+              title: "Для бизнеса",
+              items: businessObjects.slice(0, 6).map((o) => o.title),
+              to: "/business",
+            },
+            {
+              icon: <Landmark className="h-6 w-6" />,
+              title: "Для жилых комплексов",
+              items: residentialObjects,
+              to: "/residential",
+            },
+            {
+              icon: <Home className="h-6 w-6" />,
+              title: "Для частных клиентов",
+              items: homeObjects,
+              to: "/private",
+            },
+          ]}
+        />
       </Section>
 
       <section className="surface-ink">
@@ -210,34 +213,65 @@ function Index() {
   );
 }
 
-function SegmentCard({
-  icon,
-  title,
-  items,
-  to,
-}: {
+type Segment = {
   icon: React.ReactNode;
   title: string;
   items: string[];
   to: "/business" | "/private" | "/residential";
-}) {
+};
+
+/**
+ * Карточки категорий клиентов. Касание (или клик) выделяет карточку: фон светлее,
+ * сама чуть крупнее. Когда выделенная карточка уходит с экрана при прокрутке,
+ * выделение снимается. На компьютере то же выделение при наведении мыши.
+ */
+function Segments({ cards }: { cards: Segment[] }) {
+  const [active, setActive] = useState<number | null>(null);
+  const refs = useRef<(HTMLDivElement | null)[]>([]);
+
+  useEffect(() => {
+    if (active === null) return;
+    const el = refs.current[active];
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry && !entry.isIntersecting) setActive(null);
+      },
+      { threshold: 0.25 },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [active]);
+
   return (
-    <div className="flex flex-col rounded-2xl border border-ink-line bg-ink-raised p-8">
-      <span className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-        {icon}
-      </span>
-      <h3 className="mt-6 text-2xl lg:min-h-[4.5rem]">{title}</h3>
-      <ul className="mt-6 flex-1 space-y-3">
-        {items.map((i) => (
-          <li key={i} className="flex gap-3 text-ink-foreground/90">
-            <Check className="mt-1 h-4 w-4 shrink-0 text-primary" />
-            {i}
-          </li>
-        ))}
-      </ul>
-      <Link to={to} className="btn btn-primary mt-8 self-start">
-        Подробнее <ArrowRight className="h-4 w-4" />
-      </Link>
+    <div className="grid gap-5 lg:grid-cols-3">
+      {cards.map((c, i) => (
+        <div
+          key={c.title}
+          ref={(el) => {
+            refs.current[i] = el;
+          }}
+          data-active={active === i}
+          onClick={() => setActive(i)}
+          className="seg-card flex flex-col rounded-2xl border border-ink-line bg-ink-raised p-8"
+        >
+          <span className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary text-primary-foreground">
+            {c.icon}
+          </span>
+          <h3 className="mt-6 text-2xl lg:min-h-[4.5rem]">{c.title}</h3>
+          <ul className="mt-6 flex-1 space-y-3">
+            {c.items.map((item) => (
+              <li key={item} className="flex gap-3 text-ink-foreground/90">
+                <Check className="mt-1 h-4 w-4 shrink-0 text-primary" />
+                {item}
+              </li>
+            ))}
+          </ul>
+          <Link to={c.to} className="btn btn-primary mt-8 self-start">
+            Подробнее <ArrowRight className="h-4 w-4" />
+          </Link>
+        </div>
+      ))}
     </div>
   );
 }
