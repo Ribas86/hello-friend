@@ -2,7 +2,7 @@ import { useSite } from "@/lib/use-site";
 import { useEffect, useRef, useState } from "react";
 import { ChevronDown } from "lucide-react";
 import { useTapHighlight } from "@/lib/use-tap-highlight";
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { ArrowRight, Building2, Landmark, Home, ShieldCheck, Wrench, Check } from "lucide-react";
 import { pics } from "@/lib/images";
 import { DirectionLink, Picture } from "@/components/site/media";
@@ -193,40 +193,27 @@ type Segment = {
 };
 
 /**
- * Карточки категорий клиентов. Первое прикосновение (даже в начале прокрутки) или клик
- * выделяет карточку: фон светлее,
+ * Карточки категорий клиентов. Первое прикосновение (даже в начале прокрутки) выделяет карточку,
+ * второе касание по ней открывает её страницу; кнопка «Подробнее» работает сразу. Выделение: фон светлее,
  * сама чуть крупнее. Когда выделенная карточка уходит с экрана при прокрутке,
  * выделение снимается. На компьютере то же выделение при наведении мыши.
  */
 function Segments({ cards }: { cards: Segment[] }) {
-  const [active, setActive] = useState<number | null>(null);
-  const refs = useRef<(HTMLDivElement | null)[]>([]);
-
-  useEffect(() => {
-    if (active === null) return;
-    const el = refs.current[active];
-    if (!el) return;
-    const io = new IntersectionObserver(
-      ([entry]) => {
-        if (entry && !entry.isIntersecting) setActive(null);
-      },
-      { threshold: 0.25 },
-    );
-    io.observe(el);
-    return () => io.disconnect();
-  }, [active]);
+  const { bind, firstTouch } = useTapHighlight<HTMLDivElement>();
+  const navigate = useNavigate();
 
   return (
     <div className="grid gap-5 lg:grid-cols-3">
       {cards.map((c, i) => (
         <div
           key={c.title}
-          ref={(el) => {
-            refs.current[i] = el;
+          {...bind(i)}
+          onClick={(e) => {
+            // кнопка «Подробнее» переходит сама; касание по невыделенной карточке только выделяет
+            if ((e.target as HTMLElement).closest("a") || firstTouch()) return;
+            void navigate({ to: c.to });
           }}
-          data-active={active === i}
-          onPointerDown={() => setActive(i)}
-          className="seg-card flex flex-col rounded-2xl border border-ink-line bg-ink-raised p-8"
+          className="seg-card cursor-pointer flex flex-col rounded-2xl border border-ink-line bg-ink-raised p-8"
         >
           <span className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary text-primary-foreground">
             {c.icon}
