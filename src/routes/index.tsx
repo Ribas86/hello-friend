@@ -40,17 +40,17 @@ function Index() {
           className="hero-glow absolute hidden h-24 w-24 lg:block"
           style={{ right: "20%", top: "22%" }}
         />
-        <div className="relative mx-auto max-w-7xl px-5 pt-12 pb-10 lg:px-8 lg:pt-16 lg:pb-12">
+        <div className="relative mx-auto max-w-7xl px-5 pt-8 pb-8 sm:pt-12 sm:pb-10 lg:px-8 lg:pt-14 lg:pb-12">
           <div className="max-w-3xl animate-rise">
             <p className="eyebrow mb-3">ООО «Центр Квелити»</p>
-            <h1 className="text-3xl leading-[1.15] sm:text-4xl lg:text-5xl">
+            <h1 className="text-[1.65rem] leading-[1.15] sm:text-4xl lg:text-[2.6rem]">
               Системы безопасности: от проекта до обслуживания
             </h1>
-            <p className="mt-4 max-w-xl text-base text-ink-muted">
+            <p className="mt-3 max-w-xl text-sm sm:mt-4 sm:text-base text-ink-muted">
               Проектируем, поставляем оборудование, монтируем и обслуживаем системы безопасности для
               бизнеса, жилых комплексов и частных клиентов.
             </p>
-            <div className="mt-6 flex flex-wrap gap-3">
+            <div className="mt-5 flex flex-wrap gap-3 sm:mt-6">
               <Link to="/calculator" className="btn btn-primary">
                 Получить расчёт <ArrowRight className="h-4 w-4" />
               </Link>
@@ -59,13 +59,13 @@ function Index() {
               </Link>
             </div>
           </div>
-          <ul className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          <ul className="mt-6 grid grid-cols-2 gap-2 sm:mt-10 sm:gap-3 lg:grid-cols-3">
             {directions.map((d) => (
               <li key={d.slug}>
                 <Link
                   to="/directions/$slug"
                   params={{ slug: d.slug }}
-                  className="group flex h-full items-center justify-between gap-3 rounded-lg border border-ink-line bg-ink/80 px-5 py-4 text-sm font-medium backdrop-blur transition hover:border-primary hover:bg-primary hover:text-primary-foreground"
+                  className="group flex h-full items-center justify-between gap-3 rounded-lg border border-ink-line bg-ink/80 px-3 py-3 text-xs font-medium sm:px-5 sm:py-4 sm:text-sm backdrop-blur transition hover:border-primary hover:bg-primary hover:text-primary-foreground"
                 >
                   {d.title}
                   <ArrowRight className="h-4 w-4 shrink-0 text-primary transition group-hover:translate-x-1 group-hover:text-primary-foreground" />
