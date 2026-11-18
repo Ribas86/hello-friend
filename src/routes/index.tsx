@@ -145,20 +145,7 @@ function Index() {
         title="Популярные услуги"
         lead="От обследования объекта до поддержки системы после монтажа."
       >
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {services.slice(0, 8).map((s) => (
-            <Link
-              key={s.slug}
-              to="/services/$slug"
-              params={{ slug: s.slug }}
-              className="group rounded-xl border bg-card p-6 shadow-card transition hover:-translate-y-0.5 hover:border-primary"
-            >
-              <h3 className="font-sans text-base font-semibold">{s.title}</h3>
-              <p className="mt-2 text-sm text-muted-foreground">{s.short}</p>
-              <ArrowRight className="mt-4 h-4 w-4 text-primary transition group-hover:translate-x-1" />
-            </Link>
-          ))}
-        </div>
+        <PopularServices items={services.slice(0, 8)} />
         <Link to="/services" className="btn btn-outline mt-8">
           Все услуги
         </Link>
@@ -272,6 +259,61 @@ function Segments({ cards }: { cards: Segment[] }) {
             Подробнее <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
+      ))}
+    </div>
+  );
+}
+
+/**
+ * «Популярные услуги». На телефоне первое касание только выделяет карточку (сразу, даже в начале
+ * прокрутки), касание другой переносит выделение, второе касание по выделенной открывает услугу.
+ * Уход выделенной карточки с экрана снимает выделение. На компьютере — подсветка при наведении,
+ * переход по клику.
+ */
+function PopularServices({ items }: { items: { slug: string; title: string; short: string }[] }) {
+  const [active, setActive] = useState<number | null>(null);
+  const refs = useRef<(HTMLAnchorElement | null)[]>([]);
+  const press = useRef<{ touch: boolean; wasActive: boolean }>({ touch: false, wasActive: false });
+
+  useEffect(() => {
+    if (active === null) return;
+    const el = refs.current[active];
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry && !entry.isIntersecting) setActive(null);
+      },
+      { threshold: 0.25 },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [active]);
+
+  return (
+    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      {items.map((s, i) => (
+        <Link
+          key={s.slug}
+          ref={(el) => {
+            refs.current[i] = el;
+          }}
+          to="/services/$slug"
+          params={{ slug: s.slug }}
+          data-active={active === i}
+          onPointerDown={(e) => {
+            press.current = { touch: e.pointerType !== "mouse", wasActive: active === i };
+            setActive(i);
+          }}
+          onClick={(e) => {
+            // касание по ещё не выделенной карточке только выделяет её
+            if (press.current.touch && !press.current.wasActive) e.preventDefault();
+          }}
+          className="svc-card group rounded-xl border bg-card p-6 shadow-card"
+        >
+          <h3 className="font-sans text-base font-semibold">{s.title}</h3>
+          <p className="mt-2 text-sm text-muted-foreground">{s.short}</p>
+          <ArrowRight className="mt-4 h-4 w-4 text-primary transition group-hover:translate-x-1" />
+        </Link>
       ))}
     </div>
   );

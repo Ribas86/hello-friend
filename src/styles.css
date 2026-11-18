@@ -379,10 +379,10 @@
 /* Карточки категорий клиентов: выделение касанием, на компьютере — наведением */
 .seg-card {
   transition:
-    transform 0.25s ease,
-    background-color 0.25s ease,
-    border-color 0.25s ease,
-    box-shadow 0.25s ease;
+    transform 0.12s ease-out,
+    background-color 0.12s ease-out,
+    border-color 0.12s ease-out,
+    box-shadow 0.12s ease-out;
   -webkit-tap-highlight-color: transparent;
 }
 .seg-card[data-active="true"] {
@@ -458,4 +458,39 @@
   color: var(--primary);
   background-color: color-mix(in oklch, var(--primary) 12%, transparent);
   box-shadow: inset 0 0 0 1px var(--primary);
+}
+
+/* «Популярные услуги»: бирюзовая рамка, свечение и лёгкий бирюзовый оттенок; реакция мгновенная */
+.svc-card {
+  transition:
+    transform 0.12s ease-out,
+    background-color 0.12s ease-out,
+    border-color 0.12s ease-out,
+    box-shadow 0.12s ease-out;
+  -webkit-tap-highlight-color: transparent;
+}
+.svc-card[data-active="true"] {
+  background-color: color-mix(in oklch, var(--primary) 7%, white);
+  border-color: var(--primary);
+  transform: scale(1.03);
+  box-shadow:
+    0 0 0 1px var(--primary),
+    0 0 30px -6px rgb(0 187 213 / 0.55);
+}
+@media (hover: hover) {
+  .svc-card:hover {
+    background-color: color-mix(in oklch, var(--primary) 7%, white);
+    border-color: var(--primary);
+    transform: scale(1.03);
+    box-shadow:
+      0 0 0 1px var(--primary),
+      0 0 30px -6px rgb(0 187 213 / 0.55);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .svc-card,
+  .svc-card:hover,
+  .svc-card[data-active="true"] {
+    transform: none;
+  }
 }
