@@ -19,6 +19,8 @@ services:
     environment:
       DIRECTUS_URL: http://cms:8055
       DIRECTUS_TOKEN: ${DIRECTUS_TOKEN}
+      SITE_DOMAIN: ${SITE_DOMAIN}
+      YM_COUNTER_ID: ${YM_COUNTER_ID:-}
     depends_on: [cms]
   cms:
     build: ./cms

@@ -4,3 +4,7 @@
 services:
   caddy:
     ports: ["8081:8081"]
+  site:
+    # Тестовый сервер не должен попасть в поисковики
+    environment:
+      ROBOTS_DISALLOW: "1"

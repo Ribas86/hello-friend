@@ -11,7 +11,6 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
-import { Route as ArticlesRouteImport } from './routes/articles'
 import { Route as BusinessRouteImport } from './routes/business'
 import { Route as CalculatorRouteImport } from './routes/calculator'
 import { Route as ContactsRouteImport } from './routes/contacts'
@@ -20,7 +19,12 @@ import { Route as MaintenanceRouteImport } from './routes/maintenance'
 import { Route as ObjectsRouteImport } from './routes/objects'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as ResidentialRouteImport } from './routes/residential'
+import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as ArticlesIndexRouteImport } from './routes/articles.index'
+import { Route as ArticlesSlugRouteImport } from './routes/articles.$slug'
 import { Route as DirectionsSlugRouteImport } from './routes/directions.$slug'
+import { Route as MediaIdRouteImport } from './routes/media.$id'
 import { Route as ServicesIndexRouteImport } from './routes/services.index'
 import { Route as ServicesSlugRouteImport } from './routes/services.$slug'
 
@@ -32,11 +36,6 @@ const IndexRoute = IndexRouteImport.update({
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ArticlesRoute = ArticlesRouteImport.update({
-  id: '/articles',
-  path: '/articles',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BusinessRoute = BusinessRouteImport.update({
@@ -79,9 +78,34 @@ const ResidentialRoute = ResidentialRouteImport.update({
   path: '/residential',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RobotsDottxtRoute = RobotsDottxtRouteImport.update({
+  id: '/robots.txt',
+  path: '/robots.txt',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ArticlesIndexRoute = ArticlesIndexRouteImport.update({
+  id: '/articles/',
+  path: '/articles/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ArticlesSlugRoute = ArticlesSlugRouteImport.update({
+  id: '/articles/$slug',
+  path: '/articles/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DirectionsSlugRoute = DirectionsSlugRouteImport.update({
   id: '/directions/$slug',
   path: '/directions/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MediaIdRoute = MediaIdRouteImport.update({
+  id: '/media/$id',
+  path: '/media/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ServicesIndexRoute = ServicesIndexRouteImport.update({
@@ -98,7 +122,6 @@ const ServicesSlugRoute = ServicesSlugRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/articles': typeof ArticlesRoute
   '/business': typeof BusinessRoute
   '/calculator': typeof CalculatorRoute
   '/contacts': typeof ContactsRoute
@@ -107,14 +130,18 @@ export interface FileRoutesByFullPath {
   '/objects': typeof ObjectsRoute
   '/privacy': typeof PrivacyRoute
   '/residential': typeof ResidentialRoute
+  '/robots.txt': typeof RobotsDottxtRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/articles/$slug': typeof ArticlesSlugRoute
   '/directions/$slug': typeof DirectionsSlugRoute
+  '/media/$id': typeof MediaIdRoute
   '/services/$slug': typeof ServicesSlugRoute
+  '/articles/': typeof ArticlesIndexRoute
   '/services/': typeof ServicesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/articles': typeof ArticlesRoute
   '/business': typeof BusinessRoute
   '/calculator': typeof CalculatorRoute
   '/contacts': typeof ContactsRoute
@@ -123,15 +150,19 @@ export interface FileRoutesByTo {
   '/objects': typeof ObjectsRoute
   '/privacy': typeof PrivacyRoute
   '/residential': typeof ResidentialRoute
+  '/robots.txt': typeof RobotsDottxtRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/articles/$slug': typeof ArticlesSlugRoute
   '/directions/$slug': typeof DirectionsSlugRoute
+  '/media/$id': typeof MediaIdRoute
   '/services/$slug': typeof ServicesSlugRoute
+  '/articles': typeof ArticlesIndexRoute
   '/services': typeof ServicesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/articles': typeof ArticlesRoute
   '/business': typeof BusinessRoute
   '/calculator': typeof CalculatorRoute
   '/contacts': typeof ContactsRoute
@@ -140,8 +171,13 @@ export interface FileRoutesById {
   '/objects': typeof ObjectsRoute
   '/privacy': typeof PrivacyRoute
   '/residential': typeof ResidentialRoute
+  '/robots.txt': typeof RobotsDottxtRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/articles/$slug': typeof ArticlesSlugRoute
   '/directions/$slug': typeof DirectionsSlugRoute
+  '/media/$id': typeof MediaIdRoute
   '/services/$slug': typeof ServicesSlugRoute
+  '/articles/': typeof ArticlesIndexRoute
   '/services/': typeof ServicesIndexRoute
 }
 export interface FileRouteTypes {
@@ -149,7 +185,6 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/about'
-    | '/articles'
     | '/business'
     | '/calculator'
     | '/contacts'
@@ -158,14 +193,18 @@ export interface FileRouteTypes {
     | '/objects'
     | '/privacy'
     | '/residential'
+    | '/robots.txt'
+    | '/sitemap.xml'
+    | '/articles/$slug'
     | '/directions/$slug'
+    | '/media/$id'
     | '/services/$slug'
+    | '/articles/'
     | '/services/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/about'
-    | '/articles'
     | '/business'
     | '/calculator'
     | '/contacts'
@@ -174,14 +213,18 @@ export interface FileRouteTypes {
     | '/objects'
     | '/privacy'
     | '/residential'
+    | '/robots.txt'
+    | '/sitemap.xml'
+    | '/articles/$slug'
     | '/directions/$slug'
+    | '/media/$id'
     | '/services/$slug'
+    | '/articles'
     | '/services'
   id:
     | '__root__'
     | '/'
     | '/about'
-    | '/articles'
     | '/business'
     | '/calculator'
     | '/contacts'
@@ -190,15 +233,19 @@ export interface FileRouteTypes {
     | '/objects'
     | '/privacy'
     | '/residential'
+    | '/robots.txt'
+    | '/sitemap.xml'
+    | '/articles/$slug'
     | '/directions/$slug'
+    | '/media/$id'
     | '/services/$slug'
+    | '/articles/'
     | '/services/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
-  ArticlesRoute: typeof ArticlesRoute
   BusinessRoute: typeof BusinessRoute
   CalculatorRoute: typeof CalculatorRoute
   ContactsRoute: typeof ContactsRoute
@@ -207,8 +254,13 @@ export interface RootRouteChildren {
   ObjectsRoute: typeof ObjectsRoute
   PrivacyRoute: typeof PrivacyRoute
   ResidentialRoute: typeof ResidentialRoute
+  RobotsDottxtRoute: typeof RobotsDottxtRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  ArticlesSlugRoute: typeof ArticlesSlugRoute
   DirectionsSlugRoute: typeof DirectionsSlugRoute
+  MediaIdRoute: typeof MediaIdRoute
   ServicesSlugRoute: typeof ServicesSlugRoute
+  ArticlesIndexRoute: typeof ArticlesIndexRoute
   ServicesIndexRoute: typeof ServicesIndexRoute
 }
 
@@ -226,13 +278,6 @@ declare module '@tanstack/react-router' {
       path: '/about'
       fullPath: '/about'
       preLoaderRoute: typeof AboutRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/articles': {
-      id: '/articles'
-      path: '/articles'
-      fullPath: '/articles'
-      preLoaderRoute: typeof ArticlesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/business': {
@@ -291,11 +336,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ResidentialRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/robots.txt': {
+      id: '/robots.txt'
+      path: '/robots.txt'
+      fullPath: '/robots.txt'
+      preLoaderRoute: typeof RobotsDottxtRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/articles/': {
+      id: '/articles/'
+      path: '/articles'
+      fullPath: '/articles/'
+      preLoaderRoute: typeof ArticlesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/articles/$slug': {
+      id: '/articles/$slug'
+      path: '/articles/$slug'
+      fullPath: '/articles/$slug'
+      preLoaderRoute: typeof ArticlesSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/directions/$slug': {
       id: '/directions/$slug'
       path: '/directions/$slug'
       fullPath: '/directions/$slug'
       preLoaderRoute: typeof DirectionsSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/media/$id': {
+      id: '/media/$id'
+      path: '/media/$id'
+      fullPath: '/media/$id'
+      preLoaderRoute: typeof MediaIdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/services/': {
@@ -318,7 +398,6 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
-  ArticlesRoute: ArticlesRoute,
   BusinessRoute: BusinessRoute,
   CalculatorRoute: CalculatorRoute,
   ContactsRoute: ContactsRoute,
@@ -327,8 +406,13 @@ const rootRouteChildren: RootRouteChildren = {
   ObjectsRoute: ObjectsRoute,
   PrivacyRoute: PrivacyRoute,
   ResidentialRoute: ResidentialRoute,
+  RobotsDottxtRoute: RobotsDottxtRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
+  ArticlesSlugRoute: ArticlesSlugRoute,
   DirectionsSlugRoute: DirectionsSlugRoute,
+  MediaIdRoute: MediaIdRoute,
   ServicesSlugRoute: ServicesSlugRoute,
+  ArticlesIndexRoute: ArticlesIndexRoute,
   ServicesIndexRoute: ServicesIndexRoute,
 }
 export const routeTree = rootRouteImport

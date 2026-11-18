@@ -4,6 +4,8 @@ import {
   Link,
   createRootRouteWithContext,
   useRouter,
+  useRouterState,
+  redirect,
   HeadContent,
   Scripts,
   type ErrorComponentProps,
@@ -67,7 +69,14 @@ function ErrorComponent({ error, reset }: ErrorComponentProps) {
 }
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
-  beforeLoad: async () => ({ site: await getSiteContent() }),
+  beforeLoad: async ({ location }) => {
+    const site = await getSiteContent();
+    const hit = site.redirects.find((x) => x.from === location.pathname);
+    if (hit && hit.to !== location.pathname) {
+      throw redirect({ href: hit.to, statusCode: hit.status });
+    }
+    return { site };
+  },
   head: () => ({
     meta: [
       { charSet: "utf-8" },
@@ -107,10 +116,35 @@ function RootShell({ children }: { children: ReactNode }) {
 }
 
 function RootComponent() {
-  const { queryClient } = Route.useRouteContext();
+  const { queryClient, site } = Route.useRouteContext();
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const url = site.baseUrl + (pathname === "/" ? "/" : pathname.replace(/\/+$/, ""));
+  const org = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: site.company.name,
+    url: site.baseUrl,
+    ...(site.company.phone ? { telephone: site.company.phone } : {}),
+    ...(site.company.email ? { email: site.company.email } : {}),
+    ...(site.company.address ? { address: site.company.address } : {}),
+  };
 
   return (
     <QueryClientProvider client={queryClient}>
+      <link rel="canonical" href={url} />
+      <meta property="og:url" content={url} />
+      {site.noindex && <meta name="robots" content="noindex, nofollow" />}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(org) }}
+      />
+      {site.metrikaId && (
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})(window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");ym(${site.metrikaId},"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true});`,
+          }}
+        />
+      )}
       <SiteHeader />
       <main>
         <Outlet />

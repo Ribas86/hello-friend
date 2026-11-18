@@ -2,6 +2,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { company as staticCompany, services as staticServices, faq as staticFaq } from "./site";
 import { directions as staticDirections } from "./site";
 import type { Direction, Service } from "./site";
+import { baseUrl, noindex } from "./seo.server";
 
 export type Company = {
   name: string;
@@ -13,25 +14,33 @@ export type Company = {
   workHours: string | null;
   requisites: string | null;
 };
-export type SiteContent = {
+export type Redirect = { from: string; to: string; status: 301 | 302 };
+type CmsContent = {
   company: Company;
   directions: Direction[];
   services: Service[];
   faq: { q: string; a: string }[];
+  redirects: Redirect[];
   source: "cms" | "static";
 };
+export type SiteContent = CmsContent & {
+  baseUrl: string;
+  noindex: boolean;
+  metrikaId: string | null;
+};
 
-const staticContent = (): SiteContent => ({
+const staticContent = (): CmsContent => ({
   company: { ...staticCompany, workHours: null, requisites: null },
   directions: staticDirections,
   services: staticServices,
   faq: staticFaq,
+  redirects: [],
   source: "static",
 });
 
 // Короткий кэш: сайт не ходит в CMS на каждый запрос, а при сбое CMS отдаёт последнюю удачную копию.
 const TTL_MS = Number(process.env["CMS_CACHE_SECONDS"] ?? 60) * 1000;
-let cache: { at: number; value: SiteContent } | undefined;
+let cache: { at: number; value: CmsContent } | undefined;
 
 async function directus<T>(path: string): Promise<T> {
   const res = await fetch(`${process.env["DIRECTUS_URL"]}${path}`, {
@@ -60,6 +69,7 @@ type DirectionRow = {
   description: string | null;
   sort: number | null;
 };
+type RedirectRow = { from_path: string; to_path: string; status_code: number | null };
 type FaqRow = { question: string; answer: string; service: { slug: string } | null };
 type SettingsRow = {
   company_name: string | null;
@@ -77,9 +87,9 @@ const titles = (v: unknown): string[] =>
     ? v.map((x) => (typeof x === "string" ? x : (x?.title ?? ""))).filter(Boolean)
     : [];
 
-async function loadFromCms(): Promise<SiteContent> {
+async function loadFromCms(): Promise<CmsContent> {
   const published = "filter[status][_eq]=published";
-  const [dirRows, rows, faqRows, s] = await Promise.all([
+  const [dirRows, rows, faqRows, s, redirectRows] = await Promise.all([
     directus<DirectionRow[]>(
       `/items/directions?${published}&sort=sort&limit=-1&fields=slug,title,short,description,sort`,
     ),
@@ -90,6 +100,10 @@ async function loadFromCms(): Promise<SiteContent> {
       `/items/service_faq?${published}&sort=sort&limit=-1&fields=question,answer,service.slug`,
     ),
     directus<SettingsRow>(`/items/site_settings`),
+    // Редиректы не критичны: при сбое сайт работает без них
+    directus<RedirectRow[]>(
+      `/items/redirects?filter[is_active][_eq]=true&limit=-1&fields=from_path,to_path,status_code`,
+    ).catch(() => [] as RedirectRow[]),
   ]);
   const published_slugs = new Set(rows.map((r) => r.slug));
   const services: Service[] = rows.map((r) => ({
@@ -128,23 +142,42 @@ async function loadFromCms(): Promise<SiteContent> {
     })),
     services,
     faq: faqRows.filter((f) => !f.service).map((f) => ({ q: f.question, a: f.answer })),
+    redirects: redirectRows.map((r) => ({
+      from: r.from_path,
+      to: r.to_path,
+      status: r.status_code === 302 ? 302 : 301,
+    })),
     source: "cms",
   };
 }
 
+async function loadContent(): Promise<CmsContent> {
+  // Без адреса CMS (локальная разработка) сайт работает на встроенных данных.
+  if (!process.env["DIRECTUS_URL"] || !process.env["DIRECTUS_TOKEN"]) return staticContent();
+  if (cache && Date.now() - cache.at < TTL_MS) return cache.value;
+  try {
+    const value = await loadFromCms();
+    cache = { at: Date.now(), value };
+    return value;
+  } catch (error) {
+    console.error("CMS недоступна:", error);
+    if (cache) return cache.value;
+    throw error;
+  }
+}
+
 export const getSiteContent = createServerFn({ method: "GET" }).handler(
-  async (): Promise<SiteContent> => {
-    // Без адреса CMS (локальная разработка) сайт работает на встроенных данных.
-    if (!process.env["DIRECTUS_URL"] || !process.env["DIRECTUS_TOKEN"]) return staticContent();
-    if (cache && Date.now() - cache.at < TTL_MS) return cache.value;
-    try {
-      const value = await loadFromCms();
-      cache = { at: Date.now(), value };
-      return value;
-    } catch (error) {
-      console.error("CMS недоступна:", error);
-      if (cache) return cache.value;
-      throw error;
-    }
-  },
+  async (): Promise<SiteContent> => ({
+    ...(await loadContent()),
+    baseUrl: baseUrl(),
+    noindex: noindex(),
+    metrikaId: /^\d+$/.test(process.env["YM_COUNTER_ID"] ?? "")
+      ? process.env["YM_COUNTER_ID"]!
+      : null,
+  }),
 );
+
+/** Для sitemap.xml: полный набор адресов с датами. */
+export async function loadForSitemap(): Promise<CmsContent> {
+  return loadContent();
+}

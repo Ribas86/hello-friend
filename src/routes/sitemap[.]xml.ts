@@ -1,0 +1,38 @@
+import { createFileRoute } from "@tanstack/react-router";
+import { loadForSitemap } from "@/lib/cms.functions";
+import { getArticles } from "@/lib/articles.functions";
+import { baseUrl } from "@/lib/seo.server";
+
+const esc = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;");
+
+export const Route = createFileRoute("/sitemap.xml")({
+  server: {
+    handlers: {
+      GET: async () => {
+        const base = baseUrl();
+        const site = await loadForSitemap();
+        const { articles } = await getArticles();
+        const paths = [
+          "/",
+          "/business",
+          "/residential",
+          "/home",
+          "/services",
+          "/maintenance",
+          "/objects",
+          "/calculator",
+          "/articles",
+          "/about",
+          "/contacts",
+          ...site.directions.map((d) => `/directions/${d.slug}`),
+          ...site.services.map((s) => `/services/${s.slug}`),
+          ...articles.map((a) => `/articles/${a.slug}`),
+        ];
+        const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${paths
+          .map((p) => `  <url><loc>${esc(base + p)}</loc></url>`)
+          .join("\n")}\n</urlset>\n`;
+        return new Response(xml, { headers: { "content-type": "application/xml; charset=utf-8" } });
+      },
+    },
+  },
+});
