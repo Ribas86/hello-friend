@@ -494,3 +494,38 @@
     transform: none;
   }
 }
+
+/* «Популярные вопросы» на главной: как у услуг, но с еле заметным увеличением (строки широкие) */
+.faq-item {
+  transition:
+    transform 0.12s ease-out,
+    background-color 0.12s ease-out,
+    border-color 0.12s ease-out,
+    box-shadow 0.12s ease-out;
+  -webkit-tap-highlight-color: transparent;
+}
+.faq-item[data-active="true"] {
+  background-color: color-mix(in oklch, var(--primary) 7%, white);
+  border-color: var(--primary);
+  transform: scale(1.01);
+  box-shadow:
+    0 0 0 1px var(--primary),
+    0 0 30px -6px rgb(0 187 213 / 0.55);
+}
+@media (hover: hover) {
+  .faq-item:hover {
+    background-color: color-mix(in oklch, var(--primary) 7%, white);
+    border-color: var(--primary);
+    transform: scale(1.01);
+    box-shadow:
+      0 0 0 1px var(--primary),
+      0 0 30px -6px rgb(0 187 213 / 0.55);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .faq-item,
+  .faq-item:hover,
+  .faq-item[data-active="true"] {
+    transform: none;
+  }
+}

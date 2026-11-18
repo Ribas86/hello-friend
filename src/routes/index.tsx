@@ -1,5 +1,7 @@
 import { useSite } from "@/lib/use-site";
 import { useEffect, useRef, useState } from "react";
+import { ChevronDown } from "lucide-react";
+import { useTapHighlight } from "@/lib/use-tap-highlight";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, Building2, Landmark, Home, ShieldCheck, Wrench, Check } from "lucide-react";
 import { pics } from "@/lib/images";
@@ -12,7 +14,7 @@ import {
   steps,
   maintenanceWorks,
 } from "@/lib/site";
-import { Section, Steps, Faq, seo, ContactNotice } from "@/components/site/blocks";
+import { Section, Steps, seo, ContactNotice } from "@/components/site/blocks";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -167,28 +169,11 @@ function Index() {
       </Section>
 
       <Section eyebrow="Сотрудничество" title="Варианты сотрудничества">
-        <div className="grid gap-6 md:grid-cols-3">
-          {[
-            [
-              "Разовый заказ",
-              "Проектирование, монтаж, диагностика или ремонт — отдельной работой.",
-            ],
-            ["Под ключ", "Обследование, проект, поставка, монтаж, настройка и сдача системы."],
-            [
-              "Договор обслуживания",
-              "Регулярный контроль и поддержка системы по согласованному составу работ.",
-            ],
-          ].map(([t, d]) => (
-            <div key={t} className="rounded-xl border bg-card p-7 shadow-card">
-              <h3 className="text-lg">{t}</h3>
-              <p className="mt-2 text-muted-foreground">{d}</p>
-            </div>
-          ))}
-        </div>
+        <Cooperation />
       </Section>
 
       <Section eyebrow="Вопросы" title="Популярные вопросы">
-        <Faq items={faq} />
+        <HomeFaq items={faq} />
       </Section>
 
       <Section id="contacts" eyebrow="Контакты" title="Связаться с нами">
@@ -314,6 +299,71 @@ function PopularServices({ items }: { items: { slug: string; title: string; shor
           <p className="mt-2 text-sm text-muted-foreground">{s.short}</p>
           <ArrowRight className="mt-4 h-4 w-4 text-primary transition group-hover:translate-x-1" />
         </Link>
+      ))}
+    </div>
+  );
+}
+
+const cooperation = [
+  ["Разовый заказ", "Проектирование, монтаж, диагностика или ремонт — отдельной работой."],
+  ["Под ключ", "Обследование, проект, поставка, монтаж, настройка и сдача системы."],
+  [
+    "Договор обслуживания",
+    "Регулярный контроль и поддержка системы по согласованному составу работ.",
+  ],
+] as const;
+
+/** «Варианты сотрудничества»: выделение касанием (на компьютере наведением), без перехода. */
+function Cooperation() {
+  const { bind } = useTapHighlight<HTMLDivElement>();
+  return (
+    <div className="grid gap-6 md:grid-cols-3">
+      {cooperation.map(([t, d], i) => (
+        <div key={t} {...bind(i)} className="svc-card rounded-xl border bg-card p-7 shadow-card">
+          <h3 className="text-lg">{t}</h3>
+          <p className="mt-2 text-muted-foreground">{d}</p>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+/**
+ * «Популярные вопросы» на главной. На телефоне первое касание выделяет вопрос, второе по выделенному
+ * раскрывает ответ; касание другого вопроса переносит выделение и закрывает прежний ответ.
+ * На компьютере — выделение при наведении, ответ открывается кликом.
+ */
+function HomeFaq({ items }: { items: { q: string; a: string }[] }) {
+  const { active, bind, firstTouch } = useTapHighlight<HTMLDivElement>();
+  const [open, setOpen] = useState<number | null>(null);
+  useEffect(() => {
+    if (open !== null && active !== null && active !== open) setOpen(null);
+  }, [active, open]);
+  return (
+    <div className="space-y-3">
+      {items.map((f, i) => (
+        <div key={f.q} {...bind(i)} className="faq-item rounded-xl border bg-card shadow-card">
+          <button
+            type="button"
+            aria-expanded={open === i}
+            aria-controls={`faq-a-${i}`}
+            onClick={() => {
+              if (firstTouch()) return;
+              setOpen(open === i ? null : i);
+            }}
+            className="flex w-full items-center justify-between gap-4 p-5 text-left font-medium"
+          >
+            {f.q}
+            <ChevronDown
+              className={`h-5 w-5 shrink-0 text-muted-foreground transition-transform ${open === i ? "rotate-180" : ""}`}
+            />
+          </button>
+          {open === i && (
+            <p id={`faq-a-${i}`} className="px-5 pb-5 text-muted-foreground">
+              {f.a}
+            </p>
+          )}
+        </div>
       ))}
     </div>
   );
