@@ -5,6 +5,7 @@ import { useTapHighlight } from "@/lib/use-tap-highlight";
 import { segmentArt } from "@/components/site/segment-art";
 import { getProjects } from "@/lib/projects.functions";
 import { ProjectCard } from "@/components/site/ProjectCard";
+import { ProjectsSwipe } from "@/components/site/ProjectsSwipe";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { ArrowRight, ShieldCheck, Wrench, Check } from "lucide-react";
 import { pics } from "@/lib/images";
@@ -171,7 +172,10 @@ function Index() {
 
       {projects.length > 0 && (
         <Section eyebrow="Портфолио" title="Наши объекты">
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="sm:hidden">
+            <ProjectsSwipe items={projects.slice(0, 6)} />
+          </div>
+          <div className="hidden gap-6 sm:grid sm:grid-cols-2 lg:grid-cols-3">
             {projects.slice(0, 6).map((p) => (
               <ProjectCard key={p.slug} p={p} />
             ))}

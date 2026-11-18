@@ -612,3 +612,13 @@
     animation: none !important;
   }
 }
+
+/* Листание карточек свайпом: без полосы прокрутки */
+.swipe-track {
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+}
+.swipe-track::-webkit-scrollbar {
+  display: none;
+}
