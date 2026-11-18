@@ -36,10 +36,7 @@ function Index() {
         />
         <div className="hero-fade absolute inset-0" />
         <div className="hero-scan absolute inset-x-0 top-0 hidden lg:block" />
-        <div
-          className="hero-glow absolute hidden h-24 w-24 lg:block"
-          style={{ right: "20%", top: "22%" }}
-        />
+        <CameraLook />
         <div className="relative mx-auto max-w-7xl px-5 pt-8 pb-8 sm:pt-12 sm:pb-10 lg:px-8 lg:pt-14 lg:pb-12">
           <div className="max-w-3xl animate-rise">
             <p className="eyebrow mb-3">ООО «Центр Квелити»</p>
@@ -236,6 +233,44 @@ function SegmentCard({
       <Link to={to} className="btn btn-primary mt-8 self-start">
         Подробнее <ArrowRight className="h-4 w-4" />
       </Link>
+    </div>
+  );
+}
+
+/**
+ * «Камера смотрит на посетителя»: при загрузке объектив цилиндрической камеры на фото
+ * переводит взгляд на зрителя, срабатывает фокус и загорается подсветка.
+ * Координаты — в пикселях исходного снимка 1920×1088; viewBox с режимом slice
+ * кадрирует наложение так же, как object-cover кадрирует фото.
+ */
+function CameraLook() {
+  return (
+    <div className="hero-kenburns pointer-events-none absolute inset-0 hidden md:block" aria-hidden>
+      <svg
+        className="cam-fx h-full w-full"
+        viewBox="0 0 1920 1088"
+        preserveAspectRatio="xMidYMid slice"
+      >
+        <defs>
+          <radialGradient id="cam-iris">
+            <stop offset="0" stopColor="#d9fbff" stopOpacity="1" />
+            <stop offset="0.25" stopColor="#5fe3f5" stopOpacity="0.95" />
+            <stop offset="0.6" stopColor="#00bbd5" stopOpacity="0.45" />
+            <stop offset="1" stopColor="#00bbd5" stopOpacity="0" />
+          </radialGradient>
+          <radialGradient id="cam-ir">
+            <stop offset="0.68" stopColor="#ff4d4d" stopOpacity="0" />
+            <stop offset="0.8" stopColor="#ff4d4d" stopOpacity="0.4" />
+            <stop offset="0.92" stopColor="#ff4d4d" stopOpacity="0" />
+          </radialGradient>
+        </defs>
+        <g transform="translate(1050 512)">
+          <circle className="cam-ir" r="70" fill="url(#cam-ir)" />
+          <circle className="cam-iris" r="26" fill="url(#cam-iris)" />
+          <circle className="cam-glint" cx="-9" cy="-10" r="3.5" fill="#ffffff" />
+          <circle className="cam-focus" r="48" fill="none" stroke="#5fe3f5" strokeWidth="2.5" />
+        </g>
+      </svg>
     </div>
   );
 }
