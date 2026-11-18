@@ -37,7 +37,6 @@ function Page() {
   return (
     <>
       <PageHero
-        eyebrow={direction?.title ?? "Услуга"}
         title={s.title}
         lead={s.description}
         crumbs={[
