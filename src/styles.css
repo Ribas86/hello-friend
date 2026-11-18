@@ -563,3 +563,52 @@
     bottom: calc(1.5rem + env(safe-area-inset-bottom));
   }
 }
+
+/* Иллюстрации карточек клиентов: при выделении лучи камер ярче и «сканируют», индикатор мигает */
+.seg-art {
+  display: block;
+  width: 100%;
+  height: 200px;
+  margin: -0.25rem 0 -0.25rem;
+}
+.seg-art .ill-beam {
+  opacity: 0.55;
+  transform-box: view-box;
+  transition: opacity 0.2s ease;
+}
+.seg-card[data-active="true"] .seg-art .ill-beam {
+  opacity: 1;
+  animation: ill-scan 3.2s ease-in-out infinite;
+}
+.seg-card[data-active="true"] .seg-art .ill-led {
+  animation: ill-led 1s steps(2) infinite;
+}
+@media (hover: hover) {
+  .seg-card:hover .seg-art .ill-beam {
+    opacity: 1;
+    animation: ill-scan 3.2s ease-in-out infinite;
+  }
+  .seg-card:hover .seg-art .ill-led {
+    animation: ill-led 1s steps(2) infinite;
+  }
+}
+@keyframes ill-scan {
+  0%,
+  100% {
+    transform: rotate(-12deg);
+  }
+  50% {
+    transform: rotate(12deg);
+  }
+}
+@keyframes ill-led {
+  50% {
+    opacity: 0.2;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .seg-card .seg-art .ill-beam,
+  .seg-card .seg-art .ill-led {
+    animation: none !important;
+  }
+}

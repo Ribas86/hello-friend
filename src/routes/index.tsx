@@ -2,8 +2,9 @@ import { useSite } from "@/lib/use-site";
 import { useEffect, useRef, useState } from "react";
 import { ChevronDown } from "lucide-react";
 import { useTapHighlight } from "@/lib/use-tap-highlight";
+import { segmentArt } from "@/components/site/segment-art";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { ArrowRight, Building2, Landmark, Home, ShieldCheck, Wrench, Check } from "lucide-react";
+import { ArrowRight, ShieldCheck, Wrench, Check } from "lucide-react";
 import { pics } from "@/lib/images";
 import { DirectionLink, Picture } from "@/components/site/media";
 import {
@@ -84,19 +85,19 @@ function Index() {
         <Segments
           cards={[
             {
-              icon: <Building2 className="h-6 w-6" />,
+              art: segmentArt.business,
               title: "Для бизнеса",
               items: businessObjects.slice(0, 6).map((o) => o.title),
               to: "/business",
             },
             {
-              icon: <Landmark className="h-6 w-6" />,
+              art: segmentArt.residential,
               title: "Для жилых комплексов",
               items: residentialObjects,
               to: "/residential",
             },
             {
-              icon: <Home className="h-6 w-6" />,
+              art: segmentArt.private,
               title: "Для частных клиентов",
               items: homeObjects,
               to: "/private",
@@ -186,7 +187,7 @@ function Index() {
 }
 
 type Segment = {
-  icon: React.ReactNode;
+  art: string;
   title: string;
   items: string[];
   to: "/business" | "/private" | "/residential";
@@ -215,10 +216,8 @@ function Segments({ cards }: { cards: Segment[] }) {
           }}
           className="seg-card cursor-pointer flex flex-col rounded-2xl border border-ink-line bg-ink-raised p-8"
         >
-          <span className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-            {c.icon}
-          </span>
-          <h3 className="mt-6 text-2xl lg:min-h-[4.5rem]">{c.title}</h3>
+          <span className="seg-art" aria-hidden dangerouslySetInnerHTML={{ __html: c.art }} />
+          <h3 className="mt-2 text-2xl lg:min-h-[4.5rem]">{c.title}</h3>
           <ul className="mt-6 flex-1 space-y-3">
             {c.items.map((item) => (
               <li key={item} className="flex gap-3 text-ink-foreground/90">
