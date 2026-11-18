@@ -25,3 +25,6 @@ export async function api(method, path, body, { allow = [] } = {}) {
     throw new Error(`${method} ${path} -> ${r.status}: ${await r.text()}`);
   return r.status === 204 ? null : r.json().catch(() => null);
 }
+/** Заголовок авторизации для запросов, которые нельзя отправить через api() (например, загрузка файлов). */
+export const authHeader = () => ({ authorization: `Bearer ${token}` });
+export const baseUrl = () => URL_;
