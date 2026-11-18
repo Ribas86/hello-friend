@@ -240,10 +240,10 @@
 /* Анимация фона первого экрана: медленное движение камеры, линия сканирования, свечение объектива */
 @keyframes hero-kenburns {
   from {
-    transform: scale(1) translate3d(0, 0, 0);
+    transform: scale(1);
   }
   to {
-    transform: scale(1.08) translate3d(-1.5%, -1%, 0);
+    transform: scale(1.05);
   }
 }
 @keyframes hero-scan {
@@ -273,8 +273,11 @@
     transform: scale(1.1);
   }
 }
+/* Одно медленное приближение без возврата: нет заметного движения туда-обратно */
 .hero-kenburns {
-  animation: hero-kenburns 24s ease-in-out infinite alternate;
+  animation: hero-kenburns 40s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+  transform-origin: 70% 40%;
+  backface-visibility: hidden;
   will-change: transform;
 }
 .hero-scan {
