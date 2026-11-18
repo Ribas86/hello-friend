@@ -3,6 +3,8 @@ import { useEffect, useRef, useState } from "react";
 import { ChevronDown } from "lucide-react";
 import { useTapHighlight } from "@/lib/use-tap-highlight";
 import { segmentArt } from "@/components/site/segment-art";
+import { getProjects } from "@/lib/projects.functions";
+import { ProjectCard } from "@/components/site/ProjectCard";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { ArrowRight, ShieldCheck, Wrench, Check } from "lucide-react";
 import { pics } from "@/lib/images";
@@ -18,6 +20,7 @@ import {
 import { Section, Steps, seo, ContactNotice } from "@/components/site/blocks";
 
 export const Route = createFileRoute("/")({
+  loader: () => getProjects(),
   head: () => ({
     ...seo(
       "Монтаж и обслуживание систем безопасности — Центр Квелити",
@@ -29,6 +32,7 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   const { services, faq, directions } = useSite();
+  const projects = Route.useLoaderData();
   return (
     <>
       <section className="surface-ink relative overflow-hidden">
@@ -164,6 +168,19 @@ function Index() {
           ))}
         </div>
       </Section>
+
+      {projects.length > 0 && (
+        <Section eyebrow="Портфолио" title="Наши объекты">
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {projects.slice(0, 6).map((p) => (
+              <ProjectCard key={p.slug} p={p} />
+            ))}
+          </div>
+          <Link to="/projects" className="btn btn-outline mt-8">
+            Все объекты
+          </Link>
+        </Section>
+      )}
 
       <Section eyebrow="Как мы работаем" title="Этапы работы">
         <Steps items={steps} />

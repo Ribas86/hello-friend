@@ -12,6 +12,8 @@ const content = [
   "article_topics",
   "articles",
   "pages",
+  "projects",
+  "projects_files",
   "calc_object_types",
   "calc_scenarios",
   "calc_questions",

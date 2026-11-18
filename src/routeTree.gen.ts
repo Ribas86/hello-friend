@@ -26,6 +26,8 @@ import { Route as ArticlesIndexRouteImport } from './routes/articles.index'
 import { Route as ArticlesSlugRouteImport } from './routes/articles.$slug'
 import { Route as DirectionsSlugRouteImport } from './routes/directions.$slug'
 import { Route as MediaIdRouteImport } from './routes/media.$id'
+import { Route as ProjectsIndexRouteImport } from './routes/projects.index'
+import { Route as ProjectsSlugRouteImport } from './routes/projects.$slug'
 import { Route as ServicesIndexRouteImport } from './routes/services.index'
 import { Route as ServicesSlugRouteImport } from './routes/services.$slug'
 
@@ -114,6 +116,16 @@ const MediaIdRoute = MediaIdRouteImport.update({
   path: '/media/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProjectsIndexRoute = ProjectsIndexRouteImport.update({
+  id: '/projects/',
+  path: '/projects/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProjectsSlugRoute = ProjectsSlugRouteImport.update({
+  id: '/projects/$slug',
+  path: '/projects/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ServicesIndexRoute = ServicesIndexRouteImport.update({
   id: '/services/',
   path: '/services/',
@@ -142,8 +154,10 @@ export interface FileRoutesByFullPath {
   '/articles/$slug': typeof ArticlesSlugRoute
   '/directions/$slug': typeof DirectionsSlugRoute
   '/media/$id': typeof MediaIdRoute
+  '/projects/$slug': typeof ProjectsSlugRoute
   '/services/$slug': typeof ServicesSlugRoute
   '/articles/': typeof ArticlesIndexRoute
+  '/projects/': typeof ProjectsIndexRoute
   '/services/': typeof ServicesIndexRoute
 }
 export interface FileRoutesByTo {
@@ -163,8 +177,10 @@ export interface FileRoutesByTo {
   '/articles/$slug': typeof ArticlesSlugRoute
   '/directions/$slug': typeof DirectionsSlugRoute
   '/media/$id': typeof MediaIdRoute
+  '/projects/$slug': typeof ProjectsSlugRoute
   '/services/$slug': typeof ServicesSlugRoute
   '/articles': typeof ArticlesIndexRoute
+  '/projects': typeof ProjectsIndexRoute
   '/services': typeof ServicesIndexRoute
 }
 export interface FileRoutesById {
@@ -185,8 +201,10 @@ export interface FileRoutesById {
   '/articles/$slug': typeof ArticlesSlugRoute
   '/directions/$slug': typeof DirectionsSlugRoute
   '/media/$id': typeof MediaIdRoute
+  '/projects/$slug': typeof ProjectsSlugRoute
   '/services/$slug': typeof ServicesSlugRoute
   '/articles/': typeof ArticlesIndexRoute
+  '/projects/': typeof ProjectsIndexRoute
   '/services/': typeof ServicesIndexRoute
 }
 export interface FileRouteTypes {
@@ -208,8 +226,10 @@ export interface FileRouteTypes {
     | '/articles/$slug'
     | '/directions/$slug'
     | '/media/$id'
+    | '/projects/$slug'
     | '/services/$slug'
     | '/articles/'
+    | '/projects/'
     | '/services/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -229,8 +249,10 @@ export interface FileRouteTypes {
     | '/articles/$slug'
     | '/directions/$slug'
     | '/media/$id'
+    | '/projects/$slug'
     | '/services/$slug'
     | '/articles'
+    | '/projects'
     | '/services'
   id:
     | '__root__'
@@ -250,8 +272,10 @@ export interface FileRouteTypes {
     | '/articles/$slug'
     | '/directions/$slug'
     | '/media/$id'
+    | '/projects/$slug'
     | '/services/$slug'
     | '/articles/'
+    | '/projects/'
     | '/services/'
   fileRoutesById: FileRoutesById
 }
@@ -272,8 +296,10 @@ export interface RootRouteChildren {
   ArticlesSlugRoute: typeof ArticlesSlugRoute
   DirectionsSlugRoute: typeof DirectionsSlugRoute
   MediaIdRoute: typeof MediaIdRoute
+  ProjectsSlugRoute: typeof ProjectsSlugRoute
   ServicesSlugRoute: typeof ServicesSlugRoute
   ArticlesIndexRoute: typeof ArticlesIndexRoute
+  ProjectsIndexRoute: typeof ProjectsIndexRoute
   ServicesIndexRoute: typeof ServicesIndexRoute
 }
 
@@ -398,6 +424,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MediaIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/projects/': {
+      id: '/projects/'
+      path: '/projects'
+      fullPath: '/projects/'
+      preLoaderRoute: typeof ProjectsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/projects/$slug': {
+      id: '/projects/$slug'
+      path: '/projects/$slug'
+      fullPath: '/projects/$slug'
+      preLoaderRoute: typeof ProjectsSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/services/': {
       id: '/services/'
       path: '/services'
@@ -432,8 +472,10 @@ const rootRouteChildren: RootRouteChildren = {
   ArticlesSlugRoute: ArticlesSlugRoute,
   DirectionsSlugRoute: DirectionsSlugRoute,
   MediaIdRoute: MediaIdRoute,
+  ProjectsSlugRoute: ProjectsSlugRoute,
   ServicesSlugRoute: ServicesSlugRoute,
   ArticlesIndexRoute: ArticlesIndexRoute,
+  ProjectsIndexRoute: ProjectsIndexRoute,
   ServicesIndexRoute: ServicesIndexRoute,
 }
 export const routeTree = rootRouteImport

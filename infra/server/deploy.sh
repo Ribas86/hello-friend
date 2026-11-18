@@ -24,8 +24,9 @@ wait_for "cms" "docker compose exec -T cms node -e \"fetch('http://localhost:805
 
 run_cms() { docker compose exec -T -e PUBLIC_URL=http://localhost:8055 cms node "scripts/$1"; }
 run_cms apply-schema.mjs
+# права обновляются при каждом развёртывании: новые разделы CMS сразу доступны сайту на чтение
+run_cms apply-access.mjs
 if [ "$INIT" -eq 1 ]; then
-  run_cms apply-access.mjs
   run_cms seed.mjs
   touch .initialized
 fi

@@ -184,6 +184,41 @@ const collections = {
       f("is_active", "bool", { width: "half" }, { default_value: true }),
     ],
   },
+  projects: {
+    note: "Наши объекты (портфолио). Только реальные выполненные работы; отзыв — с согласия клиента",
+    sortField: "sort",
+    fields: [
+      status,
+      sort,
+      slug(),
+      f("title", "str", { ...required, note: "Например: «Видеонаблюдение для склада 4000 м²»" }),
+      f("object_type", "str", { note: "Тип объекта: склад, ЖК, частный дом…", width: "half" }),
+      f("city", "str", { note: "Город (по желанию)", width: "half" }),
+      f("year", "int", { note: "Год выполнения (по желанию)", width: "half" }),
+      m2o("direction", "directions", { width: "half", note: "Направление (по желанию)" }),
+      f("summary", "text", { note: "Коротко для карточки (1–2 предложения)" }),
+      f("task", "text", { note: "Задача заказчика" }),
+      f("done", "text", {
+        interface: "input-multiline",
+        note: "Что сделано — по одному пункту в строке",
+      }),
+      f("equipment", "text", {
+        interface: "input-multiline",
+        note: "Оборудование — по одному пункту в строке",
+      }),
+      f("result", "text", { note: "Результат" }),
+      {
+        field: "cover",
+        type: "uuid",
+        meta: { interface: "file-image", note: "Главное фото" },
+        schema: {},
+        _rel: "directus_files",
+      },
+      f("review_text", "text", { note: "Отзыв клиента — только с его письменного согласия" }),
+      f("review_author", "str", { note: "Кто оставил отзыв (должность, компания)" }),
+      ...seo,
+    ],
+  },
   // --- калькулятор (структура; наполнение и расчёт — Релиз 3) ---
   calc_object_types: {
     note: "Калькулятор: типы объектов (коэффициент объекта)",
@@ -389,5 +424,49 @@ if (!existing.has("services_related")) {
     { allow: [400] },
   );
   console.log("создана связь похожих услуг");
+}
+// фотогалерея объекта (many-to-many с файлами)
+if (!existing.has("projects_files")) {
+  await api("POST", "/collections", {
+    collection: "projects_files",
+    meta: { hidden: true, icon: "import_export", note: "Фото объектов (связь)" },
+    schema: {},
+    fields: [
+      {
+        field: "id",
+        type: "integer",
+        schema: { is_primary_key: true, has_auto_increment: true },
+        meta: { hidden: true },
+      },
+      { field: "projects_id", type: "integer", schema: {}, meta: { hidden: true } },
+      { field: "directus_files_id", type: "uuid", schema: {}, meta: { hidden: true } },
+      { field: "sort", type: "integer", schema: {}, meta: { hidden: true } },
+    ],
+  });
+  await api("POST", "/relations", {
+    collection: "projects_files",
+    field: "projects_id",
+    related_collection: "projects",
+    meta: { one_field: "gallery", junction_field: "directus_files_id", sort_field: "sort" },
+    schema: { on_delete: "CASCADE" },
+  });
+  await api("POST", "/relations", {
+    collection: "projects_files",
+    field: "directus_files_id",
+    related_collection: "directus_files",
+    meta: { one_field: null, junction_field: "projects_id" },
+    schema: { on_delete: "CASCADE" },
+  });
+  await api(
+    "POST",
+    "/fields/projects",
+    {
+      field: "gallery",
+      type: "alias",
+      meta: { special: ["files"], interface: "files", note: "Фотографии объекта" },
+    },
+    { allow: [400] },
+  );
+  console.log("создана галерея объектов");
 }
 console.log("готово");

@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { loadForSitemap } from "@/lib/cms.functions";
 import { getArticles } from "@/lib/articles.functions";
+import { getProjects } from "@/lib/projects.functions";
 import { baseUrl } from "@/lib/seo.server";
 import { MAINTENANCE_DIRECTION } from "@/lib/site";
 
@@ -13,6 +14,7 @@ export const Route = createFileRoute("/sitemap.xml")({
         const base = baseUrl();
         const site = await loadForSitemap();
         const { articles } = await getArticles();
+        const projects = await getProjects();
         const paths = [
           "/",
           "/business",
@@ -30,6 +32,7 @@ export const Route = createFileRoute("/sitemap.xml")({
             .map((d) => `/directions/${d.slug}`),
           ...site.services.map((s) => `/services/${s.slug}`),
           ...articles.map((a) => `/articles/${a.slug}`),
+          ...(projects.length ? ["/projects", ...projects.map((p) => `/projects/${p.slug}`)] : []),
         ];
         const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${paths
           .map((p) => `  <url><loc>${esc(base + p)}</loc></url>`)
