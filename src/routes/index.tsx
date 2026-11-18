@@ -1,15 +1,6 @@
 import { useSite } from "@/lib/use-site";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import {
-  ArrowRight,
-  Building2,
-  Landmark,
-  Home,
-  ShieldCheck,
-  Wrench,
-  Check,
-  Phone,
-} from "lucide-react";
+import { ArrowRight, Building2, Landmark, Home, ShieldCheck, Wrench, Check } from "lucide-react";
 import hero from "@/assets/hero-camera.jpg";
 import maintenanceImg from "@/assets/maintenance.jpg";
 import {
@@ -32,7 +23,7 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
-  const { services, faq, directions, company } = useSite();
+  const { services, faq, directions } = useSite();
   return (
     <>
       <section className="surface-ink relative overflow-hidden">
@@ -63,25 +54,9 @@ function Index() {
               <Link to="/calculator" className="btn btn-primary">
                 Получить расчёт <ArrowRight className="h-4 w-4" />
               </Link>
-              {company.phone ? (
-                <a
-                  href={`tel:${company.phone.replace(/[^+\d]/g, "")}`}
-                  aria-label="Позвонить"
-                  title="Позвонить"
-                  className="btn btn-ghost-ink !px-4"
-                >
-                  <Phone className="h-5 w-5" />
-                </a>
-              ) : (
-                <Link
-                  to="/contacts"
-                  aria-label="Контакты"
-                  title="Контакты"
-                  className="btn btn-ghost-ink !px-4"
-                >
-                  <Phone className="h-5 w-5" />
-                </Link>
-              )}
+              <Link to="/contacts" className="btn btn-ghost-ink">
+                Заказать консультацию
+              </Link>
             </div>
           </div>
           <ul className="mt-6 grid grid-cols-2 gap-2 sm:mt-10 sm:gap-3 lg:grid-cols-3">
