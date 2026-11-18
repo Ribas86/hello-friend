@@ -11,13 +11,13 @@ export function SiteHeader() {
   return (
     <header className="surface-ink sticky top-0 z-50 border-b border-ink-line/60 backdrop-blur">
       <div className="mx-auto flex h-20 max-w-7xl items-center justify-between gap-6 px-5 lg:px-8">
-        <Link to="/" className="flex shrink-0 items-center gap-2.5" onClick={() => setOpen(false)}>
-          <span className="flex h-9 w-9 items-center justify-center rounded-md bg-primary text-primary-foreground">
-            <ScanEye className="h-5 w-5" />
+        <Link to="/" className="flex shrink-0 items-center gap-3" onClick={() => setOpen(false)}>
+          <span className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary text-primary-foreground">
+            <ScanEye className="h-7 w-7" />
           </span>
-          <span className="whitespace-nowrap font-display text-sm font-semibold leading-tight">
+          <span className="whitespace-nowrap font-display text-xl font-bold leading-tight">
             {company.short}
-            <span className="block text-[10px] font-normal tracking-widest text-ink-muted uppercase">
+            <span className="block text-xs font-medium tracking-widest text-ink-muted uppercase">
               системы безопасности
             </span>
           </span>
