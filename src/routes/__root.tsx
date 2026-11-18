@@ -90,7 +90,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:type", content: "website" },
       { property: "og:locale", content: "ru_RU" },
       { property: "og:site_name", content: "Центр Квелити" },
-      { name: "theme-color", content: "#0b1220" },
+      { name: "theme-color", content: "#162f48" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [
