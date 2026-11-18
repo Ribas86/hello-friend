@@ -33,7 +33,7 @@ export function PageHero({
       <div
         className={image ? "hero-fade absolute inset-0" : "grid-lines absolute inset-0 opacity-25"}
       />
-      <div className="relative mx-auto max-w-7xl px-5 py-20 lg:px-8 lg:py-28">
+      <div className="relative mx-auto max-w-7xl px-5 pt-6 pb-12 lg:px-8 lg:pt-12 lg:pb-20">
         <div className="max-w-3xl animate-rise">
           {crumbs && <Breadcrumbs items={crumbs} />}
           {eyebrow && <p className="eyebrow mb-4">{eyebrow}</p>}

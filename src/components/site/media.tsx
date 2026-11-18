@@ -74,19 +74,22 @@ export function Breadcrumbs({ items }: { items: Crumb[] }) {
       ...(c.href ? { item: baseUrl + c.href } : {}),
     })),
   };
+  // Видимая цепочка без последнего звена: название текущей страницы и так в заголовке.
+  // Всегда одна строка, длинные названия сокращаются многоточием.
+  const visible = all.slice(0, -1);
   return (
-    <nav aria-label="Навигационная цепочка" className="mb-5 text-sm text-ink-muted">
-      <ol className="flex flex-wrap items-center gap-1">
-        {all.map((c, i) => (
-          <li key={i} className="flex items-center gap-1">
-            {i > 0 && <ChevronRight className="h-3.5 w-3.5" aria-hidden />}
-            {c.href && i < all.length - 1 ? (
-              <a href={c.href} className="inline-block py-1 hover:text-ink-foreground">
-                {c.label}
-              </a>
-            ) : (
-              <span aria-current={i === all.length - 1 ? "page" : undefined}>{c.label}</span>
-            )}
+    <nav aria-label="Навигационная цепочка" className="mb-4 text-sm text-ink-muted">
+      <ol className="flex min-w-0 items-center gap-1 whitespace-nowrap">
+        {visible.map((c, i) => (
+          <li key={i} className={`flex items-center gap-1 ${i === 0 ? "shrink-0" : "min-w-0"}`}>
+            {i > 0 && <ChevronRight className="h-3.5 w-3.5 shrink-0" aria-hidden />}
+            <a
+              href={c.href}
+              title={c.label}
+              className="block truncate py-1 hover:text-ink-foreground"
+            >
+              {c.label}
+            </a>
           </li>
         ))}
       </ol>
