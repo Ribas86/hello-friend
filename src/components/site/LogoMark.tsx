@@ -1,4 +1,4 @@
-// Знак логотипа: рамка и контур глаза стоят, зрачок медленно оглядывается по кругу
+// Знак логотипа: рамка и контур глаза стоят, весь глаз медленно вращается внутри рамки
 export function LogoMark({ className }: { className?: string }) {
   return (
     <svg
@@ -15,11 +15,9 @@ export function LogoMark({ className }: { className?: string }) {
       <path d="M17 3h2a2 2 0 0 1 2 2v2" />
       <path d="M21 17v2a2 2 0 0 1-2 2h-2" />
       <path d="M7 21H5a2 2 0 0 1-2-2v-2" />
-      <path d="M18.944 12.33a1 1 0 0 0 0-.66 7.5 7.5 0 0 0-13.888 0 1 1 0 0 0 0 .66 7.5 7.5 0 0 0 13.888 0" />
-      <g className="pupil-x">
-        <g className="pupil-y">
-          <circle cx="12" cy="12" r="1.4" fill="currentColor" stroke="none" />
-        </g>
+      <g className="eye-spin">
+        <path d="M18.944 12.33a1 1 0 0 0 0-.66 7.5 7.5 0 0 0-13.888 0 1 1 0 0 0 0 .66 7.5 7.5 0 0 0 13.888 0" />
+        <circle cx="12" cy="12" r="1" />
       </g>
     </svg>
   );
