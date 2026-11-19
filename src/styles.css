@@ -757,3 +757,41 @@
     transform: none;
   }
 }
+
+/* «Решения для разных категорий клиентов» на телефоне и планшете: маленький рисунок слева от заголовка,
+   список и кнопка под ними — карточка примерно на треть ниже. На компьютере (lg+) без изменений. */
+@media (max-width: 1023.98px) {
+  .seg-compact {
+    display: grid;
+    grid-template-columns: 96px 1fr;
+    column-gap: 1rem;
+    align-items: center;
+    padding: 1.25rem;
+  }
+  .seg-compact .seg-art {
+    grid-row: 1;
+    height: 96px;
+    margin: 0;
+  }
+  .seg-compact h3 {
+    grid-column: 2;
+    grid-row: 1;
+    margin: 0;
+    font-size: 1.35rem;
+  }
+  .seg-compact ul {
+    grid-column: 1 / -1;
+    margin-top: 0.75rem;
+  }
+  .seg-compact ul > li + li {
+    margin-top: 0.4rem;
+  }
+  .seg-compact li {
+    font-size: 0.95rem;
+  }
+  .seg-compact .btn {
+    grid-column: 1 / -1;
+    justify-self: start;
+    margin-top: 1rem;
+  }
+}

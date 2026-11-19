@@ -238,7 +238,7 @@ function Segments({ cards }: { cards: Segment[] }) {
             if ((e.target as HTMLElement).closest("a")) return;
             void navigate({ to: c.to });
           }}
-          className="seg-card tap-card-ink cursor-pointer flex flex-col rounded-2xl border border-ink-line bg-ink-raised p-8"
+          className="seg-card seg-compact tap-card-ink cursor-pointer flex flex-col rounded-2xl border border-ink-line bg-ink-raised p-8"
         >
           <span className="seg-art" aria-hidden dangerouslySetInnerHTML={{ __html: c.art }} />
           <h3 className="mt-2 text-2xl lg:min-h-[4.5rem]">{c.title}</h3>
