@@ -33,13 +33,13 @@ export const pics = {
     height: 896,
   },
   home: { src: home, webp: `${home640} 640w, ${home1280} 1280w`, width: 1280, height: 896 },
-  // Сгенерированное фото входа в подъезд: на телефоне держим в кадре домофон и камеру справа
+  // Сгенерированное фото двора ЖК с камерой на углу дома: на телефоне держим камеру в кадре
   residential: {
     src: residential,
     webp: `${residential640} 640w, ${residential1280} 1280w`,
     width: 1280,
     height: 720,
-    pos: "80% 50%",
+    pos: "22% 50%",
   },
   maintenance: {
     src: maintenance,
