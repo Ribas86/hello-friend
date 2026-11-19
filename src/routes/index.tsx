@@ -1,7 +1,6 @@
 import { useSite } from "@/lib/use-site";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { ChevronDown } from "lucide-react";
-import { useTapHighlight } from "@/lib/use-tap-highlight";
 import { segmentArt } from "@/components/site/segment-art";
 import { getProjects } from "@/lib/projects.functions";
 import { ProjectCard } from "@/components/site/ProjectCard";
@@ -223,27 +222,23 @@ type Segment = {
 };
 
 /**
- * Карточки категорий клиентов. Первое прикосновение (даже в начале прокрутки) выделяет карточку,
- * второе касание по ней открывает её страницу; кнопка «Подробнее» работает сразу. Выделение: фон светлее,
- * сама чуть крупнее. Когда выделенная карточка уходит с экрана при прокрутке,
- * выделение снимается. На компьютере то же выделение при наведении мыши.
+ * Карточки категорий клиентов. Касание сразу открывает страницу категории, карточка подсвечивается,
+ * пока палец на ней (как на внутренних страницах). На компьютере — подсветка при наведении.
  */
 function Segments({ cards }: { cards: Segment[] }) {
-  const { bind, firstTouch } = useTapHighlight<HTMLDivElement>();
   const navigate = useNavigate();
 
   return (
     <div className="grid gap-5 lg:grid-cols-3">
-      {cards.map((c, i) => (
+      {cards.map((c) => (
         <div
           key={c.title}
-          {...bind(i)}
           onClick={(e) => {
-            // кнопка «Подробнее» переходит сама; касание по невыделенной карточке только выделяет
-            if ((e.target as HTMLElement).closest("a") || firstTouch()) return;
+            // кнопка «Подробнее» переходит сама
+            if ((e.target as HTMLElement).closest("a")) return;
             void navigate({ to: c.to });
           }}
-          className="seg-card cursor-pointer flex flex-col rounded-2xl border border-ink-line bg-ink-raised p-8"
+          className="seg-card tap-card-ink cursor-pointer flex flex-col rounded-2xl border border-ink-line bg-ink-raised p-8"
         >
           <span className="seg-art" aria-hidden dangerouslySetInnerHTML={{ __html: c.art }} />
           <h3 className="mt-2 text-2xl lg:min-h-[4.5rem]">{c.title}</h3>
@@ -264,51 +259,16 @@ function Segments({ cards }: { cards: Segment[] }) {
   );
 }
 
-/**
- * «Популярные услуги». На телефоне первое касание только выделяет карточку (сразу, даже в начале
- * прокрутки), касание другой переносит выделение, второе касание по выделенной открывает услугу.
- * Уход выделенной карточки с экрана снимает выделение. На компьютере — подсветка при наведении,
- * переход по клику.
- */
+/** «Популярные услуги»: касание подсвечивает карточку и сразу открывает услугу. */
 function PopularServices({ items }: { items: { slug: string; title: string; short: string }[] }) {
-  const [active, setActive] = useState<number | null>(null);
-  const refs = useRef<(HTMLAnchorElement | null)[]>([]);
-  const press = useRef<{ touch: boolean; wasActive: boolean }>({ touch: false, wasActive: false });
-
-  useEffect(() => {
-    if (active === null) return;
-    const el = refs.current[active];
-    if (!el) return;
-    const io = new IntersectionObserver(
-      ([entry]) => {
-        if (entry && !entry.isIntersecting) setActive(null);
-      },
-      { threshold: 0.25 },
-    );
-    io.observe(el);
-    return () => io.disconnect();
-  }, [active]);
-
   return (
     <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-      {items.map((s, i) => (
+      {items.map((s) => (
         <Link
           key={s.slug}
-          ref={(el) => {
-            refs.current[i] = el;
-          }}
           to="/services/$slug"
           params={{ slug: s.slug }}
-          data-active={active === i}
-          onPointerDown={(e) => {
-            press.current = { touch: e.pointerType !== "mouse", wasActive: active === i };
-            setActive(i);
-          }}
-          onClick={(e) => {
-            // касание по ещё не выделенной карточке только выделяет её
-            if (press.current.touch && !press.current.wasActive) e.preventDefault();
-          }}
-          className="svc-card group rounded-xl border bg-card p-6 shadow-card"
+          className="tap-card group rounded-xl border bg-card p-6 shadow-card"
         >
           <h3 className="font-sans text-base font-semibold">{s.title}</h3>
           <p className="mt-2 text-sm text-muted-foreground">{s.short}</p>
@@ -328,13 +288,12 @@ const cooperation = [
   ],
 ] as const;
 
-/** «Варианты сотрудничества»: выделение касанием (на компьютере наведением), без перехода. */
+/** «Варианты сотрудничества»: подсветка при касании (на компьютере — при наведении), без перехода. */
 function Cooperation() {
-  const { bind } = useTapHighlight<HTMLDivElement>();
   return (
     <div className="grid gap-6 md:grid-cols-3">
-      {cooperation.map(([t, d], i) => (
-        <div key={t} {...bind(i)} className="svc-card rounded-xl border bg-card p-7 shadow-card">
+      {cooperation.map(([t, d]) => (
+        <div key={t} className="tap-card rounded-xl border bg-card p-7 shadow-card">
           <h3 className="text-lg">{t}</h3>
           <p className="mt-2 text-muted-foreground">{d}</p>
         </div>
@@ -344,28 +303,20 @@ function Cooperation() {
 }
 
 /**
- * «Популярные вопросы» на главной. На телефоне первое касание выделяет вопрос, второе по выделенному
- * раскрывает ответ; касание другого вопроса переносит выделение и закрывает прежний ответ.
- * На компьютере — выделение при наведении, ответ открывается кликом.
+ * «Популярные вопросы» на главной: касание подсвечивает вопрос и сразу раскрывает ответ;
+ * открыт только один ответ.
  */
 function HomeFaq({ items }: { items: { q: string; a: string }[] }) {
-  const { active, bind, firstTouch } = useTapHighlight<HTMLDivElement>();
   const [open, setOpen] = useState<number | null>(null);
-  useEffect(() => {
-    if (open !== null && active !== null && active !== open) setOpen(null);
-  }, [active, open]);
   return (
     <div className="space-y-3">
       {items.map((f, i) => (
-        <div key={f.q} {...bind(i)} className="faq-item rounded-xl border bg-card shadow-card">
+        <div key={f.q} className="tap-card tap-card-wide rounded-xl border bg-card shadow-card">
           <button
             type="button"
             aria-expanded={open === i}
             aria-controls={`faq-a-${i}`}
-            onClick={() => {
-              if (firstTouch()) return;
-              setOpen(open === i ? null : i);
-            }}
+            onClick={() => setOpen(open === i ? null : i)}
             className="flex w-full items-center justify-between gap-4 p-5 text-left font-medium"
           >
             {f.q}

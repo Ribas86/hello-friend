@@ -566,11 +566,13 @@
   transform-box: view-box;
   transition: opacity 0.2s ease;
 }
-.seg-card[data-active="true"] .seg-art .ill-beam {
+.seg-card[data-active="true"] .seg-art .ill-beam,
+.seg-card:active .seg-art .ill-beam {
   opacity: 1;
   animation: ill-scan 3.2s ease-in-out infinite;
 }
-.seg-card[data-active="true"] .seg-art .ill-led {
+.seg-card[data-active="true"] .seg-art .ill-led,
+.seg-card:active .seg-art .ill-led {
   animation: ill-led 1s steps(2) infinite;
 }
 @media (hover: hover) {
@@ -734,6 +736,15 @@
     box-shadow:
       0 0 0 1px #5fe3f5,
       0 0 36px -4px rgb(0 187 213 / 0.65);
+  }
+}
+/* Широкие блоки (вопросы) увеличиваются меньше, чтобы не вылезать за края */
+.tap-card-wide:active {
+  transform: scale(1.01);
+}
+@media (hover: hover) {
+  .tap-card-wide:hover {
+    transform: scale(1.01);
   }
 }
 @media (prefers-reduced-motion: reduce) {
