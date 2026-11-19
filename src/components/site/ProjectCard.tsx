@@ -8,7 +8,7 @@ export function ProjectCard({ p }: { p: ProjectSummary }) {
     <Link
       to="/projects/$slug"
       params={{ slug: p.slug }}
-      className="svc-card group flex flex-col overflow-hidden rounded-2xl border bg-card shadow-card"
+      className="tap-card group flex flex-col overflow-hidden rounded-2xl border bg-card shadow-card"
     >
       {p.cover ? (
         <img

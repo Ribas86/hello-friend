@@ -44,7 +44,7 @@ function Page() {
               <div className="mb-8 flex flex-wrap gap-2">
                 <Link
                   to="/articles"
-                  className={`rounded-md border px-4 py-2 text-sm ${!topic ? "border-primary bg-primary text-primary-foreground" : "hover:border-primary"}`}
+                  className={`rounded-md border px-4 py-2 text-sm ${!topic ? "border-primary bg-primary text-primary-foreground" : "tap-card bg-card"}`}
                 >
                   Все
                 </Link>
@@ -53,7 +53,7 @@ function Page() {
                     key={t.slug}
                     to="/articles"
                     search={{ topic: t.slug }}
-                    className={`rounded-md border px-4 py-2 text-sm ${topic === t.slug ? "border-primary bg-primary text-primary-foreground" : "hover:border-primary"}`}
+                    className={`rounded-md border px-4 py-2 text-sm ${topic === t.slug ? "border-primary bg-primary text-primary-foreground" : "tap-card bg-card"}`}
                   >
                     {t.title}
                   </Link>
@@ -66,7 +66,7 @@ function Page() {
                   key={a.slug}
                   to="/articles/$slug"
                   params={{ slug: a.slug }}
-                  className="group flex flex-col overflow-hidden rounded-2xl border bg-card shadow-card transition hover:-translate-y-1 hover:border-primary"
+                  className="tap-card group flex flex-col overflow-hidden rounded-2xl border bg-card shadow-card"
                 >
                   {a.cover && (
                     <img

@@ -42,7 +42,7 @@ function Page() {
                 key={s.slug}
                 to="/services/$slug"
                 params={{ slug: s.slug }}
-                className="group rounded-xl border bg-card p-6 shadow-card transition hover:border-primary"
+                className="tap-card group rounded-xl border bg-card p-6 shadow-card"
               >
                 <h3 className="font-sans text-lg font-semibold tracking-normal">{s.title}</h3>
                 <p className="mt-2 text-sm text-muted-foreground">{s.short}</p>

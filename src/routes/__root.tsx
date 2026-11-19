@@ -11,7 +11,7 @@ import {
   Scripts,
   type ErrorComponentProps,
 } from "@tanstack/react-router";
-import type { ReactNode } from "react";
+import { useEffect, type ReactNode } from "react";
 
 import { getSiteContent } from "@/lib/cms.functions";
 import appCss from "../styles.css?url";
@@ -127,6 +127,12 @@ function RootComponent() {
   const { queryClient, site } = Route.useRouteContext();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const url = site.baseUrl + (pathname === "/" ? "/" : pathname.replace(/\/+$/, ""));
+  // iOS Safari показывает :active (подсветку карточек при касании) только если на странице есть обработчик touchstart
+  useEffect(() => {
+    const noop = () => {};
+    document.addEventListener("touchstart", noop, { passive: true });
+    return () => document.removeEventListener("touchstart", noop);
+  }, []);
   const org = {
     "@context": "https://schema.org",
     "@type": "Organization",

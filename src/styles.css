@@ -688,3 +688,61 @@
     transform: none;
   }
 }
+
+/* Кликабельные карточки на внутренних страницах: та же подсветка, что у «Популярных услуг» на главной,
+   но переход сразу — подсветка видна, пока палец на карточке (:active), и при наведении мышью */
+.tap-card,
+.tap-card-ink {
+  transition:
+    transform 0.12s ease-out,
+    background-color 0.12s ease-out,
+    border-color 0.12s ease-out,
+    box-shadow 0.12s ease-out;
+  -webkit-tap-highlight-color: transparent;
+}
+.tap-card:active,
+.tap-card:focus-visible {
+  background-color: color-mix(in oklch, var(--primary) 7%, white);
+  border-color: var(--primary);
+  transform: scale(1.03);
+  box-shadow:
+    0 0 0 1px var(--primary),
+    0 0 30px -6px rgb(0 187 213 / 0.55);
+}
+.tap-card-ink:active,
+.tap-card-ink:focus-visible {
+  background-color: oklch(0.48 0.07 245);
+  border-color: #5fe3f5;
+  transform: scale(1.03);
+  box-shadow:
+    0 0 0 1px #5fe3f5,
+    0 0 36px -4px rgb(0 187 213 / 0.65);
+}
+@media (hover: hover) {
+  .tap-card:hover {
+    background-color: color-mix(in oklch, var(--primary) 7%, white);
+    border-color: var(--primary);
+    transform: scale(1.03);
+    box-shadow:
+      0 0 0 1px var(--primary),
+      0 0 30px -6px rgb(0 187 213 / 0.55);
+  }
+  .tap-card-ink:hover {
+    background-color: oklch(0.48 0.07 245);
+    border-color: #5fe3f5;
+    transform: scale(1.03);
+    box-shadow:
+      0 0 0 1px #5fe3f5,
+      0 0 36px -4px rgb(0 187 213 / 0.65);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tap-card,
+  .tap-card-ink,
+  .tap-card:hover,
+  .tap-card-ink:hover,
+  .tap-card:active,
+  .tap-card-ink:active {
+    transform: none;
+  }
+}

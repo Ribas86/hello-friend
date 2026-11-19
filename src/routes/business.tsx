@@ -74,7 +74,7 @@ function Page() {
                 key={slug}
                 to="/services/$slug"
                 params={{ slug }}
-                className="rounded-lg border border-ink-line bg-ink-raised p-5 transition hover:border-primary"
+                className="tap-card-ink rounded-lg border border-ink-line bg-ink-raised p-5"
               >
                 <p className="font-medium">{s.title}</p>
                 <p className="mt-1 text-sm text-ink-muted">{s.short}</p>
