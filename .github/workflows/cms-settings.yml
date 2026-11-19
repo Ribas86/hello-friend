@@ -23,7 +23,7 @@ jobs:
       - name: Выполнить на сервере
         run: |
           ssh -i ~/.ssh/id_deploy "$DEPLOY_USER@$DEPLOY_HOST" \
-            "cd /opt/quality && docker compose exec -T -e PUBLIC_URL=http://localhost:8055 cms node scripts/settings-company.mjs"
+            "cd /opt/quality && docker compose exec -T -e PUBLIC_URL=http://localhost:8055 cms node scripts/settings-company.mjs && sleep 65 && curl -s http://localhost/ | grep -o 'Центр[^<]\{0,14\}' | sort | uniq -c"
         env:
           DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
           DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
