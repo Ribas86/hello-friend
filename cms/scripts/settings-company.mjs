@@ -8,8 +8,10 @@ const values = {
   address: "127106, г. Москва, ул. Гостиничная, д. 5",
 };
 await login();
-const before = (await api("GET", "/items/site_settings?fields=company_name,short_name,address"))?.data;
+const before = (await api("GET", "/items/site_settings?fields=company_name,short_name,address"))
+  ?.data;
 console.log("было:", JSON.stringify(before));
 await api("PATCH", "/items/site_settings", values);
-const after = (await api("GET", "/items/site_settings?fields=company_name,short_name,address"))?.data;
+const after = (await api("GET", "/items/site_settings?fields=company_name,short_name,address"))
+  ?.data;
 console.log("стало:", JSON.stringify(after));
