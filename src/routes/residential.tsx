@@ -45,7 +45,7 @@ function Page() {
       </Section>
 
       <Section eyebrow="Процесс" title="Как мы работаем" dark>
-        <Steps items={steps} />
+        <Steps items={steps} dark />
       </Section>
 
       <Section id="contacts" eyebrow="Контакты" title="Связаться с нами">

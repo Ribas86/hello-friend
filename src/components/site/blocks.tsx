@@ -88,7 +88,10 @@ export function Steps({ items, dark }: { items: string[]; dark?: boolean }) {
       style={dark ? { borderColor: "var(--color-ink-line)" } : undefined}
     >
       {items.map((s, i) => (
-        <li key={s} className={`p-5 ${dark ? "bg-ink-raised" : "bg-card"}`}>
+        <li
+          key={s}
+          className={`p-5 ${dark ? "bg-ink-raised text-ink-foreground" : "bg-card text-card-foreground"}`}
+        >
           <span className="font-display text-sm text-primary">
             {String(i + 1).padStart(2, "0")}
           </span>
