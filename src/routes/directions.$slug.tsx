@@ -25,6 +25,7 @@ export const Route = createFileRoute("/directions/$slug")({
       ? seo(
           loaderData.direction.title,
           `${loaderData.direction.short} ${loaderData.direction.description}`,
+          { geo: true },
         )
       : { meta: [{ title: "Направление не найдено" }, { name: "robots", content: "noindex" }] },
   component: Page,

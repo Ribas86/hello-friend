@@ -17,6 +17,7 @@ import {
   residentialObjects,
   steps,
   maintenanceWorks,
+  region,
 } from "@/lib/site";
 import { Section, Steps, seo, ContactNotice } from "@/components/site/blocks";
 
@@ -24,8 +25,9 @@ export const Route = createFileRoute("/")({
   loader: () => getProjects(),
   head: () => ({
     ...seo(
-      "Монтаж и обслуживание систем безопасности — Центр Квелити",
+      "Монтаж и обслуживание систем безопасности",
       "Проектирование, поставка оборудования, монтаж и обслуживание систем безопасности: видеонаблюдение, СКУД, шлагбаумы и комплексные системы.",
+      { geo: true },
     ),
   }),
   component: Index,
@@ -59,7 +61,7 @@ function Index() {
             </h1>
             <p className="mt-3 max-w-xl text-sm sm:mt-4 sm:text-base text-ink-muted">
               Проектируем, поставляем оборудование, монтируем и обслуживаем системы безопасности для
-              бизнеса, жилых комплексов и частных клиентов.
+              бизнеса, жилых комплексов и частных клиентов {region.inText}.
             </p>
             <div className="mt-5 flex flex-wrap gap-3 sm:mt-6">
               <Link to="/calculator" className="btn btn-primary">

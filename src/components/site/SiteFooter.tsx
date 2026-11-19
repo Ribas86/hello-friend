@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { nav } from "@/lib/site";
+import { nav, region } from "@/lib/site";
 import { useSite } from "@/lib/use-site";
 
 export function SiteFooter() {
@@ -10,8 +10,8 @@ export function SiteFooter() {
         <div className="md:col-span-1">
           <p className="font-display text-lg">{company.name}</p>
           <p className="mt-2 text-sm leading-snug text-ink-muted">
-            Проектирование, поставка оборудования, монтаж и обслуживание систем безопасности.
-            {company.years ? ` ${company.years} лет опыта.` : ""}
+            Проектирование, поставка оборудования, монтаж и обслуживание систем безопасности{" "}
+            {region.inText}.{company.years ? ` ${company.years} лет опыта.` : ""}
           </p>
         </div>
         <div>

@@ -1,3 +1,4 @@
+import { region } from "@/lib/site";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
   Outlet,
@@ -131,6 +132,7 @@ function RootComponent() {
     "@type": "Organization",
     name: site.company.name,
     url: site.baseUrl,
+    areaServed: region.areaServed.map((name) => ({ "@type": "AdministrativeArea", name })),
     ...(site.company.phone ? { telephone: site.company.phone } : {}),
     ...(site.company.email ? { email: site.company.email } : {}),
     ...(site.company.address ? { address: site.company.address } : {}),

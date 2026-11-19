@@ -1,3 +1,4 @@
+import { region } from "@/lib/site";
 import type { ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
 import { ChevronDown } from "lucide-react";
@@ -139,9 +140,13 @@ export function CtaBand({ title, text }: { title: string; text?: string }) {
   );
 }
 
-export function seo(title: string, description: string) {
-  const t = title.includes("Центр Квелити") ? title : `${title} — Центр Квелити`;
-  description = clip(description);
+/** geo: добавить регион в title и описание (для коммерческих страниц) */
+export function seo(title: string, description: string, opts: { geo?: boolean } = {}) {
+  const base = title.replace(/ — Центр Квелити$/, "");
+  const withGeo = opts.geo ? `${base} ${region.inTitle}` : base;
+  const t = `${withGeo} — Центр Квелити`;
+  const suffix = opts.geo ? ` ${region.full}.` : "";
+  description = clip(description, 160 - suffix.length) + suffix;
   return {
     meta: [
       { title: t },

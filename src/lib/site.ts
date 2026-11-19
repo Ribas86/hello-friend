@@ -10,6 +10,14 @@ export const company = {
   address: null as string | null,
 };
 
+/** Регион работы. В title пишем коротко, в тексте полностью. */
+export const region = {
+  inTitle: "в Москве и МО",
+  full: "Москва и Московская область",
+  inText: "в Москве и Московской области",
+  areaServed: ["Москва", "Московская область"],
+};
+
 export const nav = [
   { to: "/", label: "Главная", short: "Главная" },
   { to: "/business", label: "Для бизнеса", short: "Бизнесу" },

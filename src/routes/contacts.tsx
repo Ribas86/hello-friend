@@ -1,4 +1,5 @@
 import { useSite } from "@/lib/use-site";
+import { region } from "@/lib/site";
 import { createFileRoute } from "@tanstack/react-router";
 import { PageHero, Section, ContactNotice, seo } from "@/components/site/blocks";
 
@@ -7,6 +8,7 @@ export const Route = createFileRoute("/contacts")({
     seo(
       "Контакты",
       "Контакты ООО «Центр Квелити»: консультация, расчёт стоимости, обследование объекта и договор обслуживания.",
+      { geo: true },
     ),
   component: Page,
 });
@@ -23,6 +25,10 @@ function Page() {
       <Section>
         <div className="grid gap-10 lg:grid-cols-[1fr_1.6fr]">
           <div className="rounded-xl border bg-card p-6 shadow-card space-y-3 text-sm">
+            <p>
+              <span className="text-muted-foreground">Регион работы: </span>
+              {region.full}
+            </p>
             <p>
               <span className="text-muted-foreground">Телефон: </span>
               {company.phone ?? "будет добавлен"}

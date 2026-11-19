@@ -1,3 +1,4 @@
+import { region } from "@/lib/site";
 import { useSite } from "@/lib/use-site";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { Check } from "lucide-react";
@@ -17,6 +18,7 @@ export const Route = createFileRoute("/services/$slug")({
       ? seo(
           loaderData.service.title,
           `${loaderData.service.short} ${loaderData.service.description}`,
+          { geo: true },
         )
       : { meta: [{ title: "Услуга не найдена" }, { name: "robots", content: "noindex" }] },
   component: Page,
@@ -32,6 +34,7 @@ function Page() {
     description: s.description || s.short,
     url: `${baseUrl}/services/${s.slug}`,
     provider: { "@type": "Organization", name: company.name, url: baseUrl },
+    areaServed: region.areaServed.map((name) => ({ "@type": "AdministrativeArea", name })),
     ...(direction ? { serviceType: direction.title } : {}),
   };
   return (

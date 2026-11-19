@@ -11,6 +11,7 @@ export const Route = createFileRoute("/calculator")({
     seo(
       "Расчёт стоимости",
       "Предварительный расчёт стоимости систем безопасности: ответьте на несколько вопросов об объекте.",
+      { geo: true },
     ),
   component: Page,
 });
