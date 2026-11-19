@@ -795,3 +795,8 @@
     margin-top: 1rem;
   }
 }
+
+/* <picture class="contents"> отдаёт свои дочерние элементы в сетку родителя; <source> не должен занимать ячейку */
+picture > source {
+  display: none;
+}

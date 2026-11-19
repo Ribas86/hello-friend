@@ -148,7 +148,7 @@ function Index() {
           </div>
           <Picture
             pic={pics.maintenance}
-            alt="Инженер обслуживает оборудование в серверной стойке"
+            alt="Мастер обслуживает уличную камеру видеонаблюдения на фасаде дома"
             sizes="(min-width: 1024px) 50vw, 100vw"
             className="rounded-xl shadow-glow"
           />

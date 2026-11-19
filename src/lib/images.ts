@@ -41,10 +41,11 @@ export const pics = {
     height: 720,
     pos: "22% 50%",
   },
+  // Сгенерированное фото: мастер обслуживает уличную камеру на фасаде, вечер
   maintenance: {
     src: maintenance,
     webp: `${maintenance640} 640w, ${maintenance1280} 1280w`,
     width: 1280,
-    height: 896,
+    height: 853,
   },
 } satisfies Record<string, Pic>;
