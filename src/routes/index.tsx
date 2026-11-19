@@ -7,7 +7,16 @@ import { getProjects } from "@/lib/projects.functions";
 import { ProjectCard } from "@/components/site/ProjectCard";
 import { ProjectsSwipe } from "@/components/site/ProjectsSwipe";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { ArrowRight, ShieldCheck, Wrench, Check } from "lucide-react";
+import {
+  ArrowRight,
+  ShieldCheck,
+  Wrench,
+  Check,
+  Cctv,
+  ScanFace,
+  Construction,
+  Layers,
+} from "lucide-react";
 import { pics } from "@/lib/images";
 import { DirectionLink, Picture } from "@/components/site/media";
 import {
@@ -73,10 +82,11 @@ function Index() {
               <li key={d.slug}>
                 <DirectionLink
                   slug={d.slug}
-                  className="group flex h-full items-center justify-between gap-3 rounded-lg border border-ink-line bg-ink/80 px-3 py-3 text-xs font-medium sm:px-5 sm:py-4 sm:text-sm backdrop-blur transition hover:border-primary hover:bg-primary hover:text-primary-foreground"
+                  className="dir-btn group flex h-full items-center gap-2.5 rounded-lg px-2.5 py-3 text-xs font-medium sm:gap-3 sm:px-4 sm:py-4 sm:text-sm"
                 >
-                  {d.title}
-                  <ArrowRight className="h-4 w-4 shrink-0 text-primary transition group-hover:translate-x-1 group-hover:text-primary-foreground" />
+                  <DirectionIcon slug={d.slug} />
+                  <span className="min-w-0 flex-1">{d.title}</span>
+                  <ArrowRight className="hidden h-4 w-4 shrink-0 text-primary transition group-hover:translate-x-1 sm:block" />
                 </DirectionLink>
               </li>
             ))}
@@ -371,5 +381,24 @@ function HomeFaq({ items }: { items: { q: string; a: string }[] }) {
         </div>
       ))}
     </div>
+  );
+}
+
+// Значок направления на первом экране; для новых направлений из админки — щит по умолчанию
+const directionIcons: Record<string, typeof Cctv> = {
+  videonablyudenie: Cctv,
+  skud: ScanFace,
+  shlagbaumy: Construction,
+  "kompleksnye-sistemy": ShieldCheck,
+  obsluzhivanie: Wrench,
+  dopolnitelnye: Layers,
+};
+
+function DirectionIcon({ slug }: { slug: string }) {
+  const Icon = directionIcons[slug] ?? ShieldCheck;
+  return (
+    <span className="dir-ic" aria-hidden="true">
+      <Icon />
+    </span>
   );
 }
