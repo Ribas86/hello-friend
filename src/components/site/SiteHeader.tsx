@@ -1,6 +1,7 @@
 import { useSite } from "@/lib/use-site";
 import { Link } from "@tanstack/react-router";
-import { Menu, X, ScanEye } from "lucide-react";
+import { Menu, X } from "lucide-react";
+import { LogoMark } from "./LogoMark";
 import { useState } from "react";
 import { nav } from "@/lib/site";
 import { DirectionLink } from "./media";
@@ -15,7 +16,7 @@ export function SiteHeader() {
       <div className="mx-auto flex h-20 max-w-7xl items-center justify-between gap-6 px-5 lg:px-8">
         <Link to="/" className="flex shrink-0 items-center gap-3" onClick={() => setOpen(false)}>
           <span className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-            <ScanEye className="h-7 w-7" />
+            <LogoMark className="h-7 w-7" />
           </span>
           <span className="whitespace-nowrap font-display text-xl font-bold leading-tight">
             {company.short}

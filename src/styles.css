@@ -622,3 +622,10 @@
 .swipe-track::-webkit-scrollbar {
   display: none;
 }
+
+/* Зрачок логотипа: два смещения со сдвигом фазы дают плавный обход по эллипсу */
+.pupil-x { animation: pupil-x 4s ease-in-out infinite alternate; }
+.pupil-y { animation: pupil-y 4s ease-in-out -2s infinite alternate; }
+@keyframes pupil-x { from { transform: translateX(-2.6px); } to { transform: translateX(2.6px); } }
+@keyframes pupil-y { from { transform: translateY(-1.3px); } to { transform: translateY(1.3px); } }
+@media (prefers-reduced-motion: reduce) { .pupil-x, .pupil-y { animation: none; } }
