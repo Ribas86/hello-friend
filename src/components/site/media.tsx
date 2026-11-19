@@ -27,6 +27,7 @@ export function Picture({
         width={pic.width}
         height={pic.height}
         className={className}
+        style={pic.pos ? { objectPosition: pic.pos } : undefined}
         loading={priority ? "eager" : "lazy"}
         decoding={priority ? "sync" : "async"}
         {...(priority ? { fetchPriority: "high" as const } : {})}

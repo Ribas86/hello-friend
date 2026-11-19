@@ -9,11 +9,15 @@ import business1280 from "@/assets/business-1280.webp";
 import home from "@/assets/home.jpg";
 import home640 from "@/assets/home-640.webp";
 import home1280 from "@/assets/home-1280.webp";
+import residential from "@/assets/residential.jpg";
+import residential640 from "@/assets/residential-640.webp";
+import residential1280 from "@/assets/residential-1280.webp";
 import maintenance from "@/assets/maintenance.jpg";
 import maintenance640 from "@/assets/maintenance-640.webp";
 import maintenance1280 from "@/assets/maintenance-1280.webp";
 
-export type Pic = { src: string; webp: string; width: number; height: number };
+/** pos — какая часть кадра остаётся видна при обрезке (на телефоне), как CSS object-position */
+export type Pic = { src: string; webp: string; width: number; height: number; pos?: string };
 
 export const pics = {
   hero: {
@@ -29,6 +33,14 @@ export const pics = {
     height: 896,
   },
   home: { src: home, webp: `${home640} 640w, ${home1280} 1280w`, width: 1280, height: 896 },
+  // Сгенерированное фото входа в подъезд: на телефоне держим в кадре домофон и камеру справа
+  residential: {
+    src: residential,
+    webp: `${residential640} 640w, ${residential1280} 1280w`,
+    width: 1280,
+    height: 720,
+    pos: "80% 50%",
+  },
   maintenance: {
     src: maintenance,
     webp: `${maintenance640} 640w, ${maintenance1280} 1280w`,
