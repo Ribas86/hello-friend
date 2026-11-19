@@ -129,7 +129,7 @@ async function loadFromCms(): Promise<CmsContent> {
       years: s.years ?? null,
       phone: s.phone || null,
       email: s.email || null,
-      address: s.address || null,
+      address: s.address || staticCompany.address,
       workHours: s.work_hours || null,
       requisites: s.requisites || null,
     },

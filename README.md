@@ -1,4 +1,4 @@
-# Сайт ООО «Центр Квелити»
+# Сайт ООО «Центр «Квэлити»»
 
 TanStack Start (React 19, TypeScript, Tailwind 4). Сборка под Node, развёртывание через Docker Compose.
 

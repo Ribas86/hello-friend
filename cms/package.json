@@ -1,7 +1,7 @@
 {
   "name": "quality-cms",
   "private": true,
-  "description": "Directus для сайта ООО «Центр Квелити»",
+  "description": "Directus для сайта ООО «Центр «Квэлити»»",
   "scripts": {
     "start": "directus start",
     "bootstrap": "directus bootstrap"

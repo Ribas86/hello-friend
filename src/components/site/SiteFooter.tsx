@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { nav, region } from "@/lib/site";
+import { legal, nav, region } from "@/lib/site";
 import { useSite } from "@/lib/use-site";
 
 export function SiteFooter() {
@@ -66,7 +66,7 @@ export function SiteFooter() {
       <div className="border-t border-ink-line/60">
         <div className="mx-auto flex max-w-7xl flex-col gap-1 px-5 py-3 text-xs text-ink-muted sm:flex-row sm:justify-between lg:px-8">
           <span>
-            © {new Date().getFullYear()} {company.name}
+            © {new Date().getFullYear()} {company.name} · ИНН {legal.inn} · ОГРН {legal.ogrn}
           </span>
           <Link to="/privacy" className="inline-block py-1 hover:text-primary">
             Политика обработки персональных данных

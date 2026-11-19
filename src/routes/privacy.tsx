@@ -1,3 +1,4 @@
+import { legal } from "@/lib/site";
 import { useSite } from "@/lib/use-site";
 import { createFileRoute } from "@tanstack/react-router";
 import { PageHero, Section, seo } from "@/components/site/blocks";
@@ -6,7 +7,7 @@ export const Route = createFileRoute("/privacy")({
   head: () =>
     seo(
       "Политика обработки персональных данных",
-      "Как ООО «Центр Квелити» обрабатывает персональные данные, полученные через формы сайта.",
+      "Как ООО «Центр «Квэлити»» обрабатывает персональные данные, полученные через формы сайта.",
     ),
   component: Page,
 });
@@ -18,7 +19,10 @@ function Page() {
       <PageHero title="Политика обработки персональных данных" />
       <Section>
         <div className="max-w-3xl space-y-4 text-muted-foreground">
-          <p>Оператор персональных данных — {company.name}. Реквизиты оператора будут добавлены.</p>
+          <p>
+            Оператор персональных данных — {legal.fullName}, ИНН {legal.inn}, ОГРН {legal.ogrn},
+            адрес: {legal.address}.
+          </p>
           <p>
             Через формы сайта мы получаем имя, телефон и сведения об объекте, которые вы указываете
             сами. Эти данные используются только для связи с вами, подготовки расчёта и оказания

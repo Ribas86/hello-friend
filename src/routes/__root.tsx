@@ -1,4 +1,4 @@
-import { region } from "@/lib/site";
+import { legal, region } from "@/lib/site";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
   Outlet,
@@ -83,7 +83,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Центр Квелити — системы безопасности" },
+      { title: "Центр Квэлити — системы безопасности" },
       {
         name: "description",
         content:
@@ -91,7 +91,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
       { property: "og:type", content: "website" },
       { property: "og:locale", content: "ru_RU" },
-      { property: "og:site_name", content: "Центр Квелити" },
+      { property: "og:site_name", content: "Центр Квэлити" },
       { name: "theme-color", content: "#162f48" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -135,7 +135,18 @@ function RootComponent() {
     areaServed: region.areaServed.map((name) => ({ "@type": "AdministrativeArea", name })),
     ...(site.company.phone ? { telephone: site.company.phone } : {}),
     ...(site.company.email ? { email: site.company.email } : {}),
-    ...(site.company.address ? { address: site.company.address } : {}),
+    legalName: legal.fullName,
+    taxID: legal.inn,
+    address:
+      !site.company.address || site.company.address === legal.address
+        ? {
+            "@type": "PostalAddress",
+            postalCode: "127106",
+            addressLocality: "Москва",
+            streetAddress: "ул. Гостиничная, д. 5",
+            addressCountry: "RU",
+          }
+        : site.company.address,
   };
 
   return (

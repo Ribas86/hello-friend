@@ -142,9 +142,9 @@ export function CtaBand({ title, text }: { title: string; text?: string }) {
 
 /** geo: добавить регион в title и описание (для коммерческих страниц) */
 export function seo(title: string, description: string, opts: { geo?: boolean } = {}) {
-  const base = title.replace(/ — Центр Квелити$/, "");
+  const base = title.replace(/ — Центр Квэлити$/, "");
   const withGeo = opts.geo ? `${base} ${region.inTitle}` : base;
-  const t = `${withGeo} — Центр Квелити`;
+  const t = `${withGeo} — Центр Квэлити`;
   const suffix = opts.geo ? ` ${region.full}.` : "";
   description = clip(description, 160 - suffix.length) + suffix;
   return {

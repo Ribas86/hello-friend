@@ -2,12 +2,21 @@ import content from "../../cms/seed/data.json";
 // Company info. Contact details are not provided yet — they will become
 // editable in the admin panel (stage 2). Never invent them.
 export const company = {
-  name: "ООО «Центр Квелити»",
-  short: "Центр Квелити",
+  name: "ООО «Центр «Квэлити»»",
+  short: "Центр Квэлити",
   years: null as number | null, // не подтверждено; задаётся в админке (site_settings.years)
   phone: null as string | null,
   email: null as string | null,
-  address: null as string | null,
+  address: "127106, г. Москва, ул. Гостиничная, д. 5" as string | null,
+};
+
+/** Реквизиты — как в учредительных документах (даны заказчиком 19.11.2026) */
+export const legal = {
+  fullName: "ООО «ЦЕНТР «КВЭЛИТИ»»",
+  inn: "7723683094",
+  kpp: "771501001",
+  ogrn: "5087746301528",
+  address: "127106, г. Москва, ул. Гостиничная, д. 5",
 };
 
 /** Регион работы. В title пишем коротко, в тексте полностью. */

@@ -11,7 +11,7 @@ export const Route = createFileRoute("/articles/$slug")({
   },
   head: ({ loaderData: a }) => {
     if (!a) return {};
-    const title = `${a.seoTitle || a.title} — Центр Квелити`;
+    const title = `${a.seoTitle || a.title} — Центр Квэлити`;
     const description = clip(a.seoDescription || a.summary);
     return {
       meta: [
