@@ -1,0 +1,31 @@
+name: Site check (test)
+# Только чтение: что отдаёт тестовый сайт (название компании, регион, реквизиты).
+on:
+  push:
+    branches: [site-check]
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    environment: test
+    timeout-minutes: 5
+    steps:
+      - name: Настроить SSH
+        run: |
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$DEPLOY_SSH_KEY" > ~/.ssh/id_deploy && chmod 600 ~/.ssh/id_deploy
+          printf '%s\n' "$DEPLOY_KNOWN_HOSTS" > ~/.ssh/known_hosts
+        env:
+          DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          DEPLOY_KNOWN_HOSTS: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
+      - name: Проверить страницы
+        run: |
+          ssh -i ~/.ssh/id_deploy "$DEPLOY_USER@$DEPLOY_HOST" '
+            for u in / /contacts /residential; do
+              echo "== $u"
+              docker compose -f /opt/quality/docker-compose.yml exec -T site node -e "fetch(\"http://localhost:3000$u\").then(r=>r.text()).then(t=>{const m=t.match(/<title>[^<]*/);console.log(m&&m[0]);for(const k of [\"Квелити\",\"Квэлити\",\"7723683094\",\"Гостиничная\",\"в Москве и Московской области\"])console.log(k, (t.split(k).length-1))})"
+            done'
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
