@@ -17,7 +17,6 @@ import {
   residentialObjects,
   steps,
   maintenanceWorks,
-  region,
 } from "@/lib/site";
 import { Section, Steps, seo, ContactNotice } from "@/components/site/blocks";
 
@@ -61,7 +60,7 @@ function Index() {
             </h1>
             <p className="mt-3 max-w-xl text-sm sm:mt-4 sm:text-base text-ink-muted">
               Проектируем, поставляем оборудование, монтируем и обслуживаем системы безопасности для
-              бизнеса, жилых комплексов и частных клиентов {region.inText}.
+              бизнеса, жилых комплексов и частных клиентов.
             </p>
             <div className="mt-5 flex flex-wrap gap-3 sm:mt-6">
               <Link to="/calculator" className="btn btn-primary">
