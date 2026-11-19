@@ -623,7 +623,12 @@
   display: none;
 }
 
-/* Глаз логотипа медленно вращается вокруг центра, рамка стоит */
-.eye-spin { transform-box: view-box; transform-origin: 12px 12px; animation: eye-spin 10s linear infinite; }
-@keyframes eye-spin { to { transform: rotate(360deg); } }
+/* Глаз логотипа крутится как монета вокруг вертикальной оси: ширина меняется по синусу
+   (то же, что проекция 3D-поворота), без рывков в крайних точках. Рамка стоит */
+.eye-spin {
+  transform-box: view-box;
+  transform-origin: 12px 12px;
+  animation: eye-spin 3s cubic-bezier(0.37, 0, 0.63, 1) infinite alternate;
+}
+@keyframes eye-spin { from { transform: scaleX(1); } to { transform: scaleX(-1); } }
 @media (prefers-reduced-motion: reduce) { .eye-spin { animation: none; } }
