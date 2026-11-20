@@ -342,6 +342,19 @@
   width: 100%;
   border-collapse: collapse;
 }
+/* Узкий экран: широкая таблица прокручивается внутри себя, страница не уезжает вбок. */
+@media (max-width: 767px) {
+  .article-body table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    font-size: 0.9375rem;
+  }
+  .article-body th,
+  .article-body td {
+    min-width: 7.5rem;
+  }
+}
 .article-body th,
 .article-body td {
   border: 1px solid var(--border);

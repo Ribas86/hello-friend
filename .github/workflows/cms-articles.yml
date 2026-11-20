@@ -1,0 +1,41 @@
+name: CMS articles (test)
+# Публикация статей в CMS на ТЕСТОВОМ сервере. Запускается пушем в ветку cms-articles.
+on:
+  push:
+    branches: [cms-articles]
+concurrency: deploy-test
+permissions:
+  contents: read
+jobs:
+  articles:
+    runs-on: ubuntu-latest
+    environment: test
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Настроить SSH
+        run: |
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$DEPLOY_SSH_KEY" > ~/.ssh/id_deploy && chmod 600 ~/.ssh/id_deploy
+          printf '%s\n' "$DEPLOY_KNOWN_HOSTS" > ~/.ssh/known_hosts
+        env:
+          DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          DEPLOY_KNOWN_HOSTS: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
+      - name: Записать статьи
+        run: |
+          scp -i ~/.ssh/id_deploy cms/scripts/articles-publish.mjs cms/content/articles-2026-11.json "$DEPLOY_USER@$DEPLOY_HOST:/tmp/"
+          ssh -i ~/.ssh/id_deploy "$DEPLOY_USER@$DEPLOY_HOST" '
+            set -e
+            cd /opt/quality
+            docker compose exec -T cms mkdir -p /app/content
+            docker compose cp /tmp/articles-publish.mjs cms:/app/scripts/articles-publish.mjs
+            docker compose cp /tmp/articles-2026-11.json cms:/app/content/articles-2026-11.json
+            docker compose exec -T -e PUBLIC_URL=http://localhost:8055 cms node scripts/articles-publish.mjs content/articles-2026-11.json
+            sleep 65
+            for s in stoimost-videonablyudeniya-dlya-ofisa-i-sklada ip-ili-analogovye-kamery skolko-hranit-videoarhiv; do
+              printf "%s: " "$s"; curl -s -o /dev/null -w "%{http_code}\n" "http://localhost/articles/$s"
+            done
+            rm -f /tmp/articles-publish.mjs /tmp/articles-2026-11.json'
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
