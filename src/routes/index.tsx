@@ -196,7 +196,7 @@ function Index() {
         </Section>
       )}
 
-      <Section eyebrow="Как мы работаем" title="Этапы работы">
+      <Section eyebrow="Как мы работаем" title="Этапы работы" compactLg>
         <Steps items={steps} />
       </Section>
 

@@ -54,6 +54,7 @@ export function Section({
   children,
   dark,
   id,
+  compactLg,
 }: {
   eyebrow?: string;
   title?: string;
@@ -61,9 +62,16 @@ export function Section({
   children: ReactNode;
   dark?: boolean;
   id?: string;
+  /** Компьютер: меньше отступы раздела и заголовка. */
+  compactLg?: boolean;
 }) {
   return (
-    <section id={id} className={dark ? "surface-ink" : ""}>
+    <section
+      id={id}
+      className={[dark ? "surface-ink" : "", compactLg ? "section-compact-lg" : ""]
+        .join(" ")
+        .trim()}
+    >
       <div className="mx-auto max-w-7xl px-5 py-16 lg:px-8 lg:py-24">
         {(eyebrow || title) && (
           <div className="mb-10 max-w-3xl">
@@ -85,7 +93,7 @@ export function Section({
 export function Steps({ items, dark }: { items: string[]; dark?: boolean }) {
   return (
     <ol
-      className="grid gap-px overflow-hidden rounded-xl border sm:grid-cols-2 lg:grid-cols-5"
+      className={`grid gap-px overflow-hidden rounded-xl border sm:grid-cols-2 lg:grid-cols-5 ${dark ? "" : "steps-light"}`}
       style={dark ? { borderColor: "var(--color-ink-line)" } : undefined}
     >
       {items.map((s, i) => (
