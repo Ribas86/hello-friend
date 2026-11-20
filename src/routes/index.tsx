@@ -58,7 +58,7 @@ function Index() {
           className="hero-glow absolute hidden h-24 w-24 lg:block"
           style={{ right: "20%", top: "22%" }}
         />
-        <div className="relative mx-auto max-w-7xl px-5 pt-8 pb-8 sm:pt-12 sm:pb-10 lg:px-8 lg:pt-14 lg:pb-12">
+        <div className="relative mx-auto max-w-7xl px-5 pt-8 pb-8 sm:pt-12 sm:pb-10 lg:px-8 lg:pt-14 lg:pb-18">
           <div className="max-w-3xl animate-rise">
             <h1 className="text-[1.65rem] leading-[1.15] sm:text-4xl lg:text-[2.6rem]">
               Системы безопасности: от проекта до обслуживания
@@ -79,7 +79,7 @@ function Index() {
               <li key={d.slug}>
                 <DirectionLink
                   slug={d.slug}
-                  className="dir-btn group flex h-full items-center gap-2.5 rounded-lg px-2.5 py-3 text-xs font-medium sm:gap-3 sm:px-4 sm:py-4 sm:text-sm"
+                  className="dir-btn group flex h-full items-center gap-2.5 rounded-lg px-2.5 py-3 text-xs font-medium sm:gap-3 sm:px-4 sm:py-4 sm:text-sm lg:py-6"
                 >
                   <DirectionIcon slug={d.slug} />
                   <span className="min-w-0 flex-1">{d.title}</span>
