@@ -151,18 +151,29 @@ async function loadFromCms(): Promise<CmsContent> {
   };
 }
 
-async function loadContent(): Promise<CmsContent> {
+// После сбоя CMS не обращаемся к ней на каждом запросе: иначе при зависшей CMS каждая страница ждала бы таймаут.
+const RETRY_MS = Number(process.env["CMS_RETRY_SECONDS"] ?? 30) * 1000;
+let failedAt: number | undefined;
+
+/**
+ * Данные сайта. При сбое CMS отдаётся последняя удачная копия, а если её ещё нет
+ * (сайт только что запущен) — встроенные данные, чтобы сайт открывался, а не падал с ошибкой 500.
+ */
+export async function loadContent(): Promise<CmsContent> {
   // Без адреса CMS (локальная разработка) сайт работает на встроенных данных.
   if (!process.env["DIRECTUS_URL"] || !process.env["DIRECTUS_TOKEN"]) return staticContent();
-  if (cache && Date.now() - cache.at < TTL_MS) return cache.value;
+  const now = Date.now();
+  if (cache && now - cache.at < TTL_MS) return cache.value;
+  if (failedAt !== undefined && now - failedAt < RETRY_MS) return cache?.value ?? staticContent();
   try {
     const value = await loadFromCms();
     cache = { at: Date.now(), value };
+    failedAt = undefined;
     return value;
   } catch (error) {
     console.error("CMS недоступна:", error);
-    if (cache) return cache.value;
-    throw error;
+    failedAt = Date.now();
+    return cache?.value ?? staticContent();
   }
 }
 
