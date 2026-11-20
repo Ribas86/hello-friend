@@ -829,6 +829,47 @@
   }
 }
 
+/* Компьютер: карточки «Решения для разных категорий клиентов» компактнее — картинка слева от заголовка. */
+@media (min-width: 1024px) {
+  .seg-card {
+    display: grid;
+    grid-template-columns: 96px 1fr;
+    grid-template-rows: auto 1fr auto;
+    column-gap: 1rem;
+    align-items: start;
+    padding: 1.25rem;
+  }
+  .seg-card .seg-art {
+    grid-row: 1;
+    align-self: center;
+    height: 96px;
+    margin: 0;
+  }
+  .seg-card h3 {
+    grid-column: 2;
+    grid-row: 1;
+    align-self: center;
+    margin: 0;
+    min-height: 0;
+    font-size: 1.3rem;
+  }
+  .seg-card ul {
+    grid-column: 1 / -1;
+    margin-top: 0.75rem;
+  }
+  .seg-card ul > li + li {
+    margin-top: 0.4rem;
+  }
+  .seg-card li {
+    font-size: 0.95rem;
+  }
+  .seg-card .btn {
+    grid-column: 1 / -1;
+    justify-self: start;
+    margin-top: 1rem;
+  }
+}
+
 /* <picture class="contents"> отдаёт свои дочерние элементы в сетку родителя; <source> не должен занимать ячейку */
 picture > source {
   display: none;
