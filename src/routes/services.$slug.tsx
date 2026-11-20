@@ -3,15 +3,32 @@ import { useSite } from "@/lib/use-site";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { Check } from "lucide-react";
 import { getSiteContent } from "@/lib/cms.functions";
+import { getArticles } from "@/lib/articles.functions";
 import { MAINTENANCE_DIRECTION } from "@/lib/site";
-import { PageHero, Section, Steps, Faq, seo, ContactNotice } from "@/components/site/blocks";
+import {
+  PageHero,
+  Section,
+  Steps,
+  Faq,
+  seo,
+  ContactNotice,
+  UsefulArticles,
+} from "@/components/site/blocks";
 
 export const Route = createFileRoute("/services/$slug")({
   loader: async ({ params }) => {
-    const { services, directions } = await getSiteContent();
+    const [{ services, directions }, { articles, topics }] = await Promise.all([
+      getSiteContent(),
+      getArticles(),
+    ]);
     const service = services.find((x) => x.slug === params.slug);
     if (!service) throw notFound();
-    return { service, direction: directions.find((d) => d.slug === service.direction) ?? null };
+    return {
+      service,
+      direction: directions.find((d) => d.slug === service.direction) ?? null,
+      topic: topics.find((t) => t.slug === service.direction) ?? null,
+      articles: articles.filter((a) => a.topic?.slug === service.direction).slice(0, 3),
+    };
   },
   head: ({ loaderData }) =>
     loaderData
@@ -25,7 +42,7 @@ export const Route = createFileRoute("/services/$slug")({
 });
 
 function Page() {
-  const { service: s, direction } = Route.useLoaderData();
+  const { service: s, direction, topic, articles } = Route.useLoaderData();
   const { services, company, baseUrl } = useSite();
   const ld = {
     "@context": "https://schema.org",
@@ -99,6 +116,7 @@ function Page() {
           </p>
         </Section>
       )}
+      {topic && <UsefulArticles items={articles} topic={topic} />}
       {s.faq.length > 0 && (
         <Section eyebrow="Вопросы" title="Частые вопросы">
           <Faq items={s.faq} />

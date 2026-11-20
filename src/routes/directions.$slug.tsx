@@ -3,7 +3,8 @@ import { MAINTENANCE_DIRECTION } from "@/lib/site";
 import { DirectionLink } from "@/components/site/media";
 import { ArrowRight } from "lucide-react";
 import { getSiteContent } from "@/lib/cms.functions";
-import { PageHero, Section, CtaBand, seo } from "@/components/site/blocks";
+import { getArticles } from "@/lib/articles.functions";
+import { PageHero, Section, CtaBand, seo, UsefulArticles } from "@/components/site/blocks";
 
 export const Route = createFileRoute("/directions/$slug")({
   beforeLoad: ({ params }) => {
@@ -11,10 +12,15 @@ export const Route = createFileRoute("/directions/$slug")({
       throw redirect({ to: "/maintenance", statusCode: 301 });
   },
   loader: async ({ params }) => {
-    const { directions, services } = await getSiteContent();
+    const [{ directions, services }, { articles, topics }] = await Promise.all([
+      getSiteContent(),
+      getArticles(),
+    ]);
     const direction = directions.find((x) => x.slug === params.slug);
     if (!direction) throw notFound();
     return {
+      topic: topics.find((t) => t.slug === direction.slug) ?? null,
+      articles: articles.filter((a) => a.topic?.slug === direction.slug).slice(0, 3),
       direction,
       services: services.filter((s) => s.direction === direction.slug),
       others: directions.filter((d) => d.slug !== direction.slug),
@@ -32,7 +38,7 @@ export const Route = createFileRoute("/directions/$slug")({
 });
 
 function Page() {
-  const { direction, services, others } = Route.useLoaderData();
+  const { direction, services, others, topic, articles } = Route.useLoaderData();
   return (
     <>
       <PageHero
@@ -57,6 +63,7 @@ function Page() {
           ))}
         </div>
       </Section>
+      {topic && <UsefulArticles items={articles} topic={topic} />}
       <Section eyebrow="Ещё" title="Другие направления">
         <div className="flex flex-wrap gap-3">
           {others.map((d) => (

@@ -190,3 +190,37 @@ export function ConsultLink() {
     </Link>
   );
 }
+
+/** «Полезные статьи» на страницах направления и услуги: 2–3 статьи той же темы. Без статей блок не выводится. */
+export function UsefulArticles({
+  items,
+  topic,
+}: {
+  items: { slug: string; title: string; summary: string }[];
+  topic: { slug: string; title: string };
+}) {
+  if (items.length === 0) return null;
+  return (
+    <Section eyebrow="Полезные статьи" title="Читайте по теме">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {items.map((a) => (
+          <Link
+            key={a.slug}
+            to="/articles/$slug"
+            params={{ slug: a.slug }}
+            className="tap-card group flex flex-col rounded-xl border bg-card p-6 shadow-card"
+          >
+            <p className="font-sans text-lg font-semibold leading-snug">{a.title}</p>
+            {a.summary && (
+              <p className="mt-2 flex-1 text-sm text-muted-foreground">{clip(a.summary, 140)}</p>
+            )}
+            <span className="mt-4 text-sm font-semibold text-primary">Читать статью →</span>
+          </Link>
+        ))}
+      </div>
+      <Link to="/articles" search={{ topic: topic.slug }} className="btn btn-outline mt-8">
+        Все статьи по теме «{topic.title}»
+      </Link>
+    </Section>
+  );
+}
