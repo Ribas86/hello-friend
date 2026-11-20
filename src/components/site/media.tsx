@@ -26,7 +26,7 @@ export function Picture({
         alt={alt}
         width={pic.width}
         height={pic.height}
-        className={className}
+        className={pic.flipLg ? `${className ?? ""} hero-pic-flip` : className}
         style={
           {
             ...(pic.pos ? { objectPosition: pic.pos } : {}),

@@ -37,7 +37,7 @@ export const pics = {
     webp: `${hero640} 640w, ${hero1280} 1280w, ${hero1920} 1920w`,
     width: 1920,
     height: 1088,
-    posLg: "50% 0%",
+    posLg: "90% 0%",
   },
   business: {
     src: business,

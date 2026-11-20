@@ -275,9 +275,20 @@
 }
 /* Компьютер: фон первого экрана кадрируется так, чтобы камера была видна (см. posLg / flipLg в images.ts). */
 @media (min-width: 1024px) {
+  /* Фото занимает правые 60% экрана и плавно растворяется в тёмном фоне под текстом: меньше увеличено, видно целиком. */
   .hero-pic {
+    left: auto;
+    right: 0;
+    width: 60%;
     object-position: var(--pos-lg, 50% 50%) !important;
     transform: var(--flip-lg, none);
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 30%);
+    mask-image: linear-gradient(to right, transparent, #000 30%);
+  }
+  /* Отражённое фото: маска отражается вместе с ним, поэтому задаём её в обратную сторону. */
+  .hero-pic.hero-pic-flip {
+    -webkit-mask-image: linear-gradient(to left, transparent, #000 30%);
+    mask-image: linear-gradient(to left, transparent, #000 30%);
   }
 }
 /* Компьютер: фото главного экрана неподвижно, остаётся только полоса сканирования. */
