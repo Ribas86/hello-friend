@@ -32,8 +32,8 @@ export const nav = [
   { to: "/business", label: "Для бизнеса", short: "Бизнесу" },
   { to: "/residential", label: "Для жилых комплексов", short: "Жилым комплексам" },
   { to: "/private", label: "Для частных клиентов", short: "Частным клиентам" },
-  { to: "/services", label: "Услуги", short: "Услуги" },
   { to: "/maintenance", label: "Обслуживание", short: "Обслуживание" },
+  { to: "/services", label: "Услуги", short: "Услуги" },
   { to: "/about", label: "О компании", short: "О компании" },
   { to: "/contacts", label: "Контакты", short: "Контакты" },
 ] as const;
