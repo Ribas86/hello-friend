@@ -26,19 +26,8 @@ jobs:
           ssh -i ~/.ssh/id_deploy "$DEPLOY_USER@$DEPLOY_HOST" 'rm -rf /tmp/cms-content && mkdir -p /tmp/cms-content'
           scp -i ~/.ssh/id_deploy -r cms/content/. "$DEPLOY_USER@$DEPLOY_HOST:/tmp/cms-content/"
           scp -i ~/.ssh/id_deploy cms/scripts/articles-publish.mjs "$DEPLOY_USER@$DEPLOY_HOST:/tmp/cms-content/"
-          ssh -i ~/.ssh/id_deploy "$DEPLOY_USER@$DEPLOY_HOST" "CONTENT_FILE=$CONTENT_FILE SLUGS='$SLUGS' bash -s" <<'REMOTE'
-            set -e
-            cd /opt/quality
-            docker compose exec -T cms rm -rf /app/content
-            docker compose cp /tmp/cms-content/. cms:/app/content
-            docker compose cp /tmp/cms-content/articles-publish.mjs cms:/app/scripts/articles-publish.mjs
-            docker compose exec -T -e PUBLIC_URL=http://localhost:8055 cms node scripts/articles-publish.mjs "content/$CONTENT_FILE"
-            sleep 65
-            for s in $SLUGS; do
-              printf "%s: " "$s"; curl -s -o /dev/null -w "%{http_code}\n" "http://localhost/articles/$s"
-            done
-            rm -rf /tmp/cms-content
-          REMOTE
+          scp -i ~/.ssh/id_deploy cms/scripts/articles-remote.sh "$DEPLOY_USER@$DEPLOY_HOST:/tmp/cms-content/"
+          ssh -i ~/.ssh/id_deploy "$DEPLOY_USER@$DEPLOY_HOST" "CONTENT_FILE='$CONTENT_FILE' SLUGS='$SLUGS' bash /tmp/cms-content/articles-remote.sh"
         env:
           DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
           DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
