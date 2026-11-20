@@ -87,6 +87,8 @@ const clean = (html: string) =>
       "th",
       "td",
       "img",
+      "figure",
+      "figcaption",
       "hr",
       "code",
       "pre",

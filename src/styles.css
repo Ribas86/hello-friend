@@ -345,6 +345,21 @@
   max-width: 100%;
   border-radius: 0.75rem;
 }
+.article-body img {
+  height: auto;
+}
+.article-body figure {
+  margin: 2rem 0;
+}
+.article-body figure img {
+  width: 100%;
+  border: 1px solid var(--border);
+}
+.article-body figcaption {
+  margin-top: 0.6rem;
+  font-size: 0.9rem;
+  color: var(--muted-foreground);
+}
 .article-body table {
   width: 100%;
   border-collapse: collapse;

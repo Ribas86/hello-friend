@@ -23,19 +23,24 @@ jobs:
           DEPLOY_KNOWN_HOSTS: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
       - name: Записать статьи
         run: |
-          scp -i ~/.ssh/id_deploy cms/scripts/articles-publish.mjs cms/content/articles-2026-11.json "$DEPLOY_USER@$DEPLOY_HOST:/tmp/"
-          ssh -i ~/.ssh/id_deploy "$DEPLOY_USER@$DEPLOY_HOST" '
+          ssh -i ~/.ssh/id_deploy "$DEPLOY_USER@$DEPLOY_HOST" 'rm -rf /tmp/cms-content && mkdir -p /tmp/cms-content'
+          scp -i ~/.ssh/id_deploy -r cms/content/. "$DEPLOY_USER@$DEPLOY_HOST:/tmp/cms-content/"
+          scp -i ~/.ssh/id_deploy cms/scripts/articles-publish.mjs "$DEPLOY_USER@$DEPLOY_HOST:/tmp/cms-content/"
+          ssh -i ~/.ssh/id_deploy "$DEPLOY_USER@$DEPLOY_HOST" "CONTENT_FILE=$CONTENT_FILE SLUGS='$SLUGS' bash -s" <<'REMOTE'
             set -e
             cd /opt/quality
-            docker compose exec -T cms mkdir -p /app/content
-            docker compose cp /tmp/articles-publish.mjs cms:/app/scripts/articles-publish.mjs
-            docker compose cp /tmp/articles-2026-11.json cms:/app/content/articles-2026-11.json
-            docker compose exec -T -e PUBLIC_URL=http://localhost:8055 cms node scripts/articles-publish.mjs content/articles-2026-11.json
+            docker compose exec -T cms rm -rf /app/content
+            docker compose cp /tmp/cms-content/. cms:/app/content
+            docker compose cp /tmp/cms-content/articles-publish.mjs cms:/app/scripts/articles-publish.mjs
+            docker compose exec -T -e PUBLIC_URL=http://localhost:8055 cms node scripts/articles-publish.mjs "content/$CONTENT_FILE"
             sleep 65
-            for s in stoimost-videonablyudeniya-dlya-ofisa-i-sklada ip-ili-analogovye-kamery skolko-hranit-videoarhiv; do
+            for s in $SLUGS; do
               printf "%s: " "$s"; curl -s -o /dev/null -w "%{http_code}\n" "http://localhost/articles/$s"
             done
-            rm -f /tmp/articles-publish.mjs /tmp/articles-2026-11.json'
+            rm -rf /tmp/cms-content
+          REMOTE
         env:
           DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
           DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          CONTENT_FILE: articles-2026-11-21.json
+          SLUGS: shlagbaum-s-upravleniem-s-telefona-cena

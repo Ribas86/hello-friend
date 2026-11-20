@@ -48,8 +48,8 @@ function Page() {
           {a.cover && (
             <img
               src={`${a.cover}?w=1400`}
-              alt=""
-              className="mb-8 w-full rounded-2xl object-cover"
+              alt={a.title}
+              className="mb-8 aspect-[16/9] w-full rounded-2xl object-cover"
             />
           )}
           <div className="article-body" dangerouslySetInnerHTML={{ __html: a.body }} />
