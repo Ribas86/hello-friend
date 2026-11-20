@@ -3,6 +3,9 @@ import hero from "@/assets/hero-camera.jpg";
 import hero640 from "@/assets/hero-camera-640.webp";
 import hero1280 from "@/assets/hero-camera-1280.webp";
 import hero1920 from "@/assets/hero-camera-1920.webp";
+import heroM640 from "@/assets/hero-camera-m-640.webp";
+import heroM1280 from "@/assets/hero-camera-m-1280.webp";
+import heroM1920 from "@/assets/hero-camera-m-1920.webp";
 import business from "@/assets/business.jpg";
 import business640 from "@/assets/business-640.webp";
 import business1280 from "@/assets/business-1280.webp";
@@ -27,6 +30,8 @@ export type Pic = {
   pos?: string;
   /** Кадрирование фона первого экрана на компьютере (от 1024 px). */
   posLg?: string;
+  /** Отдельная версия картинки для телефона и планшета (до 1024 px), WebP srcset. */
+  webpMobile?: string;
   /** Отразить фон первого экрана на компьютере, чтобы камера оказалась справа, а не под текстом. */
   flipLg?: boolean;
 };
@@ -38,6 +43,8 @@ export const pics = {
     width: 1920,
     height: 1088,
     posLg: "90% 0%",
+    // На телефоне — чуть светлее и чётче (решение заказчика 21.11.2026)
+    webpMobile: `${heroM640} 640w, ${heroM1280} 1280w, ${heroM1920} 1920w`,
   },
   business: {
     src: business,

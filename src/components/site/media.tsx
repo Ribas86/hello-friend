@@ -20,6 +20,14 @@ export function Picture({
 }) {
   return (
     <picture className="contents">
+      {pic.webpMobile && (
+        <source
+          type="image/webp"
+          media="(max-width: 1023px)"
+          srcSet={pic.webpMobile}
+          sizes={sizes}
+        />
+      )}
       <source type="image/webp" srcSet={pic.webp} sizes={sizes} />
       <img
         src={pic.src}
