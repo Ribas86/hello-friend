@@ -131,9 +131,7 @@ export function CtaBand({ title, text }: { title: string; text?: string }) {
           <Link to="/calculator" className="btn btn-primary">
             Получить расчёт
           </Link>
-          <Link to="/contacts" className="btn btn-ghost-ink">
-            Заказать консультацию
-          </Link>
+          <ConsultLink />
         </div>
       </div>
     </section>
@@ -173,5 +171,14 @@ export function ContactNotice({ withCalculator = true }: { withCalculator?: bool
         </Link>
       )}
     </div>
+  );
+}
+
+/** Кнопка «Заказать консультацию»: стекло и подсветка как у кнопок направлений на главной. */
+export function ConsultLink() {
+  return (
+    <Link to="/contacts" className="btn dir-btn">
+      Заказать консультацию
+    </Link>
   );
 }

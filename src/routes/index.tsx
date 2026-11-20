@@ -26,7 +26,7 @@ import {
   steps,
   maintenanceWorks,
 } from "@/lib/site";
-import { Section, Steps, seo, ContactNotice } from "@/components/site/blocks";
+import { Section, Steps, seo, ContactNotice, ConsultLink } from "@/components/site/blocks";
 
 export const Route = createFileRoute("/")({
   loader: () => getProjects(),
@@ -71,9 +71,7 @@ function Index() {
               <Link to="/calculator" className="btn btn-primary">
                 Получить расчёт <ArrowRight className="h-4 w-4" />
               </Link>
-              <Link to="/contacts" className="btn btn-ghost-ink">
-                Заказать консультацию
-              </Link>
+              <ConsultLink />
             </div>
           </div>
           <ul className="mt-6 grid grid-cols-2 gap-2 sm:mt-10 sm:gap-3 lg:grid-cols-3">
