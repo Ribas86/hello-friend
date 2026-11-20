@@ -2,7 +2,7 @@ import { useSite } from "@/lib/use-site";
 import { Link } from "@tanstack/react-router";
 import { Menu, X } from "lucide-react";
 import { LogoMark } from "./LogoMark";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { nav } from "@/lib/site";
 import { DirectionLink } from "./media";
 
@@ -11,6 +11,16 @@ export function SiteHeader() {
   const [open, setOpen] = useState(false);
   // Переход происходит сразу, а меню закрывается чуть позже, чтобы было видно подсветку касания
   const closeSoon = () => window.setTimeout(() => setOpen(false), 180);
+  // Пока меню открыто, страница под ним не прокручивается — прокручивается только само меню
+  useEffect(() => {
+    if (!open) return;
+    const root = document.documentElement;
+    const prev = root.style.overflow;
+    root.style.overflow = "hidden";
+    return () => {
+      root.style.overflow = prev;
+    };
+  }, [open]);
   return (
     <header className="surface-ink sticky top-0 z-50 border-b border-ink-line/60 backdrop-blur">
       <div className="mx-auto flex h-20 max-w-7xl items-center justify-between gap-6 px-5 lg:px-8">
@@ -65,7 +75,10 @@ export function SiteHeader() {
       </div>
       {open && (
         // onTouchStart нужен, чтобы iOS показывал подсветку :active при касании
-        <nav className="border-t border-ink-line/60 px-5 pb-5 xl:hidden" onTouchStart={() => {}}>
+        <nav
+          className="max-h-[calc(100dvh-5rem)] overflow-y-auto overscroll-contain border-t border-ink-line/60 px-5 pb-5 xl:hidden"
+          onTouchStart={() => {}}
+        >
           {nav.map((n) => (
             <div key={n.to}>
               <Link
