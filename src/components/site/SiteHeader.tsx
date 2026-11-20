@@ -32,7 +32,7 @@ export function SiteHeader() {
               <div key={n.to} className="group relative">
                 <Link
                   to={n.to}
-                  className="nav-btn block whitespace-nowrap rounded-md border border-ink-line px-3.5 py-2.5 text-[15px] text-ink-muted"
+                  className="nav-btn block whitespace-nowrap rounded-md border px-3.5 py-2.5 text-[15px]"
                   activeProps={{ className: "nav-btn-active" }}
                 >
                   {n.short}
