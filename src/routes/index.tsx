@@ -50,7 +50,7 @@ function Index() {
           pic={pics.hero}
           alt="Камеры на фасаде здания"
           priority
-          className="hero-kenburns absolute inset-0 h-full w-full object-cover"
+          className="hero-kenburns hero-pic absolute inset-0 h-full w-full object-cover"
         />
         <div className="hero-fade absolute inset-0" />
         <div className="hero-scan absolute inset-x-0 top-0 hidden lg:block" />

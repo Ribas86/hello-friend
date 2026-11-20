@@ -28,7 +28,7 @@ export function PageHero({
           pic={image}
           alt=""
           priority
-          className="absolute inset-0 h-full w-full object-cover"
+          className="hero-pic absolute inset-0 h-full w-full object-cover"
         />
       )}
       <div

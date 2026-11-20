@@ -18,7 +18,18 @@ import maintenance640 from "@/assets/maintenance-640.webp";
 import maintenance1280 from "@/assets/maintenance-1280.webp";
 
 /** pos — какая часть кадра остаётся видна при обрезке (на телефоне), как CSS object-position */
-export type Pic = { src: string; webp: string; width: number; height: number; pos?: string };
+export type Pic = {
+  src: string;
+  webp: string;
+  width: number;
+  height: number;
+  /** Кадрирование на телефоне и по умолчанию (object-position). */
+  pos?: string;
+  /** Кадрирование фона первого экрана на компьютере (от 1024 px). */
+  posLg?: string;
+  /** Отразить фон первого экрана на компьютере, чтобы камера оказалась справа, а не под текстом. */
+  flipLg?: boolean;
+};
 
 export const pics = {
   hero: {
@@ -26,12 +37,15 @@ export const pics = {
     webp: `${hero640} 640w, ${hero1280} 1280w, ${hero1920} 1920w`,
     width: 1920,
     height: 1088,
+    posLg: "50% 0%",
   },
   business: {
     src: business,
     webp: `${business640} 640w, ${business1280} 1280w`,
     width: 1280,
     height: 896,
+    posLg: "50% 12%",
+    flipLg: true,
   },
   // Сгенерированное фото: вход в частный дом вечером, камера над дверью (держим её в кадре)
   home: {
@@ -48,6 +62,8 @@ export const pics = {
     width: 1280,
     height: 720,
     pos: "22% 50%",
+    posLg: "50% 30%",
+    flipLg: true,
   },
   // Сгенерированное фото: мастер обслуживает уличную камеру на фасаде, вечер
   maintenance: {
@@ -55,5 +71,6 @@ export const pics = {
     webp: `${maintenance640} 640w, ${maintenance1280} 1280w`,
     width: 1280,
     height: 853,
+    posLg: "50% 0%",
   },
 } satisfies Record<string, Pic>;

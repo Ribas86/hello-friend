@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import { ChevronRight } from "lucide-react";
 import type { Pic } from "@/lib/images";
 import { MAINTENANCE_DIRECTION } from "@/lib/site";
@@ -27,7 +27,13 @@ export function Picture({
         width={pic.width}
         height={pic.height}
         className={className}
-        style={pic.pos ? { objectPosition: pic.pos } : undefined}
+        style={
+          {
+            ...(pic.pos ? { objectPosition: pic.pos } : {}),
+            ...(pic.posLg || pic.pos ? { "--pos-lg": pic.posLg ?? pic.pos } : {}),
+            ...(pic.flipLg ? { "--flip-lg": "scaleX(-1)" } : {}),
+          } as CSSProperties
+        }
         loading={priority ? "eager" : "lazy"}
         decoding={priority ? "sync" : "async"}
         {...(priority ? { fetchPriority: "high" as const } : {})}

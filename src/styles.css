@@ -273,6 +273,13 @@
   animation: hero-scan 7s linear infinite;
   pointer-events: none;
 }
+/* Компьютер: фон первого экрана кадрируется так, чтобы камера была видна (см. posLg / flipLg в images.ts). */
+@media (min-width: 1024px) {
+  .hero-pic {
+    object-position: var(--pos-lg, 50% 50%) !important;
+    transform: var(--flip-lg, none);
+  }
+}
 /* Компьютер: фото главного экрана неподвижно, остаётся только полоса сканирования. */
 @media (min-width: 1024px) {
   .hero-kenburns {
