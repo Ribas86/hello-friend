@@ -870,6 +870,16 @@
   }
 }
 
+/* «Преимущества работы с нами»: последняя ячейка — приглашение обсудить задачу. */
+.adv-cta {
+  background: linear-gradient(160deg, rgb(0 187 213 / 0.22), rgb(0 187 213 / 0.06)), var(--ink-raised);
+  transition: background-color 0.15s ease, box-shadow 0.15s ease;
+}
+.adv-cta:hover,
+.adv-cta:focus-visible {
+  box-shadow: inset 0 0 0 1px #5fe3f5;
+}
+
 /* <picture class="contents"> отдаёт свои дочерние элементы в сетку родителя; <source> не должен занимать ячейку */
 picture > source {
   display: none;

@@ -168,6 +168,15 @@ function Index() {
               <p className="mt-2 text-sm text-ink-muted">{a.text}</p>
             </div>
           ))}
+          <Link to="/contacts" className="adv-cta group block p-7">
+            <h3 className="text-lg">Обсудим вашу задачу</h3>
+            <p className="mt-2 text-sm text-ink-muted">
+              Расскажите об объекте — подскажем решение и порядок работ.
+            </p>
+            <p className="mt-3 text-sm font-semibold text-[#5fe3f5] group-hover:underline">
+              Заказать консультацию →
+            </p>
+          </Link>
         </div>
       </Section>
 
