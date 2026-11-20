@@ -31,5 +31,5 @@ jobs:
         env:
           DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
           DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
-          CONTENT_FILE: articles-2026-11-21.json
-          SLUGS: shlagbaum-s-upravleniem-s-telefona-cena
+          CONTENT_FILE: articles-2026-11.json
+          SLUGS: stoimost-videonablyudeniya-dlya-ofisa-i-sklada ip-ili-analogovye-kamery skolko-hranit-videoarhiv
