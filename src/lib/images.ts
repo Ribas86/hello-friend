@@ -9,6 +9,7 @@ import business1280 from "@/assets/business-1280.webp";
 import home from "@/assets/home.jpg";
 import home640 from "@/assets/home-640.webp";
 import home1280 from "@/assets/home-1280.webp";
+import home1792 from "@/assets/home-1792.webp";
 import residential from "@/assets/residential.jpg";
 import residential640 from "@/assets/residential-640.webp";
 import residential1280 from "@/assets/residential-1280.webp";
@@ -32,7 +33,14 @@ export const pics = {
     width: 1280,
     height: 896,
   },
-  home: { src: home, webp: `${home640} 640w, ${home1280} 1280w`, width: 1280, height: 896 },
+  // Сгенерированное фото: вход в частный дом вечером, камера над дверью (держим её в кадре)
+  home: {
+    src: home,
+    webp: `${home640} 640w, ${home1280} 1280w, ${home1792} 1792w`,
+    width: 1792,
+    height: 768,
+    pos: "85% 0%",
+  },
   // Сгенерированное фото двора ЖК с камерой на углу дома: на телефоне держим камеру в кадре
   residential: {
     src: residential,
