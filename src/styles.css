@@ -261,18 +261,6 @@
     opacity: 0;
   }
 }
-@keyframes hero-glow {
-  0%,
-  100% {
-    opacity: 0.25;
-    transform: scale(0.9);
-  }
-  50% {
-    opacity: 0.9;
-    transform: scale(1.1);
-  }
-}
-/* Одно медленное приближение без возврата: нет заметного движения туда-обратно */
 .hero-kenburns {
   animation: hero-kenburns 40s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
   transform-origin: 70% 40%;
@@ -285,15 +273,16 @@
   animation: hero-scan 7s linear infinite;
   pointer-events: none;
 }
-.hero-glow {
-  background: radial-gradient(circle, oklch(0.8 0.14 210 / 0.55) 0%, transparent 65%);
-  animation: hero-glow 3s ease-in-out infinite;
-  pointer-events: none;
+/* Компьютер: фото главного экрана неподвижно, остаётся только полоса сканирования. */
+@media (min-width: 1024px) {
+  .hero-kenburns {
+    animation: none;
+    will-change: auto;
+  }
 }
 @media (prefers-reduced-motion: reduce) {
   .hero-kenburns,
-  .hero-scan,
-  .hero-glow {
+  .hero-scan {
     animation: none;
   }
   .hero-scan {
