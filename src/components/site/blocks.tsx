@@ -160,7 +160,7 @@ export function CtaBand({ title, text }: { title: string; text?: string }) {
           {text && <p className="mt-2 text-ink-muted">{text}</p>}
         </div>
         <div className="flex flex-wrap gap-3">
-          <Link to="/calculator" className="btn btn-primary">
+          <Link to="/calculator" className="btn btn-primary calc-glass-lg">
             Получить расчёт
           </Link>
           <ConsultLink />
