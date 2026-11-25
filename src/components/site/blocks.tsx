@@ -90,10 +90,34 @@ export function Section({
   );
 }
 
+// На компьютере столько колонок, чтобы в последнем ряду не оставалось пустых серых ячеек
+// (4 этапа — 4 колонки, 6 — 3 колонки и т. д.). Классы перечислены целиком, чтобы их увидел Tailwind.
+const STEPS_LG_COLS = [
+  "",
+  "lg:grid-cols-1",
+  "lg:grid-cols-2",
+  "lg:grid-cols-3",
+  "lg:grid-cols-4",
+  "lg:grid-cols-5",
+];
+function stepsLgCols(n: number): string {
+  if (n <= 5) return STEPS_LG_COLS[Math.max(n, 1)] ?? "lg:grid-cols-5";
+  let best = 5;
+  let bestEmpty = Infinity;
+  for (const cols of [5, 4, 3]) {
+    const empty = (cols - (n % cols)) % cols;
+    if (empty < bestEmpty) {
+      best = cols;
+      bestEmpty = empty;
+    }
+  }
+  return STEPS_LG_COLS[best] ?? "lg:grid-cols-5";
+}
+
 export function Steps({ items, dark }: { items: string[]; dark?: boolean }) {
   return (
     <ol
-      className={`grid gap-px overflow-hidden rounded-xl border sm:grid-cols-2 lg:grid-cols-5 ${dark ? "" : "steps-light"}`}
+      className={`grid gap-px overflow-hidden rounded-xl border sm:grid-cols-2 ${stepsLgCols(items.length)} ${dark ? "" : "steps-light"}`}
       style={dark ? { borderColor: "var(--color-ink-line)" } : undefined}
     >
       {items.map((s, i) => (
