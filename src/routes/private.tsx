@@ -36,7 +36,7 @@ function Page() {
         <Link to="/calculator" className="btn btn-primary">
           Рассчитать стоимость
         </Link>
-        <a href="#contacts" className="btn btn-ghost-ink">
+        <a href="#contacts" className="btn btn-ghost-ink glass-btn-lg">
           Связаться с нами
         </a>
       </PageHero>

@@ -934,10 +934,10 @@ picture > source {
   }
 }
 
-/* «Получить расчёт» на странице услуги и в нижнем тёмном блоке: на компьютере — стекло,
-   как у «Заказать консультацию» (решение заказчика 25.11.2026). Главная и телефон без изменений. */
+/* Второстепенные кнопки на тёмном первом экране: на компьютере — стекло,
+   как у «Заказать консультацию» и меню в шапке (решение заказчика 25.11.2026). Телефон без изменений. */
 @media (min-width: 1024px) {
-  .calc-glass-lg {
+  .glass-btn-lg {
     color: var(--color-ink-foreground);
     background: linear-gradient(160deg, rgb(255 255 255 / 0.12), rgb(255 255 255 / 0.02) 50%, rgb(0 0 0 / 0.15));
     border: 1px solid rgb(255 255 255 / 0.16);
@@ -947,8 +947,8 @@ picture > source {
     backdrop-filter: blur(10px);
     transition: transform 0.15s, border-color 0.15s, box-shadow 0.15s;
   }
-  .calc-glass-lg:hover,
-  .calc-glass-lg:focus-visible {
+  .glass-btn-lg:hover,
+  .glass-btn-lg:focus-visible {
     color: var(--color-ink-foreground);
     border-color: #5fe3f5;
     transform: translateY(-2px);
