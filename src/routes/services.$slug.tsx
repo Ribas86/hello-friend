@@ -78,7 +78,7 @@ function Page() {
         <a href="#contacts" className="btn btn-primary">
           Связаться с нами
         </a>
-        <Link to="/calculator" className="btn btn-ghost-ink">
+        <Link to="/calculator" className="btn btn-ghost-ink calc-glass-lg">
           Получить расчёт
         </Link>
       </PageHero>
