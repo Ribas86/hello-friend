@@ -87,7 +87,7 @@ function Page() {
                 от {rub(result.min)} до {rub(result.max)}
               </p>
               <p className="mt-6 text-sm text-ink-muted">{disclaimer}</p>
-              <button className="btn btn-ghost-ink mt-8" onClick={reset}>
+              <button className="btn btn-ghost-ink glass-btn-lg mt-8" onClick={reset}>
                 Рассчитать заново
               </button>
             </div>

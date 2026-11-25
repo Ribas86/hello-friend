@@ -42,7 +42,7 @@ function Page() {
         <a href="#contacts" className="btn btn-primary">
           Связаться с нами
         </a>
-        <a href="#contacts" className="btn btn-ghost-ink">
+        <a href="#contacts" className="btn btn-ghost-ink glass-btn-lg">
           Узнать об обследовании
         </a>
       </PageHero>

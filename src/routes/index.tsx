@@ -135,7 +135,7 @@ function Index() {
               <Link to="/maintenance" className="btn btn-primary">
                 Подробнее об обслуживании
               </Link>
-              <Link to="/maintenance" hash="form" className="btn btn-ghost-ink">
+              <Link to="/maintenance" hash="form" className="btn btn-ghost-ink glass-btn-lg">
                 Обсудить договор
               </Link>
             </div>
