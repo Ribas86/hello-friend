@@ -219,13 +219,18 @@ export function ConsultLink() {
 export function UsefulArticles({
   items,
   topic,
+  eyebrow = "Полезные статьи",
+  title = "Читайте по теме",
 }: {
   items: { slug: string; title: string; summary: string }[];
-  topic: { slug: string; title: string };
+  /** Без темы — ссылка ведёт на все статьи. */
+  topic?: { slug: string; title: string } | null;
+  eyebrow?: string;
+  title?: string;
 }) {
   if (items.length === 0) return null;
   return (
-    <Section eyebrow="Полезные статьи" title="Читайте по теме">
+    <Section eyebrow={eyebrow} title={title}>
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {items.map((a) => (
           <Link
@@ -242,9 +247,15 @@ export function UsefulArticles({
           </Link>
         ))}
       </div>
-      <Link to="/articles" search={{ topic: topic.slug }} className="btn btn-outline mt-8">
-        Все статьи по теме «{topic.title}»
-      </Link>
+      {topic ? (
+        <Link to="/articles" search={{ topic: topic.slug }} className="btn btn-outline mt-8">
+          Все статьи по теме «{topic.title}»
+        </Link>
+      ) : (
+        <Link to="/articles" className="btn btn-outline mt-8">
+          Все статьи
+        </Link>
+      )}
     </Section>
   );
 }

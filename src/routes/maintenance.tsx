@@ -6,9 +6,25 @@ import { ArrowRight } from "lucide-react";
 import { MAINTENANCE_DIRECTION } from "@/lib/site";
 import { useSite } from "@/lib/use-site";
 import { maintenanceWorks } from "@/lib/site";
-import { PageHero, Section, Steps, Faq, seo, ContactNotice } from "@/components/site/blocks";
+import {
+  PageHero,
+  Section,
+  Steps,
+  Faq,
+  seo,
+  ContactNotice,
+  UsefulArticles,
+} from "@/components/site/blocks";
+import { getArticles } from "@/lib/articles.functions";
 
 export const Route = createFileRoute("/maintenance")({
+  loader: async () => {
+    const { articles, topics } = await getArticles();
+    return {
+      topic: topics.find((t) => t.slug === MAINTENANCE_DIRECTION) ?? null,
+      articles: articles.filter((a) => a.topic?.slug === MAINTENANCE_DIRECTION).slice(0, 3),
+    };
+  },
   head: () =>
     seo(
       "Техническое обслуживание и сервис",
@@ -21,6 +37,7 @@ export const Route = createFileRoute("/maintenance")({
 function Page() {
   const { services } = useSite();
   const list = services.filter((s) => s.direction === MAINTENANCE_DIRECTION);
+  const { topic, articles } = Route.useLoaderData();
   return (
     <>
       <PageHero
@@ -123,6 +140,8 @@ function Page() {
           ]}
         />
       </Section>
+
+      <UsefulArticles items={articles} topic={topic} />
 
       <Section id="contacts" eyebrow="Контакты" title="Связаться с нами">
         <div className="max-w-3xl">

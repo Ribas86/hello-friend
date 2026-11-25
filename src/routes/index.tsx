@@ -3,6 +3,7 @@ import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import { segmentArt } from "@/components/site/segment-art";
 import { getProjects } from "@/lib/projects.functions";
+import { getArticles } from "@/lib/articles.functions";
 import { ProjectCard } from "@/components/site/ProjectCard";
 import { ProjectsSwipe } from "@/components/site/ProjectsSwipe";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
@@ -26,10 +27,20 @@ import {
   steps,
   maintenanceWorks,
 } from "@/lib/site";
-import { Section, Steps, seo, ContactNotice, ConsultLink } from "@/components/site/blocks";
+import {
+  Section,
+  Steps,
+  seo,
+  ContactNotice,
+  ConsultLink,
+  UsefulArticles,
+} from "@/components/site/blocks";
 
 export const Route = createFileRoute("/")({
-  loader: () => getProjects(),
+  loader: async () => {
+    const [projects, { articles }] = await Promise.all([getProjects(), getArticles()]);
+    return { projects, articles: articles.slice(0, 3) };
+  },
   head: () => ({
     ...seo(
       "Монтаж и обслуживание систем безопасности",
@@ -42,7 +53,7 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   const { services, faq, directions } = useSite();
-  const projects = Route.useLoaderData();
+  const { projects, articles } = Route.useLoaderData();
   return (
     <>
       <section className="surface-ink relative overflow-hidden">
@@ -203,6 +214,8 @@ function Index() {
       <Section eyebrow="Сотрудничество" title="Варианты сотрудничества">
         <Cooperation />
       </Section>
+
+      <UsefulArticles items={articles} eyebrow="Статьи" title="Свежие статьи" />
 
       <Section eyebrow="Вопросы" title="Популярные вопросы">
         <HomeFaq items={faq} />
