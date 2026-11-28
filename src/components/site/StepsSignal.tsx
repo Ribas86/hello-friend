@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
  * Этапы на линии-«кабеле»: по мере прокрутки по линии идёт голубой сигнал,
  * пройденные этапы загораются. При «уменьшении движения» всё горит сразу.
  */
-export function StepsSignal({ items }: { items: string[] }) {
+export function StepsSignal({ items, dark }: { items: string[]; dark?: boolean | undefined }) {
   const listRef = useRef<HTMLOListElement>(null);
   const [reached, setReached] = useState(0);
   const [fill, setFill] = useState(0);
@@ -48,7 +48,9 @@ export function StepsSignal({ items }: { items: string[] }) {
 
   return (
     <ol ref={listRef} className="relative">
-      <span className="absolute top-3 bottom-3 left-[9px] w-1 rounded-full bg-border" />
+      <span
+        className={`absolute top-3 bottom-3 left-[9px] w-1 rounded-full ${dark ? "bg-ink-line" : "bg-border"}`}
+      />
       <span
         className="absolute top-0 left-[9px] w-1 rounded-full bg-gradient-to-b from-[#00a9c2] to-[#5fe3f5] shadow-[0_0_12px_#5fe3f5] transition-[height] duration-300 ease-out"
         style={{ height: fill }}
@@ -62,13 +64,15 @@ export function StepsSignal({ items }: { items: string[] }) {
               className={`relative z-[1] mt-0.5 flex h-[22px] w-[22px] shrink-0 items-center justify-center rounded-md border-2 text-[10px] font-bold transition-colors duration-300 ${
                 on
                   ? "border-[#00a9c2] bg-[#00a9c2] text-white shadow-[0_0_10px_rgb(0_169_194/.6)]"
-                  : "border-border bg-background text-muted-foreground"
+                  : dark
+                    ? "border-ink-line bg-ink text-ink-muted"
+                    : "border-border bg-background text-muted-foreground"
               }`}
             >
               {i + 1}
             </span>
             <span
-              className={`text-sm font-medium transition-colors duration-300 ${on ? "" : "text-muted-foreground"}`}
+              className={`text-sm font-medium transition-colors duration-300 ${on ? "" : dark ? "text-ink-muted" : "text-muted-foreground"}`}
             >
               {s}
             </span>

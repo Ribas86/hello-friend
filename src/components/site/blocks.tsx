@@ -1,4 +1,5 @@
 import { region } from "@/lib/site";
+import { StepsSignal } from "./StepsSignal";
 import type { ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
 import { ChevronDown } from "lucide-react";
@@ -114,10 +115,22 @@ function stepsLgCols(n: number): string {
   return STEPS_LG_COLS[best] ?? "lg:grid-cols-5";
 }
 
-export function Steps({ items, dark }: { items: string[]; dark?: boolean }) {
+export function Steps({ items, dark }: { items: string[]; dark?: boolean | undefined }) {
+  return (
+    <>
+      {/* Телефон и планшет — линия-«кабель» с сигналом по прокрутке */}
+      <div className="lg:hidden">
+        <StepsSignal items={items} dark={dark} />
+      </div>
+      <StepsGrid items={items} dark={dark} />
+    </>
+  );
+}
+
+function StepsGrid({ items, dark }: { items: string[]; dark?: boolean | undefined }) {
   return (
     <ol
-      className={`grid gap-px overflow-hidden rounded-xl border sm:grid-cols-2 ${stepsLgCols(items.length)} ${dark ? "" : "steps-light"}`}
+      className={`hidden gap-px overflow-hidden rounded-xl border lg:grid ${stepsLgCols(items.length)} ${dark ? "" : "steps-light"}`}
       style={dark ? { borderColor: "var(--color-ink-line)" } : undefined}
     >
       {items.map((s, i) => (

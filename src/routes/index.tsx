@@ -5,7 +5,6 @@ import { segmentArt } from "@/components/site/segment-art";
 import { getProjects } from "@/lib/projects.functions";
 import { getArticles } from "@/lib/articles.functions";
 import { ArticlesNewspaper } from "@/components/site/ArticlesNewspaper";
-import { StepsSignal } from "@/components/site/StepsSignal";
 import { ProjectCard } from "@/components/site/ProjectCard";
 import { ProjectsSwipe } from "@/components/site/ProjectsSwipe";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
@@ -210,13 +209,7 @@ function Index() {
       )}
 
       <Section eyebrow="Как мы работаем" title="Этапы работы" compactLg>
-        {/* Телефон и планшет — линия-«кабель», компьютер — сетка как раньше */}
-        <div className="lg:hidden">
-          <StepsSignal items={steps} />
-        </div>
-        <div className="hidden lg:block">
-          <Steps items={steps} />
-        </div>
+        <Steps items={steps} />
       </Section>
 
       <Section eyebrow="Сотрудничество" title="Варианты сотрудничества">
