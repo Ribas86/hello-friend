@@ -4,6 +4,7 @@ import { ChevronDown } from "lucide-react";
 import { segmentArt } from "@/components/site/segment-art";
 import { getProjects } from "@/lib/projects.functions";
 import { getArticles } from "@/lib/articles.functions";
+import { ArticlesNewspaper } from "@/components/site/ArticlesNewspaper";
 import { ProjectCard } from "@/components/site/ProjectCard";
 import { ProjectsSwipe } from "@/components/site/ProjectsSwipe";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
@@ -215,7 +216,7 @@ function Index() {
         <Cooperation />
       </Section>
 
-      <UsefulArticles items={articles} eyebrow="Статьи" title="Свежие статьи" />
+      <ArticlesNewspaper items={articles} />
 
       <Section eyebrow="Вопросы" title="Популярные вопросы">
         <HomeFaq items={faq} />
