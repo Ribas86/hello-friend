@@ -31,5 +31,5 @@ jobs:
         env:
           DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
           DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
-          CONTENT_FILE: articles-2026-11-28.json
-          SLUGS: dogovor-obsluzhivaniya-videonablyudeniya
+          CONTENT_FILE: articles-2026-11-28-skud.json
+          SLUGS: skud-dlya-biznes-centra
